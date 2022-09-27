@@ -1,9 +1,16 @@
-function App() {
+// @react-router-dom
+import { Routes, Route, Outlet, Link } from "react-router-dom";
+// screens
+import HomeScreen from "./screens/HomeScreen";
+
+export default function App() {
   return (
-    <div className="App">
-      <h1>Hello Back office</h1>
-    </div>
+    <>
+    <Routes>
+      <Route index element={<HomeScreen />} />
+
+      {/* <Route path="*" element={<NoMatch />} /> */}
+  </Routes>
+  </>
   );
 }
-
-export default App;
