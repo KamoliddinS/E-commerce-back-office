@@ -5,14 +5,14 @@ import DashboardLayout from "../layouts/dashboard";
 import LogoOnlyLayout from "../layouts/LogoOnlyLayout";
 // components
 import LoadingScreen from "../components/LoadingScreen";
-import HomeScreen from '../screens/HomeScreen'
-import MoneyScreen from '../screens/MoneyScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import ChatScreen from '../screens/ChatScreen';
-import TextureScreen from '../screens/TextureScreen';
-import OrderHistoryScreen from '../screens/OrderHistoryScreen';
-import OrderListScreen from '../screens/OrderListScreen';
-import BaseProductScreen from "../screens/BaseProductScreen";
+import HomeScreen from "../screens/HomeScreen";
+import MoneyScreen from "../screens/MoneyScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import ChatScreen from "../screens/ChatScreen";
+import TextureScreen from "../screens/TextureScreen";
+import OrderHistoryScreen from "../screens/OrderHistoryScreen";
+import OrderListScreen from "../screens/OrderListScreen";
+import AddProductScreen from "../screens/AddProduct";
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,6 @@ const Loadable = (Component) => (props) => {
 
 export default function Router() {
   return useRoutes([
-
     {
       path: "/",
       element: <DashboardLayout />,
@@ -41,11 +40,10 @@ export default function Router() {
         { path: "money", element: <MoneyScreen /> },
         { path: "profile", element: <ProfileScreen /> },
         { path: "chat", element: <ChatScreen /> },
-        { path: "add-product", element: <BaseProductScreen /> },
+        { path: "add-product", element: <AddProductScreen /> },
         { path: "texture", element: <TextureScreen /> },
         { path: "order-history", element: <OrderHistoryScreen /> },
         { path: "order-list", element: <OrderListScreen /> },
-        { path: "add-product", element: <BaseProductScreen /> },
         {
           path: "user",
           children: [
@@ -53,7 +51,6 @@ export default function Router() {
               element: <Navigate to="/user/" replace />,
               index: true,
             },
-            { path: "four", element: <PageFour /> },
             { path: "five", element: <PageFive /> },
             { path: "six", element: <PageSix /> },
           ],
@@ -73,15 +70,13 @@ export default function Router() {
 }
 
 // Dashboard
-const PageOne = Loadable(lazy(() => import("../pages/PageOne")));
-const PageTwo = Loadable(lazy(() => import("../pages/PageTwo")));
-const PageThree = Loadable(lazy(() => import("../pages/PageThree")));
-const PageFour = Loadable(lazy(() => import("../pages/PageFour")));
+// const PageOne = Loadable(lazy(() => import("../pages/PageOne")));
+// const PageTwo = Loadable(lazy(() => import("../pages/PageTwo")));
+// const PageThree = Loadable(lazy(() => import("../pages/PageThree")));
+// const PageFour = Loadable(lazy(() => import("../pages/PageFour")));
 const PageFive = Loadable(lazy(() => import("../pages/PageFive")));
 const PageSix = Loadable(lazy(() => import("../pages/PageSix")));
 const NotFound = Loadable(lazy(() => import("../pages/Page404")));
-
-
 
 // import * as React from "react";
 // import { Routes, Route, Outlet, Link } from "react-router-dom";
@@ -90,8 +85,6 @@ const NotFound = Loadable(lazy(() => import("../pages/Page404")));
 //   return (
 //     <div>
 
-
-    
 //       <Routes>
 //         <Route path="/" element={<Layout />}>
 //           <Route index element={<Home />} />
