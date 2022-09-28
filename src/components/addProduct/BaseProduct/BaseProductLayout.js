@@ -7,7 +7,7 @@ export default function BaseProductLayout() {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Malumot Qo'shish
+        Mahsulot Qo'shish
       </Typography>
       <Card sx={{ padding: 2, margin: 5 }}>
         <Box sx={{ display: "flex" }}>

@@ -51,10 +51,11 @@ export default function MultiFilePreview({
               <ListItem
                 key={key}
                 sx={{
-                  width: "50%",
+                  width: "100%",
                   background: "#FFFFFF",
                   border: "1px solid #E8EBED",
                   borderRadius: "8px",
+                  margin: "10px 0",
                 }}
               >
                 <ListItemAvatar>

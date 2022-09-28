@@ -96,13 +96,11 @@ export default function BaseProductMain() {
           autoComplete="off"
         >
           <div>
-            <Typography variant="body2" color="success" gutterBottom>
+            <Typography variant="body2" gutterBottom>
               Mahsulot nomi
             </Typography>
             <TextField
-              color="success"
               required
-              focused
               id="outlined-required"
               placeholder="Changyutgich"
             />

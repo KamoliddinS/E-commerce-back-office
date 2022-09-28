@@ -1,7 +1,7 @@
 import { useDropzone } from "react-dropzone";
 // @mui
 import { styled } from "@mui/material/styles";
-import { Box, Stack, Button } from "@mui/material";
+import { Box, Stack, Button, Typography } from "@mui/material";
 //
 import BlockContent from "./BlockContent";
 import RejectionFiles from "./RejectionFiles";
@@ -54,17 +54,6 @@ export default function UploadMultiFile({
 
     return null;
   }
-  let ap = files.map((file) => file.name);
-  function uniqFiles(file) {
-    if (file.size > 5242880) {
-      return {
-        code: "rejected-file-too-large",
-        message: `Reccomended size is 5MB`,
-      };
-    }
-
-    return null;
-  }
   const {
     getRootProps,
     getInputProps,
@@ -102,13 +91,27 @@ export default function UploadMultiFile({
       {fileRejections.length > 0 && (
         <RejectionFiles fileRejections={fileRejections} />
       )}
-
+      <Box sx={{ marginTop: 1 }}>
+        <Typography variant="subtitle1">Talablar</Typography>
+        <Typography variant="body2" color="text.secondary" display="block">
+          Format: PNG, JPEG, JPG. Tavsiya etilgan aniqlik 1920x1080
+        </Typography>
+        <Typography variant="body2" color="text.secondary" display="block">
+          Hajmi: fayl hajmi 5 MB dan oshmasligi kerak
+        </Typography>
+        <Typography variant="body2" color="text.secondary" display="block">
+          Joylashish tartibi: birinchi rasm tovar kartasidagi asosiy rasmga
+          aylanadi
+        </Typography>
+        <Typography variant="body2" color="text.secondary" display="block">
+          Rasmlar turi: studiyada suratga olingan, tomonlar nisbati 4*3
+        </Typography>
+      </Box>
       <MultiFilePreview
         files={files}
         showPreview={showPreview}
         onRemove={onRemove}
       />
-      <Box></Box>
 
       {files.length > 0 && (
         <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
