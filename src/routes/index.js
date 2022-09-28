@@ -5,7 +5,14 @@ import DashboardLayout from "../layouts/dashboard";
 import LogoOnlyLayout from "../layouts/LogoOnlyLayout";
 // components
 import LoadingScreen from "../components/LoadingScreen";
-import BaseProductLayout from "../components/addProduct/BaseProduct/BaseProductLayout";
+import HomeScreen from '../screens/HomeScreen'
+import MoneyScreen from '../screens/MoneyScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import ChatScreen from '../screens/ChatScreen';
+import TextureScreen from '../screens/TextureScreen';
+import OrderHistoryScreen from '../screens/OrderHistoryScreen';
+import OrderListScreen from '../screens/OrderListScreen';
+import BaseProductScreen from "../screens/BaseProductScreen";
 
 // ----------------------------------------------------------------------
 
@@ -24,26 +31,29 @@ const Loadable = (Component) => (props) => {
 
 export default function Router() {
   return useRoutes([
+
     {
       path: "/",
-      element: <Navigate to="/dashboard/one" replace />,
-    },
-    {
-      path: "/dashboard",
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/one" replace />, index: true },
-        { path: "one", element: <PageOne /> },
-        { path: "two", element: <BaseProductLayout /> },
-        { path: "three", element: <PageThree /> },
+        { element: <Navigate to="/home" replace />, index: true },
+        { path: "home", element: <HomeScreen /> },
+        { path: "money", element: <MoneyScreen /> },
+        { path: "profile", element: <ProfileScreen /> },
+        { path: "chat", element: <ChatScreen /> },
+        { path: "add-product", element: <BaseProductScreen /> },
+        { path: "texture", element: <TextureScreen /> },
+        { path: "order-history", element: <OrderHistoryScreen /> },
+        { path: "order-list", element: <OrderListScreen /> },
+        { path: "add-product", element: <BaseProductScreen /> },
         {
           path: "user",
           children: [
             {
-              element: <Navigate to="/dashboard/user/four" replace />,
+              element: <Navigate to="/user/" replace />,
               index: true,
             },
-            { path: "four", element: <BaseProductLayout /> },
+            { path: "four", element: <PageFour /> },
             { path: "five", element: <PageFive /> },
             { path: "six", element: <PageSix /> },
           ],
@@ -70,3 +80,30 @@ const PageFour = Loadable(lazy(() => import("../pages/PageFour")));
 const PageFive = Loadable(lazy(() => import("../pages/PageFive")));
 const PageSix = Loadable(lazy(() => import("../pages/PageSix")));
 const NotFound = Loadable(lazy(() => import("../pages/Page404")));
+
+
+
+// import * as React from "react";
+// import { Routes, Route, Outlet, Link } from "react-router-dom";
+
+// export default function App() {
+//   return (
+//     <div>
+
+
+    
+//       <Routes>
+//         <Route path="/" element={<Layout />}>
+//           <Route index element={<Home />} />
+//           <Route path="about" element={<About />} />
+//           <Route path="dashboard" element={<Dashboard />} />
+
+//           {/* Using path="*"" means "match anything", so this route
+//                 acts like a catch-all for URLs that we don't have explicit
+//                 routes for. */}
+//           <Route path="*" element={<NoMatch />} />
+//         </Route>
+//       </Routes>
+//     </div>
+//   );
+// }
