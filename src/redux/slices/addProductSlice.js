@@ -18,11 +18,14 @@ const addProductSlice = createSlice({
     addBaseProduct(state, action) {
       state.baseProduct = action.payload;
     },
+    addVariableProduct(state, action) {
+      state.variableProduct = action.payload;
+    },
   },
 });
 
 export default addProductSlice.reducer;
 
 // Actions
-export const { onNextStep, onBackStep, addBaseProduct } =
+export const { onNextStep, onBackStep, addBaseProduct, addVariableProduct } =
   addProductSlice.actions;
