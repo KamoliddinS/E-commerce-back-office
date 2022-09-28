@@ -1,13 +1,12 @@
-import CategoryDrawer from '../../../components/category/CategoryDrawer';
-import CategoryDrawerConfig from '../../../components/category/CategoryDrawerConfig';
-import React, { useEffect } from 'react';
+import CategoryDrawer from "../../../components/category/CategoryDrawer";
+import CategoryDrawerConfig from "../../../components/category/CategoryDrawerConfig";
+import React, { useEffect } from "react";
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../../redux/slices/categorySlice';
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../../redux/slices/categorySlice";
 // ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
-
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.category);
 
@@ -17,12 +16,13 @@ export default function LanguagePopover() {
 
   return (
     <>
-      <CategoryDrawer navConfig={CategoryDrawerConfig} categories={categories}/>
+      <CategoryDrawer
+        navConfig={CategoryDrawerConfig}
+        categories={categories}
+      />
     </>
-      
   );
 }
-
 
 // for (var i = 0; i < categories.length; i++) {
 //   console.log(categories[i].title);

@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, Badge } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar } from '@mui/material';
 // hooks
 import useOffSetTop from '../../../hooks/useOffSetTop';
 import useResponsive from '../../../hooks/useResponsive';
 // utils
 import cssStyles from '../../../utils/cssStyles';
 // config
-import { HEADER } from '../../../config';
+import { HEADER, NAVBAR } from '../../../config';
 // components
 import Logo from '../../../components/Logo';
 import Iconify from '../../../components/Iconify';
 import { IconButtonAnimate } from '../../../components/animate';
 //
-import { toggleSnackbar } from '../../../redux/slices/compareSlice';
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
-import CategoryPopover from './CategoryPopover';
 import LanguagePopover from './LanguagePopover';
-import { toggleModalCheckout } from '../../../redux/slices/cartSlice';
-// import ContactsPopover from './ContactsPopover';
-// import NotificationsPopover from './NotificationsPopover';
-import WishlistPopover from './WishlistPopover';
-import ComparePopover from './ComparePopover';
-import CustomSnackbar from '../../../components/snackbar/CustomSnackbar';
+import ContactsPopover from './ContactsPopover';
+import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -42,9 +34,9 @@ const RootStyle = styled(AppBar, {
   }),
   [theme.breakpoints.up('lg')]: {
     height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
-    width: `100%`,
+    width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,
     ...(isCollapse && {
-      width: `100%`,
+      width: `calc(100% - ${NAVBAR.DASHBOARD_COLLAPSE_WIDTH}px)`,
     }),
     ...(isOffset && {
       height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
@@ -57,35 +49,18 @@ const RootStyle = styled(AppBar, {
   },
 }));
 
-const Item = styled(Box)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
 // ----------------------------------------------------------------------
 
 DashboardHeader.propTypes = {
-  isCollapse: PropTypes.bool,
   onOpenSidebar: PropTypes.func,
+  isCollapse: PropTypes.bool,
   verticalLayout: PropTypes.bool,
 };
 
-export default function DashboardHeader({ isCollapse = false, verticalLayout = false }) {
-  const dispatch = useDispatch();
-
+export default function DashboardHeader({ onOpenSidebar, isCollapse = false, verticalLayout = false }) {
   const isOffset = useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
-  const cartRedux = useSelector((state) => state.cart.items);
-  const compareLenght = useSelector((state) => state.compare.compare.length);
-  const [cart, setCart] = useState([]);
-  useEffect(() => {
-    setCart(cartRedux);
-  }, [cartRedux]);
 
   const isDesktop = useResponsive('up', 'lg');
-  const compareSnack = useSelector((state) => state.compare.compareSnackbar);
 
   return (
     <RootStyle isCollapse={isCollapse} isOffset={isOffset} verticalLayout={verticalLayout}>
@@ -95,66 +70,21 @@ export default function DashboardHeader({ isCollapse = false, verticalLayout = f
           px: { lg: 5 },
         }}
       >
-        {isDesktop && verticalLayout && <Logo sx={{}} />}
+        {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />}
 
-        {/* {!isDesktop && (
+        {!isDesktop && (
           <IconButtonAnimate onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
             <Iconify icon="eva:menu-2-fill" />
           </IconButtonAnimate>
-        )} */}
-
-        {/* Snackbars */}
-        {compareLenght === 5 ? (
-          <CustomSnackbar
-            open={compareSnack}
-            text="You can't add more than 5 products to compare"
-            time={4000}
-            variant="error"
-            vertical="top"
-            horizontal="center"
-            handleClose={() => dispatch(toggleSnackbar())}
-          />
-        ) : (
-          <CustomSnackbar
-            open={compareSnack}
-            text="Product is added to compare"
-            time={4000}
-            variant="warning"
-            vertical="top"
-            horizontal="center"
-            handleClose={() => dispatch(toggleSnackbar())}
-          />
         )}
 
-        {/* Snackbars END */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Item>
-            <Logo sx={{ width: 100, height: 'auto' }} />
-          </Item>
-          <Item>
-            <CategoryPopover />
-          </Item>
-          <Item>
-            <Searchbar />
-          </Item>
-        </Stack>
-
+        <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
+
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           <LanguagePopover />
-          {/* <NotificationsPopover /> */}
-          <IconButtonAnimate
-            // color={open ? 'primary' : 'default'}
-            onClick={() => dispatch(toggleModalCheckout())}
-            sx={{ width: 40, height: 40 }}
-          >
-            <Badge badgeContent={cart.length} color="error">
-              <Iconify icon="el:shopping-cart-sign" width={20} height={20} />
-            </Badge>
-          </IconButtonAnimate>
-          <ComparePopover />
-          <WishlistPopover />
-          {/* <ContactsPopover /> */}
+          <NotificationsPopover />
+          <ContactsPopover />
           <AccountPopover />
         </Stack>
       </Toolbar>

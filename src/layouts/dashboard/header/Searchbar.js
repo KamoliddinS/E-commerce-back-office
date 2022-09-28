@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import NextLink from 'next/link';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Input, Slide, Button, InputAdornment, ClickAwayListener, Link } from '@mui/material';
+import { Input, Slide, Button, InputAdornment, ClickAwayListener } from '@mui/material';
 // utils
 import cssStyles from '../../../utils/cssStyles';
 // components
@@ -49,7 +48,7 @@ export default function Searchbar() {
     <ClickAwayListener onClickAway={handleClose}>
       <div>
         {!isOpen && (
-          <IconButtonAnimate onClick={handleOpen} sx={{ width: '100%', border: '1px solid #f2f2f2', borderRadius: 1 }}>
+          <IconButtonAnimate onClick={handleOpen}>
             <Iconify icon={'eva:search-fill'} width={20} height={20} />
           </IconButtonAnimate>
         )}
@@ -63,18 +62,17 @@ export default function Searchbar() {
               placeholder="Search…"
               startAdornment={
                 <InputAdornment position="start">
-                  <Iconify icon={'eva:search-fill'} sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                  <Iconify
+                    icon={'eva:search-fill'}
+                    sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                  />
                 </InputAdornment>
               }
               sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
             />
-            <NextLink href="/search" passHref>
-              <Link href="" underline="none">
-                <Button variant="contained" onClick={handleClose}>
-                  Search
-                </Button>
-              </Link>
-            </NextLink>
+            <Button variant="contained" onClick={handleClose}>
+              Search
+            </Button>
           </SearchbarStyle>
         </Slide>
       </div>

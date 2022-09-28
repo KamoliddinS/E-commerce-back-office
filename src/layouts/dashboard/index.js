@@ -1,16 +1,18 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 // hooks
 import useSettings from '../../hooks/useSettings';
+import useResponsive from '../../hooks/useResponsive';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // config
 import { HEADER, NAVBAR } from '../../config';
 //
 import DashboardHeader from './header';
-import Footer from './footer';
+import NavbarVertical from './navbar/NavbarVertical';
+import NavbarHorizontal from './navbar/NavbarHorizontal';
 
 // ----------------------------------------------------------------------
 
@@ -37,15 +39,12 @@ const MainStyle = styled('main', {
 
 // ----------------------------------------------------------------------
 
-DashboardLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export default function DashboardLayout({ children }) {
-  
+export default function DashboardLayout() {
   const { collapseClick, isCollapse } = useCollapseDrawer();
 
   const { themeLayout } = useSettings();
+
+  const isDesktop = useResponsive('up', 'lg');
 
   const [open, setOpen] = useState(false);
 
@@ -56,11 +55,11 @@ export default function DashboardLayout({ children }) {
       <>
         <DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout} />
 
-        {/* {isDesktop ? (
+        {isDesktop ? (
           <NavbarHorizontal />
         ) : (
           <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
-        )} */}
+        )}
 
         <Box
           component="main"
@@ -76,29 +75,26 @@ export default function DashboardLayout({ children }) {
             },
           }}
         >
-          {children}
+          <Outlet />
         </Box>
-        <Footer />
       </>
     );
   }
 
   return (
-    <Container maxWidth="xl">
-      <Box
-        sx={{
-          display: { lg: 'flex' },
-          minHeight: { lg: 1 },
-        }}
-      >
-        <DashboardHeader isCollapse={isCollapse} onOpenSidebar={() => setOpen(true)} />
+    <Box
+      sx={{
+        display: { lg: 'flex' },
+        minHeight: { lg: 1 },
+      }}
+    >
+      <DashboardHeader isCollapse={isCollapse} onOpenSidebar={() => setOpen(true)} />
 
-        {/* <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} /> */}
+      <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
 
-        <MainStyle collapseClick={collapseClick}>{children}</MainStyle>
-      </Box>
-      <Footer />
-
-    </Container>
+      <MainStyle collapseClick={collapseClick}>
+        <Outlet />
+      </MainStyle>
+    </Box>
   );
 }

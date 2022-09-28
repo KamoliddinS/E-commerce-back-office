@@ -18,7 +18,7 @@ export default function CssBaseline() {
           width: '100%',
           height: '100%',
         },
-        '#__next': {
+        '#root': {
           width: '100%',
           height: '100%',
         },
