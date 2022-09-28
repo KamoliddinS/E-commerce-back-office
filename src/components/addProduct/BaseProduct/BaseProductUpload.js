@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import { UploadMultiFile } from "../../upload";
 
-export default function BaseProduct() {
+export default function BaseProduct({ handleNext }) {
   const [preview, setPreview] = useState(true);
 
   const [files, setFiles] = useState([]);

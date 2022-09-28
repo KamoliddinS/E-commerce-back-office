@@ -66,7 +66,6 @@ export default function UploadMultiFile({
       "image/jpeg": [],
       "image/png": [],
     },
-    maxFiles: 2,
     validator: maxSize,
   });
 

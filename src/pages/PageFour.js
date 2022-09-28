@@ -4,7 +4,6 @@ import { Container, Typography } from "@mui/material";
 import useSettings from "../hooks/useSettings";
 // components
 import Page from "../components/Page";
-import BaseProductLayout from "../components/addProduct/BaseProduct/BaseProductLayout";
 // ----------------------------------------------------------------------
 
 export default function PageFour() {
@@ -12,9 +11,7 @@ export default function PageFour() {
 
   return (
     <Page title="Page Four">
-      <Container maxWidth={themeStretch ? false : "xl"}>
-        <BaseProductLayout />
-      </Container>
+      <Container maxWidth={themeStretch ? false : "xl"}></Container>
     </Page>
   );
 }

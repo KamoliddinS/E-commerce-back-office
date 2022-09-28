@@ -5,7 +5,7 @@ import DashboardLayout from "../layouts/dashboard";
 import LogoOnlyLayout from "../layouts/LogoOnlyLayout";
 // components
 import LoadingScreen from "../components/LoadingScreen";
-import BaseProductLayout from "../components/addProduct/BaseProduct/BaseProductLayout";
+import AddProductScreen from "../screens/AddProduct";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/one" replace />, index: true },
         { path: "one", element: <PageOne /> },
-        { path: "two", element: <BaseProductLayout /> },
+        { path: "two", element: <AddProductScreen /> },
         { path: "three", element: <PageThree /> },
         {
           path: "user",
@@ -43,7 +43,7 @@ export default function Router() {
               element: <Navigate to="/dashboard/user/four" replace />,
               index: true,
             },
-            { path: "four", element: <BaseProductLayout /> },
+            { path: "four", element: <AddProductScreen /> },
             { path: "five", element: <PageFive /> },
             { path: "six", element: <PageSix /> },
           ],
