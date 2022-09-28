@@ -16,11 +16,15 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'general v3.5.0',
+    subheader: 'Asosiy',
     items: [
-      { title: 'One', path: '/dashboard/one', icon: ICONS.dashboard },
-      { title: 'Two', path: '/dashboard/two', icon: ICONS.ecommerce },
-      { title: 'Three', path: '/dashboard/three', icon: ICONS.analytics },
+      { title: 'Mablag’lar', path: '/money', icon: ICONS.dashboard },
+      { title: 'Shaxsiy Ma’lumot', path: '/profile', icon: ICONS.dashboard },
+      { title: 'Chat', path: '/chat', icon: ICONS.ecommerce },
+      { title: 'Fakturalar', path: '/texture', icon: ICONS.ecommerce },
+      { title: 'Buyurtmalar Tarixi', path: '/order-history', icon: ICONS.ecommerce },
+      { title: 'Add product', path: '/add-product', icon: ICONS.ecommerce },
+      { title: 'Mahsulotlar ro’yxati', path: '/order-list', icon: ICONS.ecommerce },
     ],
   },
 
@@ -31,12 +35,12 @@ const navConfig = [
     items: [
       {
         title: 'user',
-        path: '/dashboard/user',
+        path: '/user',
         icon: ICONS.user,
         children: [
-          { title: 'Four', path: '/dashboard/user/four' },
-          { title: 'Five', path: '/dashboard/user/five' },
-          { title: 'Six', path: '/dashboard/user/six' },
+          { title: 'Four', path: '/user/four' },
+          { title: 'Five', path: '/user/five' },
+          { title: 'Six', path: '/user/six' },
         ],
       },
     ],
