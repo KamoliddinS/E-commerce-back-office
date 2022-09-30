@@ -4,8 +4,31 @@ const addProductSlice = createSlice({
   name: "addProduct",
   initialState: {
     activeStep: 0,
-    baseProduct: {},
-    variableProduct: {},
+    product: {
+      nameuz: "",
+      nameru: "",
+      infouz: "",
+      inforu: "",
+      descriptionuz: "",
+      descriptionru: "",
+      category: "",
+      subcategory: "",
+      colors: [],
+      techSpecs: [
+        {
+          name: "",
+          value: [
+            {
+              subvalue: "",
+            },
+          ],
+        },
+      ],
+      brand: "",
+      model: "",
+      madeIn: "",
+      warranty: "",
+    },
   },
   reducers: {
     onBackStep(state) {
@@ -16,10 +39,30 @@ const addProductSlice = createSlice({
       state.activeStep < 3 && (state.activeStep += 1);
     },
     addBaseProduct(state, action) {
-      state.baseProduct = action.payload;
+      state.product = action.payload;
     },
-    addVariableProduct(state, action) {
-      state.variableProduct = action.payload;
+    // add techSpecs
+    addTechSpecs(state, action) {
+      state.product.techSpecs.push(action.payload);
+    },
+    // add subvalue
+    addSubValue(state, action) {
+      state.product.techSpecs[action.payload.index].value.push({
+        subvalue: "",
+      });
+    },
+    // remove techSpecs
+    removeTechSpecs(state, action) {
+      state.product.techSpecs = state.product.techSpecs.filter(
+        (item, index) => index !== action.payload
+      );
+    },
+    // remove subvalue
+    removeSubValue(state, action) {
+      state.product.techSpecs[action.payload.index].value =
+        state.product.techSpecs[action.payload.index].value.filter(
+          (item, index) => index !== action.payload.subIndex
+        );
     },
   },
 });
@@ -27,5 +70,12 @@ const addProductSlice = createSlice({
 export default addProductSlice.reducer;
 
 // Actions
-export const { onNextStep, onBackStep, addBaseProduct, addVariableProduct } =
-  addProductSlice.actions;
+export const {
+  onNextStep,
+  onBackStep,
+  addBaseProduct,
+  removeTechSpecs,
+  removeSubValue,
+  addSubValue,
+  addTechSpecs,
+} = addProductSlice.actions;
