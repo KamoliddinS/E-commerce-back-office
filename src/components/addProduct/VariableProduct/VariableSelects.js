@@ -18,7 +18,7 @@ import {
   IconButton,
 } from "@mui/material";
 import Iconify from "../../Iconify";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { TrashIcon } from "../../Icons";
 
 const colors = [
@@ -42,12 +42,9 @@ const techSpecsItems = [
 ];
 
 export default function VariableSelects({ formik, techSpecs }) {
-  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product.product);
 
-  const category = useSelector((state) => state.addProduct.product.category);
-  const subcategory = useSelector(
-    (state) => state.addProduct.product.subcategory
-  );
+  const { category, subcategory } = product;
 
   function handleAddTechSpecs() {
     formik.setFieldValue("techSpecs", [
@@ -222,8 +219,14 @@ export default function VariableSelects({ formik, techSpecs }) {
                   ))}
                 </Select>
               </FormControl>
-              {techSpecs[index].value.map((_, i) => (
-                <>
+
+              <Stack
+                flexWrap="wrap"
+                direction="row"
+                alignItems="center"
+                spacing={1}
+              >
+                {techSpecs[index].value.map((_, i) => (
                   <TextField
                     fullWidth
                     sx={{ width: 200 }}
@@ -249,9 +252,8 @@ export default function VariableSelects({ formik, techSpecs }) {
                     // error={formik.touched.nameuz && Boolean(formik.errors.nameuz)}
                     // helperText={formik.touched.nameuz && formik.errors.nameuz}
                   />
-                </>
-              ))}
-
+                ))}
+              </Stack>
               <IconButton
                 aria-label="delete"
                 size="medium"

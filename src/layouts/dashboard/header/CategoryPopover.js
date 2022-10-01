@@ -23,13 +23,3 @@ export default function LanguagePopover() {
     </>
   );
 }
-
-// for (var i = 0; i < categories.length; i++) {
-//   console.log(categories[i].title);
-//   for (var j = 0; j < Object.keys(categories[i].value).length; j++) {
-//       console.log('  ' + categories[i].value[j].title);
-//       for (var k = 0; k < Object.keys(categories[i].value[j].value).length; k++) {
-//       console.log('    ' + categories[i].value[j].value[k].name);
-//       }
-//   }
-//   }

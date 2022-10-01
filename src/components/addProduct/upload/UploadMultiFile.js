@@ -98,13 +98,9 @@ export default function UploadMultiFile({
         <Typography variant="body2" color="text.secondary" display="block">
           Hajmi: fayl hajmi 5 MB dan oshmasligi kerak
         </Typography>
-        <Typography variant="body2" color="text.secondary" display="block">
-          Joylashish tartibi: birinchi rasm tovar kartasidagi asosiy rasmga
-          aylanadi
-        </Typography>
-        <Typography variant="body2" color="text.secondary" display="block">
+        {/* <Typography variant="body2" color="text.secondary" display="block">
           Rasmlar turi: studiyada suratga olingan, tomonlar nisbati 4*3
-        </Typography>
+        </Typography> */}
       </Box>
       <MultiFilePreview
         files={files}
@@ -117,7 +113,7 @@ export default function UploadMultiFile({
           <Button color="inherit" size="small" onClick={onRemoveAll}>
             Remove all
           </Button>
-          <Button size="small" variant="contained" onClick={onUpload}>
+          <Button size="small" variant="contained" onClick={(e) => onUpload(e)}>
             Upload files
           </Button>
         </Stack>

@@ -19,8 +19,9 @@ import {
   addBaseProduct,
   onNextStep,
   onBackStep,
-} from "../../redux/slices/addProductSlice";
+} from "../../redux/slices/productSlice";
 import Iconify from "../Iconify";
+import GenerateProduct from "./GenerateProduct/GenerateProduct";
 
 const steps = [
   "Mahsulot m’alumoti",
@@ -107,9 +108,13 @@ const companies = [
   },
 ];
 export default function AddProduct() {
-  const activeStep = useSelector((state) => state.addProduct.activeStep);
-  const product = useSelector((state) => state.addProduct.product);
+  const activeStep = useSelector((state) => state.product.activeStep);
+  const product = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
+
+  const { images } = product;
+
+  console.log(images.length);
 
   const formik = useFormik({
     initialValues: product,
@@ -117,6 +122,7 @@ export default function AddProduct() {
     onSubmit: (values) => {
       dispatch(addBaseProduct(values));
       dispatch(onNextStep());
+      // dispatch(onNextStep());
     },
   });
 
@@ -128,7 +134,6 @@ export default function AddProduct() {
     dispatch(onBackStep());
   };
 
-  console.log(formik.values);
   return (
     <>
       <Typography variant="h4" gutterBottom>
@@ -150,13 +155,17 @@ export default function AddProduct() {
                 <BaseProductMain formik={formik} categories={categories} />
                 <BaseProductUpload />
               </Box>
-              <Button
-                variant="outlined"
-                type="submit"
-                endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
-              >
-                Tasdiqlash
-              </Button>
+
+              <Stack direction="row" justifyContent="flex-end" mt={5}>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  size="large"
+                  endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
+                >
+                  Tasdiqlash
+                </Button>
+              </Stack>
             </>
           )}
           {activeStep === 1 && (
@@ -169,6 +178,7 @@ export default function AddProduct() {
               <Stack direction="row" justifyContent="space-between" mt={5}>
                 <Button
                   variant="outlined"
+                  size="large"
                   onClick={handleBack}
                   startIcon={<Iconify icon="bi:arrow-left-circle-fill" />}
                 >
@@ -176,10 +186,35 @@ export default function AddProduct() {
                 </Button>
                 <Button
                   variant="outlined"
+                  size="large"
                   type="submit"
                   endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
                 >
                   Tasdiqlash
+                </Button>
+              </Stack>
+            </>
+          )}
+          {activeStep === 2 && (
+            <>
+              <GenerateProduct />
+              <Stack direction="row" justifyContent="space-between" mt={5}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleBack}
+                  startIcon={<Iconify icon="bi:arrow-left-circle-fill" />}
+                >
+                  Ortga qaytish
+                </Button>
+                <Button
+                  variant="outlined"
+                  disabled
+                  size="large"
+                  type="submit"
+                  endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
+                >
+                  Yuklash
                 </Button>
               </Stack>
             </>
