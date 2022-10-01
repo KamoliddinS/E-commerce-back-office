@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const addProductSlice = createSlice({
-  name: "addProduct",
+const productSlice = createSlice({
+  name: "product",
   initialState: {
     activeStep: 0,
     product: {
@@ -14,6 +14,7 @@ const addProductSlice = createSlice({
       category: "",
       subcategory: "",
       colors: [],
+      images: [],
       techSpecs: [
         {
           name: "",
@@ -64,10 +65,20 @@ const addProductSlice = createSlice({
           (item, index) => index !== action.payload.subIndex
         );
     },
+    // add images
+    addImages(state, action) {
+      state.product.images = action.payload;
+    },
+    //remove image
+    removeImage(state, action) {
+      state.product.images = state.product.images.filter(
+        (item, index) => index !== action.payload
+      );
+    },
   },
 });
 
-export default addProductSlice.reducer;
+export default productSlice.reducer;
 
 // Actions
 export const {
@@ -78,4 +89,6 @@ export const {
   removeSubValue,
   addSubValue,
   addTechSpecs,
-} = addProductSlice.actions;
+  addImages,
+  removeImage,
+} = productSlice.actions;

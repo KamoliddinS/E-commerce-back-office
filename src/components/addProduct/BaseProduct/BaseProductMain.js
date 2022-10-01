@@ -6,7 +6,9 @@ import {
   FormControl,
   Select,
   MenuItem,
+  Stack,
 } from "@mui/material";
+import { UzbekIcon, RusIcon } from "../../Icons";
 
 export default function BaseProductMain({ formik, categories }) {
   return (
@@ -23,9 +25,12 @@ export default function BaseProductMain({ formik, categories }) {
           }}
         >
           <div>
-            <Typography variant="body2" gutterBottom>
-              Mahsulot nomi
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" gutterBottom>
+                Mahsulot nomi
+              </Typography>
+              <UzbekIcon width={14} height={14} />
+            </Stack>
             <TextField
               fullWidth
               id="nameuz"
@@ -43,9 +48,12 @@ export default function BaseProductMain({ formik, categories }) {
             /> */}
           </div>
           <div>
-            <Typography variant="body2" gutterBottom>
-              Mahsulot nomi (Rus Tilida)
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" gutterBottom>
+                Mahsulot nomi (Rus Tilida)
+              </Typography>
+              <RusIcon width={14} height={14} />
+            </Stack>
             <TextField
               fullWidth
               id="nameru"
@@ -58,9 +66,12 @@ export default function BaseProductMain({ formik, categories }) {
             />
           </div>
           <div>
-            <Typography variant="body2" gutterBottom>
-              Malumot
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" gutterBottom>
+                Malumot
+              </Typography>
+              <UzbekIcon width={14} height={14} />
+            </Stack>
             <TextField
               fullWidth
               id="infouz"
@@ -73,9 +84,12 @@ export default function BaseProductMain({ formik, categories }) {
             />
           </div>
           <div>
-            <Typography variant="body2" gutterBottom>
-              Malumot (Rus Tilida)
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" gutterBottom>
+                Malumot (Rus Tilida)
+              </Typography>
+              <RusIcon width={14} height={14} />
+            </Stack>
             <TextField
               fullWidth
               id="inforu"
@@ -88,9 +102,12 @@ export default function BaseProductMain({ formik, categories }) {
             />
           </div>
           <div>
-            <Typography variant="body2" gutterBottom>
-              Tavsif
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" gutterBottom>
+                Tavsif
+              </Typography>
+              <UzbekIcon width={14} height={14} />
+            </Stack>
             <TextField
               fullWidth
               id="descriptionuz"
@@ -108,9 +125,12 @@ export default function BaseProductMain({ formik, categories }) {
             />
           </div>
           <div>
-            <Typography variant="body2" gutterBottom>
-              Tavsif (Rus Tilida)
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="body2" gutterBottom>
+                Tavsif (Rus Tilida)
+              </Typography>
+              <RusIcon width={14} height={14} />
+            </Stack>
             <TextField
               fullWidth
               id="descriptionru"
@@ -139,8 +159,10 @@ export default function BaseProductMain({ formik, categories }) {
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
               >
-                {categories.map((item) => (
-                  <MenuItem value={item.category}>{item.category}</MenuItem>
+                {categories.map((item, i) => (
+                  <MenuItem key={i} value={item.category}>
+                    {item.category}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -157,8 +179,10 @@ export default function BaseProductMain({ formik, categories }) {
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
               >
-                {categories.map((item) => (
-                  <MenuItem value={item.category}>{item.category}</MenuItem>
+                {categories.map((item, i) => (
+                  <MenuItem key={i} value={item.category}>
+                    {item.category}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>

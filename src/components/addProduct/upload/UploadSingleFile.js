@@ -4,7 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
 //
-import Image from "../Image";
+import Image from "../../Image";
 import RejectionFiles from "./RejectionFiles";
 import BlockContent from "./BlockContent";
 

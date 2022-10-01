@@ -30,6 +30,7 @@ export default function VariableSelects({ formik, companies }) {
           name="brand"
           options={companies}
           value={formik.values.brand}
+          isOptionEqualToValue={(option, value) => option.value === value.value}
           // getOptionLabel={(option) => option.lable}
           style={{ width: 300 }}
           onChange={(e, value) => {
@@ -47,7 +48,7 @@ export default function VariableSelects({ formik, companies }) {
         />
 
         <FormControlLabel
-          control={<Checkbox defaultUnChecked />}
+          control={<Checkbox defaultunchecked="true" />}
           label="Mavjud emas"
         />
         {/* <TextField

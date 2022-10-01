@@ -1,8 +1,8 @@
 // @mui
 import { Box, Typography, Stack } from "@mui/material";
 // assets
-import { UploadIllustration } from "../../assets";
-import { UploadIcon } from "../Icons";
+import { UploadIllustration } from "../../../assets";
+import { UploadIcon } from "../../Icons";
 
 // ----------------------------------------------------------------------
 

@@ -12,11 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 // utils
-import { fData } from "../../utils/formatNumber";
-import getFileData from "../../utils/getFileData";
+import { fData } from "../../../utils/formatNumber";
+import getFileData from "../../../utils/getFileData";
 //
-import Image from "../Image";
-import Iconify from "../Iconify";
+import Image from "../../Image";
+import Iconify from "../../Iconify";
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +41,10 @@ export default function MultiFilePreview({
   const hasFile = files.length > 0;
 
   return (
-    <List disablePadding sx={{ ...(hasFile && { my: 3 }) }}>
+    <List
+      disablePadding
+      sx={{ ...(hasFile && { my: 3 }), display: "flex", flexWrap: "wrap" }}
+    >
       <AnimatePresence>
         {files.map((file, index) => {
           const { key, name, size, preview } = getFileData(file, index);
@@ -51,28 +54,28 @@ export default function MultiFilePreview({
               <ListItem
                 key={key}
                 sx={{
-                  width: "100%",
+                  width: "fit-content",
                   background: "#FFFFFF",
                   border: "1px solid #E8EBED",
                   borderRadius: "8px",
-                  margin: "10px 0",
+                  margin: 1,
                 }}
               >
                 <ListItemAvatar>
                   <Image
                     alt="preview"
                     src={preview}
-                    sx={{ width: 64, height: 64, borderRadius: 2 }}
+                    sx={{ width: 150, height: 150, borderRadius: 2 }}
                   />
                 </ListItemAvatar>
-                <Box sx={{ display: "column", marginLeft: 2 }}>
+                {/* <Box sx={{ display: "column", marginLeft: 2 }}>
                   <Typography variant="subtitle1" display="block">
                     {name}
                   </Typography>
                   <Typography variant="caption" display="block">
                     {bytesToKilobytes(size)} KB
                   </Typography>
-                </Box>
+                </Box> */}
                 {onRemove && (
                   <IconButton
                     size="small"
