@@ -70,11 +70,6 @@ const productSlice = createSlice({
       state.product.images = action.payload;
     },
     //remove image
-    removeImage(state, action) {
-      state.product.images = state.product.images.filter(
-        (item, index) => index !== action.payload
-      );
-    },
   },
 });
 

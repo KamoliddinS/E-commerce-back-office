@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Typography, Breadcrumbs, Divider } from "@mui/material";
 import Iconify from "../../Iconify";
 export default function GenerateProduct() {
-  const product = useSelector((state) => state.addProduct.product);
+  const product = useSelector((state) => state.product.product);
 
   const { category, subcategory } = product;
 

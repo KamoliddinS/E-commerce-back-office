@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Typography,
   TextField,
@@ -6,10 +6,14 @@ import {
   Autocomplete,
   Checkbox,
   FormControlLabel,
-  Button,
 } from "@mui/material";
 
 export default function VariableSelects({ formik, companies }) {
+  const [brand, setbrand] = useState(false);
+
+  const handleChange = (event) => {
+    setbrand(event.target.checked);
+  };
   return (
     <>
       <Stack
@@ -48,19 +52,15 @@ export default function VariableSelects({ formik, companies }) {
         />
 
         <FormControlLabel
-          control={<Checkbox defaultunchecked="true" />}
+          control={
+            <Checkbox
+              checked={brand}
+              onChange={handleChange}
+              defaultunchecked="true"
+            />
+          }
           label="Mavjud emas"
         />
-        {/* <TextField
-          id="nameuz"
-          sx={{ width: "30%" }}
-          name="nameuz"
-          placeholder="Changyutgich"
-          value={formik.values.nameuz}
-          onChange={formik.handleChange}
-          error={formik.touched.nameuz && Boolean(formik.errors.nameuz)}
-          helperText={formik.touched.nameuz && formik.errors.nameuz}
-        /> */}
       </Stack>
       <Stack
         direction="row"

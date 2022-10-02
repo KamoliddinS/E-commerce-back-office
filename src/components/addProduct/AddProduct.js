@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BaseProductMain from "./BaseProduct/BaseProductMain";
 import BaseProductUpload from "./BaseProduct/BaseProductUpload";
@@ -19,9 +19,11 @@ import {
   addBaseProduct,
   onNextStep,
   onBackStep,
+  addImages,
 } from "../../redux/slices/productSlice";
 import Iconify from "../Iconify";
 import GenerateProduct from "./GenerateProduct/GenerateProduct";
+import { uploadPhoto } from "../../helpers/uploadPhoto";
 
 const steps = [
   "Mahsulot m’alumoti",
@@ -112,25 +114,45 @@ export default function AddProduct() {
   const product = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
 
+  const [files, setFiles] = useState([]);
+
   const { images } = product;
 
-  console.log(images.length);
+  const handleDropMultiFile = useCallback(
+    (acceptedFiles) => {
+      setFiles([
+        ...files,
+        ...acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        ),
+      ]);
+    },
+    [files]
+  );
+  const handleRemove = (file) => {
+    const filteredItems = files.filter((_file) => _file !== file);
+    setFiles(filteredItems);
+  };
+
+  async function handleUpload() {
+    const uploadedImages = await uploadPhoto(files);
+    dispatch(addImages(uploadedImages));
+  }
 
   const formik = useFormik({
     initialValues: product,
     // validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(addBaseProduct(values));
+      handleUpload();
       dispatch(onNextStep());
-      // dispatch(onNextStep());
     },
   });
 
-  // const handleNext = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  // };
   const handleBack = () => {
-    dispatch(addBaseProduct(formik.values));
+    // dispatch(addBaseProduct(formik.values));
     dispatch(onBackStep());
   };
 
@@ -153,7 +175,11 @@ export default function AddProduct() {
             <>
               <Box sx={{ display: "flex" }}>
                 <BaseProductMain formik={formik} categories={categories} />
-                <BaseProductUpload />
+                <BaseProductUpload
+                  handleDropMultiFile={handleDropMultiFile}
+                  files={files}
+                  handleRemove={handleRemove}
+                />
               </Box>
 
               <Stack direction="row" justifyContent="flex-end" mt={5}>
