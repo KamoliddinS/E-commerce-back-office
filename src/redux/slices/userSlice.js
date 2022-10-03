@@ -80,6 +80,22 @@ const userSlice = createSlice({
         state.message = action.payload;
         state.data = {};
       })
+      .addCase(getProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.data = action.payload;
+        state.modal.open = false;
+      })
+      .addCase(getProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.data = {};
+        localStorage.removeItem('token')
+      })
   },
 });
 

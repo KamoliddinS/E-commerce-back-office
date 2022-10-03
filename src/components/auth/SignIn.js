@@ -2,9 +2,11 @@ import React, { useState, forwardRef } from 'react';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+// redux
 import { useDispatch } from 'react-redux';
-
 import { loginUser } from '../../redux/slices/userSlice';
+// @mui
+import Alert from '@mui/material/Alert';
 
 import {
   OutlinedInput,
@@ -52,7 +54,7 @@ const SignIn = forwardRef((props, ref) => {
   return (
     <Box ref={ref} sx={{ padding: 1 }}>
       <form onSubmit={formik.handleSubmit}>
-        <p>mustafaanvarov@mail.ru</p>
+      <Alert severity="info">email: test@test.de / password: 123123</Alert>
         <TextField
           id="outlined-basic"
           label="Почта"
@@ -66,7 +68,6 @@ const SignIn = forwardRef((props, ref) => {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.errors.email}
         />
-        <p>123123</p>
         <FormControl sx={{ mt: 2 }} variant="outlined" fullWidth>
           <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
           <OutlinedInput

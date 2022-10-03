@@ -1,7 +1,9 @@
-import { Suspense, lazy, useEffect } from "react";
-import { Navigate, useRoutes, useLocation } from "react-router-dom";
+import { Suspense, lazy, useEffect, useState } from "react";
+// react-router
+import { Navigate, useRoutes, useLocation, useNavigate } from "react-router-dom";
 // redux
 import {useSelector, useDispatch} from 'react-redux';
+import {getProfile} from '../redux/slices/userSlice'
 // layouts
 import DashboardLayout from "../layouts/dashboard";
 import LogoOnlyLayout from "../layouts/LogoOnlyLayout";
@@ -35,17 +37,34 @@ const Loadable = (Component) => (props) => {
 
 export default function Router() {
 
-  const isAuthenticated = Boolean(useSelector((state) => state.user.data.token));
+  const dispatch = useDispatch();
+  const tokenLocalStorage = localStorage.getItem('token') || '';
 
-  if (isAuthenticated) {
+  const userData = useSelector((state) => state.user.data);
+  const [authinficated, setAuthinficated] = useState(Boolean(tokenLocalStorage !== ''))
+  const navigate = useNavigate();
 
-  }
+
+  useEffect(() => {
+    if (tokenLocalStorage !== '') {
+      dispatch(getProfile(tokenLocalStorage)); 
+    }
+  }, [])
+
+  useEffect(() => {
+    setAuthinficated(tokenLocalStorage !== '');
+    if (Object.keys(userData).length !== 0) {
+      navigate("/home");
+    }
+  }, [userData])
+
+  
 
  // protect routes of unauthenticated users
   const routes = [
       {
         path: "/",
-        element: isAuthenticated ? <DashboardLayout /> : <Navigate to="/auth" />,
+        element: authinficated ? <DashboardLayout /> : <Navigate to="/auth" />,
         children: [
           { element: <Navigate to="/home" replace />, index: true },
           { path: "home", element: <HomeScreen /> },

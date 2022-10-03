@@ -24,7 +24,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Page404() {
+export default function AuthScreen() {
   return (
     <Page title="Authinfication">
       <Container component={MotionContainer}>

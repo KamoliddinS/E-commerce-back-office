@@ -19,7 +19,7 @@ import {
   FormHelperText,
 } from '@mui/material';
 
-import { Snackbar } from '@mui/material/';
+import { Snackbar } from '@mui/material';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
