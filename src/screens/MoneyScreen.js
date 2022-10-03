@@ -1,5 +1,8 @@
 import React from "react";
+// @mui
 import { Typography } from "@mui/material";
+// components
+import Money from '../components/money/Money'
 
 export default function BaseProductLayout() {
   return (
@@ -7,7 +10,7 @@ export default function BaseProductLayout() {
       <Typography variant="h4" gutterBottom>
         Money
       </Typography>
-  
+      <Money />
     </>
   );
 }
