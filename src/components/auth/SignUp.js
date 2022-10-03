@@ -27,9 +27,10 @@ const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?
 
 
 const validationSchema = yup.object({
-  name: yup.string('Enter your email').required('Email is required'),
+  name: yup.string('Enter your name').required('Name is required'),
+  lastName: yup.string('Enter your last name').required('Last name is required'),
   email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
-  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Phone number is required'),
   password: yup
     .string('Enter your password')
     .min(6, 'Password should be of minimum 6 characters length')
@@ -50,6 +51,7 @@ const SignUp = forwardRef((props, ref) => {
   const formik = useFormik({
     initialValues: {
       name: '',
+      lastName: '',
       email: '',
       phoneNumber: '',
       password: '',
@@ -76,6 +78,19 @@ const SignUp = forwardRef((props, ref) => {
           value={formik.values.name}
           onChange={formik.handleChange}
           error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.errors.name}
+        />
+        <TextField
+          name="lastName"
+          id="outlined-basic-name"
+          label="Фамилия"
+          variant="outlined"
+          sx={{ mt: 3 }}
+          size="normal"
+          fullWidth={true}
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
           helperText={formik.errors.name}
         />
         <TextField

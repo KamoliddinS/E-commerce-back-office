@@ -53,9 +53,6 @@ export default function Router() {
 
   useEffect(() => {
     setAuthinficated(tokenLocalStorage !== '');
-    if (Object.keys(userData).length !== 0) {
-      navigate("/home");
-    }
   }, [userData])
 
   
