@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import addProductSliceReducer from "./slices/addProductSlice";
 import userSliceReducer from "./slices/userSlice";
 import eimzoSliceReducer from "./slices/eimzoSlice"
+import productSliceReducer from "./slices/productSlice";
 
 export const store = configureStore({
   reducer: {
-    addProduct: addProductSliceReducer,
+    product: productSliceReducer,
     user: userSliceReducer,
     eimzo: eimzoSliceReducer,
   },
