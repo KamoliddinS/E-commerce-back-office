@@ -35,7 +35,7 @@ export default function AuthScreen() {
   const userData = useSelector(state => state.user.data);
 
   if (Object.keys(userData).length !== 0) {
-    navigate("/home");
+    navigate("/");
   }
 
   return (
