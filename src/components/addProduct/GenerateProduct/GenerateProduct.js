@@ -7,18 +7,18 @@ import GenerateProductsList from "./GenerateProductsList";
 export default function GenerateProduct({ files }) {
   const product = useSelector((state) => state.product.product);
 
-  const { category, subcategory, nameuz, descriptionuz } = product;
+  const { category, subcategory } = product;
 
-  const mainImage = files[0].preview;
+  // const mainImage = files[0].preview;
 
-  // const breadcrumbs = [
-  //   <Typography key="3" color="text.primary">
-  //     {category}
-  //   </Typography>,
-  //   <Typography key="3" color="text.primary">
-  //     {subcategory}
-  //   </Typography>,
-  // ];
+  const breadcrumbs = [
+    <Typography key="3" color="text.primary">
+      {category}
+    </Typography>,
+    <Typography key="3" color="text.primary">
+      {subcategory}
+    </Typography>,
+  ];
 
   return (
     <>
@@ -26,12 +26,12 @@ export default function GenerateProduct({ files }) {
         Mahsulot toifasi
       </Typography>
       <Typography variant="body1" gutterBottom>
-        {/* <Breadcrumbs
+        <Breadcrumbs
           separator={<Iconify icon="mdi:chevron-right" />}
           aria-label="breadcrumb"
         >
           {breadcrumbs}
-        </Breadcrumbs> */}
+        </Breadcrumbs>
       </Typography>
       <Divider />
       {/* <Stack direction="row" alignItems="center" mt={2} mb={2} spacing={5}>
@@ -49,7 +49,6 @@ export default function GenerateProduct({ files }) {
           </Typography>
         </Stack>
       </Stack> */}
-      <Divider />
       {/* <GenerateProductsList /> */}
     </>
   );
