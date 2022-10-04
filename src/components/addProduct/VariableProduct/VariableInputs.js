@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Typography,
   TextField,
@@ -6,10 +6,14 @@ import {
   Autocomplete,
   Checkbox,
   FormControlLabel,
-  Button,
 } from "@mui/material";
 
 export default function VariableSelects({ formik, companies }) {
+  const [brand, setbrand] = useState(false);
+
+  const handleChange = (event) => {
+    setbrand(event.target.checked);
+  };
   return (
     <>
       <Stack
@@ -28,13 +32,16 @@ export default function VariableSelects({ formik, companies }) {
         <Autocomplete
           id="brand"
           name="brand"
+          disabled={brand ? true : false}
+          defaultValue="No Brand"
           options={companies}
+          getOptionDisabled={(option) => option.name === "Brend tanlanmagan"}
+          autoHighlight={true}
           value={formik.values.brand}
           isOptionEqualToValue={(option, value) => option.value === value.value}
-          // getOptionLabel={(option) => option.lable}
           style={{ width: 300 }}
           onChange={(e, value) => {
-            formik.setFieldValue("brand", value !== null ? value : "no brand");
+            formik.setFieldValue("brand", value !== null ? value : "No Brand");
           }}
           renderInput={(params) => (
             <TextField
@@ -48,19 +55,15 @@ export default function VariableSelects({ formik, companies }) {
         />
 
         <FormControlLabel
-          control={<Checkbox defaultunchecked="true" />}
+          control={
+            <Checkbox
+              checked={brand}
+              onChange={handleChange}
+              defaultunchecked="true"
+            />
+          }
           label="Mavjud emas"
         />
-        {/* <TextField
-          id="nameuz"
-          sx={{ width: "30%" }}
-          name="nameuz"
-          placeholder="Changyutgich"
-          value={formik.values.nameuz}
-          onChange={formik.handleChange}
-          error={formik.touched.nameuz && Boolean(formik.errors.nameuz)}
-          helperText={formik.touched.nameuz && formik.errors.nameuz}
-        /> */}
       </Stack>
       <Stack
         direction="row"

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { m, AnimatePresence } from "framer-motion";
 // @mui
 import { alpha } from "@mui/material/styles";
@@ -7,9 +8,7 @@ import {
   IconButton,
   ListItemText,
   ListItem,
-  Box,
   ListItemAvatar,
-  Typography,
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -21,9 +20,9 @@ import Iconify from "../../Iconify";
 // ----------------------------------------------------------------------
 
 // bytes to fixed kilobytes
-function bytesToKilobytes(bytes) {
-  return (bytes / 1024).toFixed(2);
-}
+// function bytesToKilobytes(bytes) {
+//   return (bytes / 1024).toFixed(2);
+// }
 
 // restrict adding same key to array
 
@@ -35,9 +34,10 @@ MultiFilePreview.propTypes = {
 
 export default function MultiFilePreview({
   showPreview = false,
-  files,
   onRemove,
+  files,
 }) {
+  // const files = useSelector((state) => state.product.product.images);
   const hasFile = files.length > 0;
 
   return (
