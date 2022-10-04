@@ -14,42 +14,71 @@ export default function GenerateProductsList() {
   const product = useSelector((state) => state.product.product);
   const { techSpecs, colors } = product;
 
-  //generate products from differen variations of tech specs
-  //   const generateProducts = (techSpecs) => {
-  //     const products = [];
-  //     const techSpecsKeys = Object.keys(techSpecs);
-  //     console.log(techSpecsKeys);
-  //     const techSpecsValues = Object.values(techSpecs);
-  //     console.log(techSpecsValues);
-  //     const techSpecsLength = techSpecsKeys.length;
-  //     const techSpecsValuesLength = techSpecsValues[0].length;
-  //     for (let i = 0; i < techSpecsValuesLength; i++) {
-  //       const product = {};
-  //       for (let j = 0; j < techSpecsLength; j++) {
-  //         product[techSpecsKeys[j]] = techSpecsValues[j][i];
-  //       }
-  //       products.push(product);
-  //       console.log(products);
-  //     }
-  //     return products;
-  //   };
+  const techSpecsKeys = Object.keys(techSpecs);
+  console.log("techSpecsKeys", techSpecsKeys);
+  const techSpecsValues = Object.values(techSpecs);
+  console.log("techSpecsValues", techSpecsValues);
+  const techSpecsSubValues = techSpecsValues.map((item) => item.value);
 
-  //   const techSpecsKeys = Object.keys(techSpecs);
-  //   console.log("techSpecsKeys", techSpecsKeys);
-  //   const techSpecsValues = Object.values(techSpecs);
-  //   console.log("techSpecsValues", techSpecsValues);
+  // generate n amount of products based on colors and techSpecsValues and techSpecsSubValues
+
+  // const generateProducts = () => {
+  //   const products = [];
+  //   for (let i = 0; i < colors.length; i++) {
+  //     for (let j = 0; j < techSpecsKeys.length; j++) {
+  //       const product = {
+  //         color: colors[i],
+  //         [techSpecsKeys[j]]: techSpecsValues[j],
+  //       };
+  //       products.push(product);
+  //     }
+  //   }
+  //   return products;
+  // };
+
+  const allDimensions = useSelector((state)=>state.product)
+
+  function generateProducts() {
+    let products = [];
+
+    // const allKeys  =Object.keys(allDimensions) 
+
+    // allKeys.forEach((key)=>{
+    //   key.title
+
+
+
+    // })
+    colors.map(color => {
+      let currentColor = color;
+      let techs = [];
+      techSpecs.map((tech, i) => {
+        techs.push({
+          name: tech.name,
+          value: tech.value[i]
+        })
+
+        const product = {
+          color: currentColor,
+          techs
+        };
+        products.push(product);
+      });
+    });
+
+    return products;
+  }
+
+  console.log("generateProducts", generateProducts());
 
   return (
     <>
       <Box>
-        <Typography variant="h5" gutterBottom>
-          Mahsulotlar
-        </Typography>
-        {colors.map((color, i) => (
+        {/* {colors.map((color, i) => (
           <Box key={i}>
             <GeneratedProductItem color={color} techSpecs={techSpecs} />
           </Box>
-        ))}
+        ))} */}
       </Box>
     </>
   );

@@ -8,8 +8,6 @@ import { Box, Grid, Card, Stack, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // utils
 import { fData } from '../../utils/formatNumber';
-// components
-import { FormProvider, RHFSwitch, RHFTextField, RHFUploadAvatar } from '../hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -55,11 +53,10 @@ export default function AccountGeneral() {
   );
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <Card sx={{ py: 10, px: 3, textAlign: 'center' }}>
-            <RHFUploadAvatar
+            {/* <RHFUploadAvatar
               name="photoURL"
               maxSize={3145728}
               onDrop={handleDrop}
@@ -78,7 +75,7 @@ export default function AccountGeneral() {
                   <br /> max size of {fData(3145728)}
                 </Typography>
               }
-            />
+            /> */}
 
           </Card>
         </Grid>
@@ -93,20 +90,20 @@ export default function AccountGeneral() {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="displayName" label="Name" />
-              <RHFTextField name="email" label="Email Address" />
+              <input name="displayName" label="Name" />
+              <input name="email" label="Email Address" />
 
-              <RHFTextField name="phoneNumber" label="Phone Number" />
-              <RHFTextField name="address" label="Address" />
+              <input name="phoneNumber" label="Phone Number" />
+              <input name="address" label="Address" />
 
-              <RHFTextField name="state" label="State/Region" />
+              <input name="state" label="State/Region" />
 
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
+              <input name="city" label="City" />
+              <input name="zipCode" label="Zip/Code" />
             </Box>
 
             <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-              <RHFTextField name="about" multiline rows={4} label="About" />
+              <input name="about" multiline rows={4} label="About" />
 
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
                 Save Changes
@@ -115,6 +112,5 @@ export default function AccountGeneral() {
           </Card>
         </Grid>
       </Grid>
-    </FormProvider>
   );
 }

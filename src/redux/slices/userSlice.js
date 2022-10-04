@@ -6,12 +6,12 @@ const openLogin = !token.length > 1;
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const loginUser = createAsyncThunk('api/users', async (user) => {
-  const response = await axios.post(`${BASE_URL}/api/client/login`, user);
+  const response = await axios.post(`${BASE_URL}/api/users/login`, user);
   return response.data;
 });
 
 export const registerUser = createAsyncThunk('api/users', async (user) => {
-  const response = await axios.post(`${BASE_URL}/api/client`, user);
+  const response = await axios.post(`${BASE_URL}/api/users`, user);
   return response.data;
 });
 
@@ -24,7 +24,7 @@ export const getProfile = createAsyncThunk('user/getProfile', async (token) => {
     },
   };
 
-  const response = await axios.get(`${BASE_URL}/api/client/profile`, config);
+  const response = await axios.get(`${BASE_URL}/api/users/profile`, config);
 
   return response.data;
 });

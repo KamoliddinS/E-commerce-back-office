@@ -26,6 +26,7 @@ export function UserIcon({width, height, color='#000'}) {
 </svg>
 
   )
+}
 export function TrashIcon({ width, height, color }) {
   return (
     <svg
