@@ -92,9 +92,11 @@ const userSlice = createSlice({
       .addCase(getProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        if (action.error.message === 'Request failed with status code 401') {
+          localStorage.removeItem('token')
+
+        }
         state.data = {};
-        localStorage.removeItem('token')
       })
   },
 });
