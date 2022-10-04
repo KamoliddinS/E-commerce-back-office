@@ -116,7 +116,7 @@ export default function VariableSelects({ formik, techSpecs }) {
             renderValue={(selected) => selected.join(", ")}
           >
             {colors.map((color) => (
-              <MenuItem key={color.name} value={color.hex}>
+              <MenuItem key={color.hex} value={color.hex}>
                 <Checkbox
                   checked={formik.values.colors.indexOf(color.hex) > -1}
                 />
@@ -152,8 +152,9 @@ export default function VariableSelects({ formik, techSpecs }) {
         </FormControl>
         <Box sx={{ display: "flex" }}>
           <Stack direction="row" spacing={0.5}>
-            {formik.values.colors.map((color) => (
+            {formik.values.colors.map((color, i) => (
               <Box
+                key={i}
                 sx={{
                   width: 20,
                   height: 20,
@@ -196,7 +197,7 @@ export default function VariableSelects({ formik, techSpecs }) {
 
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((_, index) => (
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack direction="row" key={index} alignItems="center" spacing={2}>
               <IconButton
                 aria-label="delete"
                 size="large"
@@ -214,8 +215,10 @@ export default function VariableSelects({ formik, techSpecs }) {
                   // displayEmpty
                   // inputProps={{ "aria-label": "Without label" }}
                 >
-                  {techSpecsItems.map((item) => (
-                    <MenuItem value={item.name}>{item.name}</MenuItem>
+                  {techSpecsItems.map((item, i) => (
+                    <MenuItem key={i} value={item.name}>
+                      {item.name}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -228,6 +231,7 @@ export default function VariableSelects({ formik, techSpecs }) {
               >
                 {techSpecs[index].value.map((_, i) => (
                   <TextField
+                    key={i}
                     fullWidth
                     sx={{ width: 200 }}
                     name={`techSpecs.${index}.value.${i}.subvalue`}

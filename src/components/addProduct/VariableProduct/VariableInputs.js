@@ -32,13 +32,16 @@ export default function VariableSelects({ formik, companies }) {
         <Autocomplete
           id="brand"
           name="brand"
+          disabled={brand ? true : false}
+          defaultValue="No Brand"
           options={companies}
+          getOptionDisabled={(option) => option.name === "Brend tanlanmagan"}
+          autoHighlight={true}
           value={formik.values.brand}
           isOptionEqualToValue={(option, value) => option.value === value.value}
-          // getOptionLabel={(option) => option.lable}
           style={{ width: 300 }}
           onChange={(e, value) => {
-            formik.setFieldValue("brand", value !== null ? value : "no brand");
+            formik.setFieldValue("brand", value !== null ? value : "No Brand");
           }}
           renderInput={(params) => (
             <TextField

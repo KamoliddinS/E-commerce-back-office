@@ -24,6 +24,7 @@ import {
 import Iconify from "../Iconify";
 import GenerateProduct from "./GenerateProduct/GenerateProduct";
 import { uploadPhoto } from "../../helpers/uploadPhoto";
+import GenerateProductsList from "./GenerateProduct/GenerateProductsList";
 
 const steps = [
   "Mahsulot m’alumoti",
@@ -60,6 +61,10 @@ const categories = [
 ];
 
 const companies = [
+  {
+    id: 0,
+    label: "No Brand",
+  },
   {
     id: 1,
     label: "Samsung",
@@ -116,7 +121,7 @@ export default function AddProduct() {
 
   const [files, setFiles] = useState([]);
 
-  const { images } = product;
+  // const { images } = product;
 
   const handleDropMultiFile = useCallback(
     (acceptedFiles) => {
@@ -146,7 +151,7 @@ export default function AddProduct() {
     // validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(addBaseProduct(values));
-      handleUpload();
+      // handleUpload();
       dispatch(onNextStep());
     },
   });
@@ -223,7 +228,8 @@ export default function AddProduct() {
           )}
           {activeStep === 2 && (
             <>
-              <GenerateProduct />
+              {/* <GenerateProduct files={files} /> */}
+              <GenerateProductsList />
               <Stack direction="row" justifyContent="space-between" mt={5}>
                 <Button
                   variant="outlined"
