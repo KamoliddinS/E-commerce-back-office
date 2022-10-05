@@ -72,7 +72,7 @@ export default function AccountSocialLinks({ myProfile }) {
       {/* <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="flex-end">
           {SOCIAL_LINKS.map((link) => (
-            <RHFTextField
+            <input
               key={link.value}
               name={link.value}
               InputProps={{

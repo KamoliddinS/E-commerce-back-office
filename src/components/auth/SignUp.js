@@ -27,10 +27,10 @@ const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?
 
 
 const validationSchema = yup.object({
-  name: yup.string('Enter your name').required('Name is required'),
+  firstName: yup.string('Enter your name').required('Name is required'),
   lastName: yup.string('Enter your last name').required('Last name is required'),
   email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
-  phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Phone number is required'),
+  phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Phone number is required'),
   password: yup
     .string('Enter your password')
     .min(6, 'Password should be of minimum 6 characters length')
@@ -50,12 +50,13 @@ const SignUp = forwardRef((props, ref) => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '',
+      phone: '',
       password: '',
       confirmPassword: '',
+      type: 'supplier'
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -68,17 +69,17 @@ const SignUp = forwardRef((props, ref) => {
     <Box ref={ref} {...props} sx={{ padding: 1 }}>
       <form onSubmit={formik.handleSubmit}>
         <TextField
-          name="name"
+          name="firstName"
           id="outlined-basic-name"
           label="Имя"
           variant="outlined"
           sx={{ mt: 3 }}
           size="normal"
           fullWidth={true}
-          value={formik.values.name}
+          value={formik.values.firstName}
           onChange={formik.handleChange}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.errors.name}
+          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+          helperText={formik.errors.firstName}
         />
         <TextField
           name="lastName"
@@ -107,7 +108,7 @@ const SignUp = forwardRef((props, ref) => {
           helperText={formik.errors.email}
         />
          <TextField
-          name="phoneNumber"
+          name="phone"
           id="outlined-basic-email"
           label="Телефон"
           placeholder="+998909170913"
@@ -115,10 +116,10 @@ const SignUp = forwardRef((props, ref) => {
           sx={{ mt: 3 }}
           size="normal"
           fullWidth={true}
-          value={formik.values.phoneNumber}
+          value={formik.values.phone}
           onChange={formik.handleChange}
-          error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-          helperText={formik.errors.phoneNumber}
+          error={formik.touched.phone && Boolean(formik.errors.phone)}
+          helperText={formik.errors.phone}
         />
         <Grid container flex="row" justifyContent="center">
           <Grid item xs={6}>

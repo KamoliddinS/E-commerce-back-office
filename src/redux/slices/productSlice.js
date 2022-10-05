@@ -14,14 +14,17 @@ const productSlice = createSlice({
       category: "",
       subcategory: "",
       images: [],
-      techSpecs: {
-        // name: [
-        //   {
-        //     title: "",
-        //     value: "",
-        //   },
-        // ],
-      },
+      techSpecs: [
+        // {
+        //   color: [
+        //     {
+        //       name: "Color",
+        //       title: "",
+        //       value: "",
+        //     },
+        //   ],
+        // },
+      ],
       brand: "",
       model: "",
       madeIn: "",

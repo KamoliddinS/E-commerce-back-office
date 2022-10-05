@@ -19,34 +19,64 @@ export default function GenerateProductsList() {
   const techSpecsValues = Object.values(techSpecs);
   console.log("techSpecsValues", techSpecsValues);
   const techSpecsSubValues = techSpecsValues.map((item) => item.value);
-  console.log("techSpecsSubValues", techSpecsSubValues);
 
   // generate n amount of products based on colors and techSpecsValues and techSpecsSubValues
 
-  const generateProducts = () => {
-    const products = [];
-    for (let i = 0; i < colors.length; i++) {
-      for (let j = 0; j < techSpecsKeys.length; j++) {
-        for (let k = 0; k < techSpecsSubValues[j].length; k++) {
-          products.push({
-            color: colors[i],
-            [techSpecsKeys[j]]: techSpecsSubValues[j][k],
-          });
-        }
-      }
-    }
+  // const generateProducts = () => {
+  //   const products = [];
+  //   for (let i = 0; i < colors.length; i++) {
+  //     for (let j = 0; j < techSpecsKeys.length; j++) {
+  //       const product = {
+  //         color: colors[i],
+  //         [techSpecsKeys[j]]: techSpecsValues[j],
+  //       };
+  //       products.push(product);
+  //     }
+  //   }
+  //   return products;
+  // };
+
+  const allDimensions = useSelector((state) => state.product);
+
+  function generateProducts() {
+    let products = [];
+
+    // const allKeys  =Object.keys(allDimensions)
+
+    // allKeys.forEach((key)=>{
+    //   key.title
+
+    // })
+    colors.map((color) => {
+      let currentColor = color;
+      let techs = [];
+      techSpecs.map((tech, i) => {
+        techs.push({
+          name: tech.name,
+          value: tech.value[i],
+        });
+
+        const product = {
+          color: currentColor,
+          techs,
+        };
+        products.push(product);
+      });
+    });
+
     return products;
-  };
+  }
 
   console.log("generateProducts", generateProducts());
 
   return (
     <>
       <Box>
-        <Typography variant="h6" gutterBottom>
-          Mahsulotlar
-        </Typography>
-        <Divider />
+        {/* {colors.map((color, i) => (
+          <Box key={i}>
+            <GeneratedProductItem color={color} techSpecs={techSpecs} />
+          </Box>
+        ))} */}
       </Box>
     </>
   );

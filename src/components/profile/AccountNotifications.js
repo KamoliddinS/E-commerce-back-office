@@ -73,22 +73,14 @@ export default function AccountNotifications() {
               Activity
             </Typography>
 
-            <Stack spacing={1}>
-              {ACTIVITY_OPTIONS.map((activity) => (
-                <RHFSwitch key={activity.value} name={activity.value} label={activity.label} sx={{ m: 0 }} />
-              ))}
-            </Stack>
+          
           </Stack>
 
           <Stack spacing={2} sx={{ width: 1 }}>
             <Typography variant="overline" sx={{ color: 'text.secondary' }}>
               Application
             </Typography>
-            <Stack spacing={1}>
-              {APPLICATION_OPTIONS.map((application) => (
-                <RHFSwitch key={application.value} name={application.value} label={application.label} sx={{ m: 0 }} />
-              ))}
-            </Stack>
+           
           </Stack>
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

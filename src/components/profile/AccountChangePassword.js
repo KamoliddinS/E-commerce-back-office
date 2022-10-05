@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form";
 // @mui
 import { Stack, Card } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-// components
-// import { FormProvider, RHFTextField } from "../hook-form";
 
 // ----------------------------------------------------------------------
 
@@ -52,11 +50,11 @@ export default function AccountChangePassword() {
     <Card sx={{ p: 3 }}>
       {/* <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="flex-end">
-          <RHFTextField name="oldPassword" type="password" label="Old Password" />
+          <input name="oldPassword" type="password" label="Old Password" />
 
-          <RHFTextField name="newPassword" type="password" label="New Password" />
+          <input name="newPassword" type="password" label="New Password" />
 
-          <RHFTextField name="confirmNewPassword" type="password" label="Confirm New Password" />
+          <input name="confirmNewPassword" type="password" label="Confirm New Password" />
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
             Save Changes

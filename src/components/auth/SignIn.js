@@ -46,6 +46,7 @@ const SignIn = forwardRef((props, ref) => {
     initialValues: {
       email: "",
       password: "",
+      type: "supplier",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {

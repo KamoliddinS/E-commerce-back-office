@@ -20,6 +20,7 @@ import {
 import Iconify from "../../Iconify";
 import { useSelector } from "react-redux";
 import { TrashIcon } from "../../Icons";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 
 const colors = [
   { name: "Black", hex: "#000000" },
@@ -31,45 +32,57 @@ const colors = [
 ];
 
 const techSpecsItems = [
-  { name: "Screen Size", value: "screenSize" },
-  { name: "Screen Resolution", value: "screenResolution" },
-  { name: "Processor", value: "processor" },
-  { name: "RAM", value: "ram" },
-  { name: "Storage", value: "storage" },
-  { name: "Battery", value: "battery" },
-  { name: "Camera", value: "camera" },
-  { name: "OS", value: "os" },
+  { title: "Screen Size", value: "screenSize" },
+  { title: "Screen Resolution", value: "screenResolution" },
+  { title: "Processor", value: "processor" },
+  { title: "RAM", value: "ram" },
+  { title: "Storage", value: "storage" },
+  { title: "Battery", value: "battery" },
+  { title: "Camera", value: "camera" },
+  { title: "OS", value: "os" },
 ];
 
+// const techSpecsItems = [
+//   "Screen Size",
+//   "Screen Resolution",
+//   "Processor",
+//   "RAM",
+//   "Storage",
+//   "Battery",
+//   "Camera",
+//   "OS",
+// ];
 export default function VariableSelects({ formik, techSpecs }) {
   const product = useSelector((state) => state.product.product);
-
+  const filter = createFilterOptions();
   const { category, subcategory } = product;
 
-  function handleAddTechSpecs() {
+  // const [value, setValue] = React.useState(null);
+
+  function handleAddTechSpecs(techName, techTitle) {
     formik.setFieldValue("techSpecs", [
       ...formik.values.techSpecs,
-      { name: [{ title: "", value: "" }] },
+      { [techName]: [{ name: techTitle, title: "", value: [""] }] },
     ]);
   }
   function handleAddSubValue(index) {
-    formik.setFieldValue(`techSpecs[${index}].name`, [
-      ...formik.values.techSpecs[index].name,
-      { title: "", value: "" },
+    formik.setFieldValue(`techSpecs[${index}].value`, [
+      ...formik.values.techSpecs[index].value,
+      { subvalue: "" },
     ]);
   }
-  // function handleRemoveTechSpecs(index) {
-  //   formik.setFieldValue(
-  //     "techSpecs",
-  //     formik.values.techSpecs.filter((item, i) => i !== index)
-  //   );
-  // }
-  // function handleRemoveSubValue(index, subIndex) {
-  //   formik.setFieldValue(
-  //     `techSpecs[${index}].value`,
-  //     formik.values.techSpecs[index].value.filter((item, i) => i !== subIndex)
-  //   );
-  // }
+  function handleRemoveTechSpecs(index) {
+    formik.setFieldValue(
+      "techSpecs",
+      formik.values.techSpecs.filter((item, i) => i !== index)
+    );
+  }
+  function handleRemoveSubValue({ index, subIndex }) {
+    formik.setFieldValue(
+      `techSpecs[${index}].value`,
+      formik.values.techSpecs[index].value.filter((item, i) => i !== subIndex)
+    );
+  }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
       {category}
@@ -91,8 +104,7 @@ export default function VariableSelects({ formik, techSpecs }) {
           {breadcrumbs}
         </Breadcrumbs>
       </Typography>
-      <Divider />
-      <Stack
+      {/* <Stack
         direction="row"
         alignItems="center"
         spacing={2}
@@ -100,10 +112,10 @@ export default function VariableSelects({ formik, techSpecs }) {
       >
         <Typography variant="body1" sx={{ width: "100%", maxWidth: "20%" }}>
           Mavjud ranglar
-        </Typography>
+        </Typography> */}
 
-        {/* <form onSubmit={formik.handleSubmit}> */}
-        {/* <FormControl sx={{ m: 1, width: 300 }}>
+      {/* <form onSubmit={formik.handleSubmit}> */}
+      {/* <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-multiple-checkbox-label">Ranglar</InputLabel>
           <Select
             labelId="demo-multiple-checkbox-label"
@@ -150,7 +162,7 @@ export default function VariableSelects({ formik, techSpecs }) {
             ))}
           </Select>
         </FormControl> */}
-        {/* <Box sx={{ display: "flex" }}>
+      {/* <Box sx={{ display: "flex" }}>
           <Stack direction="row" spacing={0.5}>
             {formik.values.colors.map((color, i) => (
               <Box
@@ -176,14 +188,14 @@ export default function VariableSelects({ formik, techSpecs }) {
           </Stack>
         </Box> */}
 
-        {/* <Button
+      {/* <Button
           variant="outlined"
           type="submit"
           startIcon={<Iconify icon="akar-icons:circle-plus-fill" />}
         >
           Rang Qo'shish
         </Button> */}
-      </Stack>
+      {/* </Stack> */}
       <Divider />
       <Stack
         sx={{ mt: 6, mb: 6 }}
@@ -194,22 +206,104 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Typography variant="body1" sx={{ width: "100%", maxWidth: "20%" }}>
           O'zgaruvchan parametrlar
         </Typography>
+
         <Stack direction="column" alignItems="flex-start" spacing={2}>
-          {techSpecs.map((_, index) => (
+          {techSpecs.map((item, index) => (
+            <>
+              {techSpecsItems.map((techValue, i) => {
+                if (Object.keys(item)[0] === techValue.value) {
+                  console.log(techValue.title);
+                }
+              })}
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <IconButton
+                  aria-label="delete"
+                  size="large"
+                  color="error"
+                  onClick={() => handleRemoveTechSpecs(index)}
+                >
+                  <Iconify icon="ep:delete" />
+                </IconButton>
+                {console.log(item)}
+                <Autocomplete
+                  value={`${Object.keys(item)[0]}`}
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      console.log("1", newValue.value);
+                      handleAddTechSpecs(`${newValue.title}`, newValue.value);
+                      // formik.setFieldValue("techSpecs", [
+                      //   ...formik.values.techSpecs,
+                      //   { [newValue]: [{ title: "", value: [""] }] },
+                      // ]);
+                    } else if (newValue && newValue.inputValue) {
+                      console.log("2", newValue.inputValue);
+                      // Create a new value from the user input
+                      handleAddTechSpecs(newValue.inputValue);
+                    } else {
+                      handleAddTechSpecs(newValue.title, newValue.value);
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    const { inputValue } = params;
+                    // Suggest the creation of a new value
+                    const isExisting = options.some(
+                      (option) => inputValue === option.title
+                    );
+                    if (inputValue !== "" && !isExisting) {
+                      filtered.push({
+                        inputValue,
+                        title: `Qo'shish "${inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  selectOnFocus
+                  clearOnBlur
+                  handleHomeEndKeys
+                  id="free-solo-with-text-demo"
+                  options={techSpecsItems}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      console.log("option.inputValue", option.inputValue);
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.title;
+                  }}
+                  renderOption={(props, option) => (
+                    <li {...props}>{option.title}</li>
+                  )}
+                  sx={{ width: 300 }}
+                  // freeSolo
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </Stack>
+            </>
+          ))}
+
+          {/* {techSpecs.map((_, index) => (
             <Stack direction="row" key={index} alignItems="center" spacing={2}>
               <IconButton
                 aria-label="delete"
                 size="large"
                 color="error"
-                // onClick={() => handleRemoveTechSpecs(index)}
+                onClick={() => handleRemoveTechSpecs(index)}
               >
                 <Iconify icon="ep:delete" />
               </IconButton>
               <FormControl sx={{ width: 300 }}>
                 <Select
-                  name={`techSpecs.${index}${["color"]}`}
-                  id={`techSpecs.${index}${["color"]}`}
-                  value={techSpecs[index]["color"]}
+                  name={`techSpecs.${index}`}
+                  id={`techSpecs.${index}`}
+                  value={techSpecs[index]}
                   onChange={formik.handleChange}
                   // displayEmpty
                   // inputProps={{ "aria-label": "Without label" }}
@@ -220,9 +314,8 @@ export default function VariableSelects({ formik, techSpecs }) {
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
-
-              {/* <Stack
+              </FormControl> */}
+          {/* <Stack
                 flexWrap="wrap"
                 direction="row"
                 alignItems="center"
@@ -245,7 +338,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                             aria-label="delete"
                             size="small"
                             color="primary"
-                            // onClick={() => handleRemoveSubValue(index, i)}
+                            onClick={() => handleRemoveSubValue(index, i)}
                           >
                             <TrashIcon width="16" height="16" />
                           </IconButton>
@@ -257,20 +350,20 @@ export default function VariableSelects({ formik, techSpecs }) {
                   />
                 ))}
               </Stack> */}
-              <IconButton
+          {/* <IconButton
                 aria-label="delete"
                 size="medium"
                 color="primary"
                 onClick={() => handleAddSubValue(index)}
               >
                 <Iconify icon="akar-icons:circle-plus-fill" />
-              </IconButton>
-            </Stack>
-          ))}
+              </IconButton> */}
+          {/* </Stack> */}
+          {/* ))} */}
           <Button
             variant="outlined"
             startIcon={<Iconify icon="akar-icons:circle-plus-fill" />}
-            onClick={() => handleAddTechSpecs()}
+            onClick={() => handleAddTechSpecs("color")}
           >
             Yangi parametr qo'shish
           </Button>
