@@ -49,13 +49,13 @@ export default function VariableSelects({ formik, techSpecs }) {
   function handleAddTechSpecs() {
     formik.setFieldValue("techSpecs", [
       ...formik.values.techSpecs,
-      { name: "", value: [{ subvalue: "" }] },
+      { name: "", value: [] },
     ]);
   }
   function handleAddSubValue(index) {
     formik.setFieldValue(`techSpecs[${index}].value`, [
       ...formik.values.techSpecs[index].value,
-      { subvalue: "" },
+      "",
     ]);
   }
   function handleRemoveTechSpecs(index) {
@@ -116,7 +116,7 @@ export default function VariableSelects({ formik, techSpecs }) {
             renderValue={(selected) => selected.join(", ")}
           >
             {colors.map((color) => (
-              <MenuItem key={color.hex} value={color.hex}>
+              <MenuItem key={color.hex} value={{color}}>
                 <Checkbox
                   checked={formik.values.colors.indexOf(color.hex) > -1}
                 />
@@ -234,10 +234,10 @@ export default function VariableSelects({ formik, techSpecs }) {
                     key={i}
                     fullWidth
                     sx={{ width: 200 }}
-                    name={`techSpecs.${index}.value.${i}.subvalue`}
-                    id={`techSpecs.${index}.value.${i}.subvalue`}
+                    name={`techSpecs.${index}.value.${i}`}
+                    id={`techSpecs.${index}.value.${i}`}
                     placeholder="1GB, 15.6 inch, 1.6GHz, 16GB, 1TB"
-                    value={techSpecs[index].value[i].subvalue}
+                    value={techSpecs[index].value[i]}
                     onChange={formik.handleChange}
                     InputProps={{
                       endAdornment: (

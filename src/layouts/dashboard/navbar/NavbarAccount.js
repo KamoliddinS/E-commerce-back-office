@@ -54,7 +54,7 @@ export default function NavbarAccount({ isCollapse }) {
           }}
         >
           <Typography variant="subtitle2" noWrap>
-            {userData.name}
+            {userData.firstName} {userData.lastName}
           </Typography>
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
             seller

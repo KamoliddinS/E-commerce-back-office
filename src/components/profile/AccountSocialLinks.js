@@ -6,7 +6,6 @@ import { Stack, Card, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../Iconify';
-import { FormProvider, RHFTextField } from '../hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -68,10 +67,9 @@ export default function AccountSocialLinks({ myProfile }) {
 
   return (
     <Card sx={{ p: 3 }}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="flex-end">
           {SOCIAL_LINKS.map((link) => (
-            <RHFTextField
+            <input
               key={link.value}
               name={link.value}
               InputProps={{
@@ -84,7 +82,6 @@ export default function AccountSocialLinks({ myProfile }) {
             Save Changes
           </LoadingButton>
         </Stack>
-      </FormProvider>
     </Card>
   );
 }
