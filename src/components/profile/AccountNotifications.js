@@ -1,29 +1,29 @@
 // form
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 // @mui
-import { Card, Stack, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Card, Stack, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 // components
-import { FormProvider, RHFSwitch } from '../hook-form';
+// import { FormProvider, RHFSwitch } from '../hook-form';
 
 // ----------------------------------------------------------------------
 
 const ACTIVITY_OPTIONS = [
   {
-    value: 'activityComments',
-    label: 'Email me when someone comments onmy article',
+    value: "activityComments",
+    label: "Email me when someone comments onmy article",
   },
   {
-    value: 'activityAnswers',
-    label: 'Email me when someone answers on my form',
+    value: "activityAnswers",
+    label: "Email me when someone answers on my form",
   },
-  { value: 'activityFollows', label: 'Email me hen someone follows me' },
+  { value: "activityFollows", label: "Email me hen someone follows me" },
 ];
 
 const APPLICATION_OPTIONS = [
-  { value: 'applicationNews', label: 'News and announcements' },
-  { value: 'applicationProduct', label: 'Weekly product updates' },
-  { value: 'applicationBlog', label: 'Weekly blog digest' },
+  { value: "applicationNews", label: "News and announcements" },
+  { value: "applicationProduct", label: "Weekly product updates" },
+  { value: "applicationBlog", label: "Weekly blog digest" },
 ];
 
 const NOTIFICATION_SETTINGS = {
@@ -38,7 +38,6 @@ const NOTIFICATION_SETTINGS = {
 // ----------------------------------------------------------------------
 
 export default function AccountNotifications() {
-
   const defaultValues = {
     activityComments: NOTIFICATION_SETTINGS.activityComments,
     activityAnswers: NOTIFICATION_SETTINGS.activityAnswers,
@@ -67,7 +66,7 @@ export default function AccountNotifications() {
 
   return (
     <Card sx={{ p: 3 }}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      {/* <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="flex-end">
           <Stack spacing={2} sx={{ width: 1 }}>
             <Typography variant="overline" sx={{ color: 'text.secondary' }}>
@@ -96,7 +95,7 @@ export default function AccountNotifications() {
             Save Changes
           </LoadingButton>
         </Stack>
-      </FormProvider>
+      </FormProvider> */}
     </Card>
   );
 }

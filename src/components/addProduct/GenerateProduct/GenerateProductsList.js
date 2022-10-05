@@ -19,6 +19,7 @@ export default function GenerateProductsList() {
   const techSpecsValues = Object.values(techSpecs);
   console.log("techSpecsValues", techSpecsValues);
   const techSpecsSubValues = techSpecsValues.map((item) => item.value);
+  console.log("techSpecsSubValues", techSpecsSubValues);
 
   // generate n amount of products based on colors and techSpecsValues and techSpecsSubValues
 
@@ -26,11 +27,12 @@ export default function GenerateProductsList() {
     const products = [];
     for (let i = 0; i < colors.length; i++) {
       for (let j = 0; j < techSpecsKeys.length; j++) {
-        const product = {
-          color: colors[i],
-          [techSpecsKeys[j]]: techSpecsValues[j],
-        };
-        products.push(product);
+        for (let k = 0; k < techSpecsSubValues[j].length; k++) {
+          products.push({
+            color: colors[i],
+            [techSpecsKeys[j]]: techSpecsSubValues[j][k],
+          });
+        }
       }
     }
     return products;
@@ -41,11 +43,10 @@ export default function GenerateProductsList() {
   return (
     <>
       <Box>
-        {/* {colors.map((color, i) => (
-          <Box key={i}>
-            <GeneratedProductItem color={color} techSpecs={techSpecs} />
-          </Box>
-        ))} */}
+        <Typography variant="h6" gutterBottom>
+          Mahsulotlar
+        </Typography>
+        <Divider />
       </Box>
     </>
   );

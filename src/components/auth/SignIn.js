@@ -1,12 +1,12 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef } from "react";
 
-import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { useFormik } from "formik";
+import * as yup from "yup";
 // redux
-import { useDispatch } from 'react-redux';
-import { loginUser } from '../../redux/slices/userSlice';
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/slices/userSlice";
 // @mui
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 
 import {
   OutlinedInput,
@@ -20,18 +20,20 @@ import {
   TextField,
   Link,
   FormHelperText,
-} from '@mui/material';
-
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+} from "@mui/material";
+import Iconify from "../Iconify";
 
 // import { login, reset } from '../../features/auth/authSlice';
 
 const validationSchema = yup.object({
-  email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
   password: yup
-    .string('Enter your password')
-    .min(6, 'Password should be of minimum 6 characters length')
-    .required('Password is required'),
+    .string("Enter your password")
+    .min(6, "Password should be of minimum 6 characters length")
+    .required("Password is required"),
 });
 
 const SignIn = forwardRef((props, ref) => {
@@ -42,8 +44,8 @@ const SignIn = forwardRef((props, ref) => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -54,7 +56,7 @@ const SignIn = forwardRef((props, ref) => {
   return (
     <Box ref={ref} sx={{ padding: 1 }}>
       <form onSubmit={formik.handleSubmit}>
-      <Alert severity="info">email: test@test.de / password: 123123</Alert>
+        <Alert severity="info">email: test@test.de / password: 123123</Alert>
         <TextField
           id="outlined-basic"
           label="Почта"
@@ -72,7 +74,7 @@ const SignIn = forwardRef((props, ref) => {
           <InputLabel htmlFor="outlined-adornment-password">Пароль</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -84,7 +86,11 @@ const SignIn = forwardRef((props, ref) => {
                   onClick={() => setShowPassword(!showPassword)}
                   edge="end"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? (
+                    <Iconify icon="ic:baseline-visibility" />
+                  ) : (
+                    <Iconify icon="ic:baseline-visibility-off" />
+                  )}
                 </IconButton>
               </InputAdornment>
             }
@@ -96,14 +102,20 @@ const SignIn = forwardRef((props, ref) => {
             {formik.errors.password}
           </FormHelperText>
         )}
-        <Grid container justifyContent="space-between" flex="row" alignItems="center" sx={{ marginTop: 3 }}>
+        <Grid
+          container
+          justifyContent="space-between"
+          flex="row"
+          alignItems="center"
+          sx={{ marginTop: 3 }}
+        >
           <Grid item>
             <Button variant="contained" type="submit">
               Войти
             </Button>
           </Grid>
           <Grid item>
-            <Link href="#" underline="none" onClick={() => alert('Вы дурак!')}>
+            <Link href="#" underline="none" onClick={() => alert("Вы дурак!")}>
               Забыли пароль?
             </Link>
           </Grid>

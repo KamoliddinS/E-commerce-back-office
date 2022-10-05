@@ -1,47 +1,43 @@
-import { capitalCase } from 'change-case';
+import { capitalCase } from "change-case";
 // @mui
-import { Tab, Box, Tabs } from '@mui/material';
+import { Tab, Box, Tabs } from "@mui/material";
 // routes
 // import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
-import useTabs from '../../hooks/useTabs';
-import useSettings from '../../hooks/useSettings';
+import useTabs from "../../hooks/useTabs";
+import useSettings from "../../hooks/useSettings";
 // components
-import Page from '../Page';
-import Iconify from '../Iconify';
+import Page from "../Page";
+import Iconify from "../Iconify";
 // sections
-import { AccountGeneral, AccountBilling, AccountSocialLinks, AccountNotifications, AccountChangePassword } from '.';
+import {
+  AccountGeneral,
+  AccountBilling,
+  AccountSocialLinks,
+  AccountNotifications,
+  AccountChangePassword,
+} from ".";
 // icons
-import {UserIcon} from '../Icons/'
+import { UserIcon } from "../Icons/";
 export default function UserAccount() {
   const { themeStretch } = useSettings();
 
-  const { currentTab, onChangeTab } = useTabs('general');
+  const { currentTab, onChangeTab } = useTabs("general");
 
   const ACCOUNT_TABS = [
     {
-      value: 'general',
+      value: "general",
       icon: <UserIcon width={20} height={20} />,
       component: <AccountGeneral />,
     },
     {
-      value: 'billing',
-      icon: <Iconify icon={'ic:round-receipt'} width={20} height={20} />,
+      value: "billing",
+      icon: <Iconify icon={"ic:round-receipt"} width={20} height={20} />,
       component: <AccountBilling />,
     },
     {
-      value: 'notifications',
-      icon: <Iconify icon={'eva:bell-fill'} width={20} height={20} />,
-      component: <AccountNotifications />,
-    },
-    {
-      value: 'social_links',
-      icon: <Iconify icon={'eva:share-fill'} width={20} height={20} />,
-      component: <AccountSocialLinks myProfile={{ name: 'My name' }} />,
-    },
-    {
-      value: 'change_password',
-      icon: <Iconify icon={'ic:round-vpn-key'} width={20} height={20} />,
+      value: "change_password",
+      icon: <Iconify icon={"ic:round-vpn-key"} width={20} height={20} />,
       component: <AccountChangePassword />,
     },
   ];
@@ -65,7 +61,13 @@ export default function UserAccount() {
         onChange={onChangeTab}
       >
         {ACCOUNT_TABS.map((tab) => (
-          <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />
+          <Tab
+            disableRipple
+            key={tab.value}
+            label={capitalCase(tab.value)}
+            icon={tab.icon}
+            value={tab.value}
+          />
         ))}
       </Tabs>
 
