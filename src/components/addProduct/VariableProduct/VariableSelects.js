@@ -49,27 +49,27 @@ export default function VariableSelects({ formik, techSpecs }) {
   function handleAddTechSpecs() {
     formik.setFieldValue("techSpecs", [
       ...formik.values.techSpecs,
-      { name: "", value: [{ subvalue: "" }] },
+      { name: [{ title: "", value: "" }] },
     ]);
   }
   function handleAddSubValue(index) {
-    formik.setFieldValue(`techSpecs[${index}].value`, [
-      ...formik.values.techSpecs[index].value,
-      { subvalue: "" },
+    formik.setFieldValue(`techSpecs[${index}].name`, [
+      ...formik.values.techSpecs[index].name,
+      { title: "", value: "" },
     ]);
   }
-  function handleRemoveTechSpecs(index) {
-    formik.setFieldValue(
-      "techSpecs",
-      formik.values.techSpecs.filter((item, i) => i !== index)
-    );
-  }
-  function handleRemoveSubValue(index, subIndex) {
-    formik.setFieldValue(
-      `techSpecs[${index}].value`,
-      formik.values.techSpecs[index].value.filter((item, i) => i !== subIndex)
-    );
-  }
+  // function handleRemoveTechSpecs(index) {
+  //   formik.setFieldValue(
+  //     "techSpecs",
+  //     formik.values.techSpecs.filter((item, i) => i !== index)
+  //   );
+  // }
+  // function handleRemoveSubValue(index, subIndex) {
+  //   formik.setFieldValue(
+  //     `techSpecs[${index}].value`,
+  //     formik.values.techSpecs[index].value.filter((item, i) => i !== subIndex)
+  //   );
+  // }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
       {category}
@@ -103,7 +103,7 @@ export default function VariableSelects({ formik, techSpecs }) {
         </Typography>
 
         {/* <form onSubmit={formik.handleSubmit}> */}
-        <FormControl sx={{ m: 1, width: 300 }}>
+        {/* <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-multiple-checkbox-label">Ranglar</InputLabel>
           <Select
             labelId="demo-multiple-checkbox-label"
@@ -149,8 +149,8 @@ export default function VariableSelects({ formik, techSpecs }) {
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
-        <Box sx={{ display: "flex" }}>
+        </FormControl> */}
+        {/* <Box sx={{ display: "flex" }}>
           <Stack direction="row" spacing={0.5}>
             {formik.values.colors.map((color, i) => (
               <Box
@@ -174,7 +174,7 @@ export default function VariableSelects({ formik, techSpecs }) {
               ></Box>
             ))}
           </Stack>
-        </Box>
+        </Box> */}
 
         {/* <Button
           variant="outlined"
@@ -194,7 +194,6 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Typography variant="body1" sx={{ width: "100%", maxWidth: "20%" }}>
           O'zgaruvchan parametrlar
         </Typography>
-
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((_, index) => (
             <Stack direction="row" key={index} alignItems="center" spacing={2}>
@@ -202,15 +201,15 @@ export default function VariableSelects({ formik, techSpecs }) {
                 aria-label="delete"
                 size="large"
                 color="error"
-                onClick={() => handleRemoveTechSpecs(index)}
+                // onClick={() => handleRemoveTechSpecs(index)}
               >
                 <Iconify icon="ep:delete" />
               </IconButton>
               <FormControl sx={{ width: 300 }}>
                 <Select
-                  name={`techSpecs.${index}.name`}
-                  id={`techSpecs.${index}.name`}
-                  value={techSpecs[index].name}
+                  name={`techSpecs.${index}${["color"]}`}
+                  id={`techSpecs.${index}${["color"]}`}
+                  value={techSpecs[index]["color"]}
                   onChange={formik.handleChange}
                   // displayEmpty
                   // inputProps={{ "aria-label": "Without label" }}
@@ -223,7 +222,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                 </Select>
               </FormControl>
 
-              <Stack
+              {/* <Stack
                 flexWrap="wrap"
                 direction="row"
                 alignItems="center"
@@ -246,7 +245,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                             aria-label="delete"
                             size="small"
                             color="primary"
-                            onClick={() => handleRemoveSubValue(index, i)}
+                            // onClick={() => handleRemoveSubValue(index, i)}
                           >
                             <TrashIcon width="16" height="16" />
                           </IconButton>
@@ -257,7 +256,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                     // helperText={formik.touched.nameuz && formik.errors.nameuz}
                   />
                 ))}
-              </Stack>
+              </Stack> */}
               <IconButton
                 aria-label="delete"
                 size="medium"

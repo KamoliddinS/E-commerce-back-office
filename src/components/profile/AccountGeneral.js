@@ -30,9 +30,6 @@ export default function AccountGeneral() {
       alert(JSON.stringify(values, null, 2));
     },
   });
-  // const UpdateUserSchema = Yup.object().shape({
-  //   displayName: Yup.string().required("Name is required"),
-  // });
 
   // const methods = useForm({
   //   resolver: yupResolver(UpdateUserSchema),
@@ -70,7 +67,33 @@ export default function AccountGeneral() {
 
   return (
     <>
-      <Card sx={{ p: 3 }}>ABS</Card>
+      <Card sx={{ p: 3 }}>
+        <Grid item xs={12} md={8}>
+          <Card sx={{ p: 3 }}>
+            <Box
+              sx={{
+                display: "grid",
+                rowGap: 3,
+                columnGap: 2,
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                },
+              }}
+            ></Box>
+
+            <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                // loading={isSubmitting}
+              >
+                Save Changes
+              </LoadingButton>
+            </Stack>
+          </Card>
+        </Grid>
+      </Card>
     </>
     // <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
     //   <Grid container spacing={3}>
@@ -100,37 +123,6 @@ export default function AccountGeneral() {
     //       </Card>
     //     </Grid>
 
-    //     <Grid item xs={12} md={8}>
-    //       <Card sx={{ p: 3 }}>
-    //         <Box
-    //           sx={{
-    //             display: 'grid',
-    //             rowGap: 3,
-    //             columnGap: 2,
-    //             gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
-    //           }}
-    //         >
-    //           <RHFTextField name="displayName" label="Name" />
-    //           <RHFTextField name="email" label="Email Address" />
-
-    //           <RHFTextField name="phoneNumber" label="Phone Number" />
-    //           <RHFTextField name="address" label="Address" />
-
-    //           <RHFTextField name="state" label="State/Region" />
-
-    //           <RHFTextField name="city" label="City" />
-    //           <RHFTextField name="zipCode" label="Zip/Code" />
-    //         </Box>
-
-    //         <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-    //           <RHFTextField name="about" multiline rows={4} label="About" />
-
-    //           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-    //             Save Changes
-    //           </LoadingButton>
-    //         </Stack>
-    //       </Card>
-    //     </Grid>
     //   </Grid>
     // </FormProvider>
   );
