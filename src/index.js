@@ -16,6 +16,8 @@ import { CollapseDrawerProvider } from "./contexts/CollapseDrawerContext";
 //
 import { store } from "./redux/store";
 import App from "./App";
+// i18n
+import './i18n';
 
 // ----------------------------------------------------------------------
 

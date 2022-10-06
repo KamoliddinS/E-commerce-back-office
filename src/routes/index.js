@@ -13,7 +13,7 @@ import HomeScreen from "../screens/HomeScreen";
 import MoneyScreen from "../screens/MoneyScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ChatScreen from "../screens/ChatScreen";
-import TextureScreen from "../screens/TextureScreen";
+import InvoiceScreen from "../screens/InvoiceScreen";
 import OrderHistoryScreen from "../screens/OrderHistoryScreen";
 import OrderListScreen from "../screens/OrderListScreen";
 import AddProductScreen from "../screens/AddProduct";
@@ -61,13 +61,13 @@ export default function Router() {
         path: "/",
         element: authinficated ? <DashboardLayout /> : <Navigate to="/auth" />,
         children: [
-          { element: <Navigate to="/home" replace />, index: true },
+          { element: <Navigate to="/money" replace />, index: true },
           { path: "home", element: <HomeScreen /> },
           { path: "money", element: <MoneyScreen /> },
           { path: "profile", element: <ProfileScreen /> },
           { path: "chat", element: <ChatScreen /> },
           { path: "add-product", element: <AddProductScreen /> },
-          { path: "texture", element: <TextureScreen /> },
+          { path: "invoice", element: <InvoiceScreen /> },
           { path: "order-history", element: <OrderHistoryScreen /> },
           { path: "order-list", element: <OrderListScreen /> },
           {
