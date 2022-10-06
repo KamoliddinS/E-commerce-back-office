@@ -83,6 +83,26 @@ export default function VariableSelects({ formik, techSpecs }) {
       formik.values.techSpecs[index].value.filter((item, i) => i !== subIndex)
     );
   }
+
+  //handle update techSpecs value of object
+  function handleUpdateTechSpecsValue({ index, subIndex, value }) {
+    formik.setFieldValue(
+      `techSpecs[${index}].value[${subIndex}].subvalue`,
+      value
+    );
+  }
+  //handle update techSpecs
+  function handleUpdateTechSpecs(index, obj, value) {
+    console.log(index, obj, value);
+    formik.setFieldValue(`techSpecs[${index}]`, value);
+  }
+  // handleAddemptyFiled
+  function handleAddemptyFiled() {
+    formik.setFieldValue("techSpecs", [
+      ...formik.values.techSpecs,
+      { "": [{ name: "", title: "", value: [""] }] },
+    ]);
+  }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
       {category}
@@ -96,14 +116,14 @@ export default function VariableSelects({ formik, techSpecs }) {
       <Typography variant="body2" color="text.secondary" gutterBottom>
         Mahsulot toifasi
       </Typography>
-      <Typography variant="body1" gutterBottom>
+      {/* <Typography variant="body1" gutterBottom>
         <Breadcrumbs
           separator={<Iconify icon="mdi:chevron-right" />}
           aria-label="breadcrumb"
         >
           {breadcrumbs}
         </Breadcrumbs>
-      </Typography>
+      </Typography> */}
       {/* <Stack
         direction="row"
         alignItems="center"
@@ -210,12 +230,17 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((item, index) => (
             <>
-              {techSpecsItems.map((techValue, i) => {
+              {/* {techSpecsItems.map((techValue, i) => {
                 if (Object.keys(item)[0] === techValue.value) {
                   console.log(techValue.title);
                 }
-              })}
-              <Stack direction="row" alignItems="center" spacing={1}>
+              })} */}
+              <Stack
+                key={index}
+                direction="row"
+                alignItems="center"
+                spacing={1}
+              >
                 <IconButton
                   aria-label="delete"
                   size="large"
@@ -224,13 +249,14 @@ export default function VariableSelects({ formik, techSpecs }) {
                 >
                   <Iconify icon="ep:delete" />
                 </IconButton>
-                {console.log(item)}
                 <Autocomplete
                   value={`${Object.keys(item)[0]}`}
+                  isOptionEqualToValue={(option, value) => option === value}
+                  // onChange={formik.handleChange}
                   onChange={(event, newValue) => {
                     if (typeof newValue === "string") {
                       console.log("1", newValue.value);
-                      handleAddTechSpecs(`${newValue.title}`, newValue.value);
+                      handleAddemptyFiled();
                       // formik.setFieldValue("techSpecs", [
                       //   ...formik.values.techSpecs,
                       //   { [newValue]: [{ title: "", value: [""] }] },
@@ -238,9 +264,16 @@ export default function VariableSelects({ formik, techSpecs }) {
                     } else if (newValue && newValue.inputValue) {
                       console.log("2", newValue.inputValue);
                       // Create a new value from the user input
-                      handleAddTechSpecs(newValue.inputValue);
+                      handleAddemptyFiled();
                     } else {
-                      handleAddTechSpecs(newValue.title, newValue.value);
+                      //update specifc techSpecs
+                      console.log(index);
+                      handleUpdateTechSpecs(
+                        index,
+                        Object.keys(item)[0],
+                        newValue.value
+                      );
+                      handleAddemptyFiled();
                     }
                   }}
                   filterOptions={(options, params) => {
@@ -260,8 +293,8 @@ export default function VariableSelects({ formik, techSpecs }) {
 
                     return filtered;
                   }}
-                  selectOnFocus
-                  clearOnBlur
+                  // selectOnFocus
+                  // clearOnBlur
                   handleHomeEndKeys
                   id="free-solo-with-text-demo"
                   options={techSpecsItems}
@@ -272,7 +305,6 @@ export default function VariableSelects({ formik, techSpecs }) {
                     }
                     // Add "xxx" option created dynamically
                     if (option.inputValue) {
-                      console.log("option.inputValue", option.inputValue);
                       return option.inputValue;
                     }
                     // Regular option
@@ -285,6 +317,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                   // freeSolo
                   renderInput={(params) => <TextField {...params} />}
                 />
+                {console.log(item)}
               </Stack>
             </>
           ))}
@@ -363,7 +396,7 @@ export default function VariableSelects({ formik, techSpecs }) {
           <Button
             variant="outlined"
             startIcon={<Iconify icon="akar-icons:circle-plus-fill" />}
-            onClick={() => handleAddTechSpecs("color")}
+            onClick={() => handleAddTechSpecs("", "")}
           >
             Yangi parametr qo'shish
           </Button>
