@@ -228,7 +228,7 @@ export default function AddProduct() {
           )}
           {activeStep === 2 && (
             <>
-              {/* <GenerateProduct files={files} /> */}
+              <GenerateProduct />
               <GenerateProductsList />
               <Stack direction="row" justifyContent="space-between" mt={5}>
                 <Button

@@ -1,25 +1,29 @@
-import * as Yup from 'yup';
+import * as Yup from "yup";
 // form
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 // @mui
-import { Stack, Card } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Stack, Card } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
 export default function AccountChangePassword() {
-
   const ChangePassWordSchema = Yup.object().shape({
-    oldPassword: Yup.string().required('Old Password is required'),
-    newPassword: Yup.string().min(6, 'Password must be at least 6 characters').required('New Password is required'),
-    confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+    oldPassword: Yup.string().required("Old Password is required"),
+    newPassword: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("New Password is required"),
+    confirmNewPassword: Yup.string().oneOf(
+      [Yup.ref("newPassword"), null],
+      "Passwords must match"
+    ),
   });
 
   const defaultValues = {
-    oldPassword: '',
-    newPassword: '',
-    confirmNewPassword: '',
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   };
 
   const methods = useForm({
@@ -44,6 +48,7 @@ export default function AccountChangePassword() {
 
   return (
     <Card sx={{ p: 3 }}>
+      {/* <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="flex-end">
           <input name="oldPassword" type="password" label="Old Password" />
 
@@ -55,6 +60,7 @@ export default function AccountChangePassword() {
             Save Changes
           </LoadingButton>
         </Stack>
+      </FormProvider> */}
     </Card>
   );
 }

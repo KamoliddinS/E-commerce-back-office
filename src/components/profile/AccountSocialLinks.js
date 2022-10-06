@@ -1,30 +1,33 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 // form
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 // @mui
-import { Stack, Card, InputAdornment } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Stack, Card, InputAdornment } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 // components
-import Iconify from '../Iconify';
+import Iconify from "../Iconify";
+// import { FormProvider, RHFTextField } from "../hook-form";
 
 // ----------------------------------------------------------------------
 
 const SOCIAL_LINKS = [
   {
-    value: 'facebookLink',
-    icon: <Iconify icon={'eva:facebook-fill'} width={24} height={24} />,
+    value: "facebookLink",
+    icon: <Iconify icon={"eva:facebook-fill"} width={24} height={24} />,
   },
   {
-    value: 'instagramLink',
-    icon: <Iconify icon={'ant-design:instagram-filled'} width={24} height={24} />,
+    value: "instagramLink",
+    icon: (
+      <Iconify icon={"ant-design:instagram-filled"} width={24} height={24} />
+    ),
   },
   {
-    value: 'linkedinLink',
-    icon: <Iconify icon={'eva:linkedin-fill'} width={24} height={24} />,
+    value: "linkedinLink",
+    icon: <Iconify icon={"eva:linkedin-fill"} width={24} height={24} />,
   },
   {
-    value: 'twitterLink',
-    icon: <Iconify icon={'eva:twitter-fill'} width={24} height={24} />,
+    value: "twitterLink",
+    icon: <Iconify icon={"eva:twitter-fill"} width={24} height={24} />,
   },
 ];
 
@@ -40,7 +43,6 @@ AccountSocialLinks.propTypes = {
 };
 
 export default function AccountSocialLinks({ myProfile }) {
-
   const defaultValues = {
     facebookLink: myProfile.facebookLink,
     instagramLink: myProfile.instagramLink,
@@ -67,6 +69,7 @@ export default function AccountSocialLinks({ myProfile }) {
 
   return (
     <Card sx={{ p: 3 }}>
+      {/* <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="flex-end">
           {SOCIAL_LINKS.map((link) => (
             <input
@@ -82,6 +85,7 @@ export default function AccountSocialLinks({ myProfile }) {
             Save Changes
           </LoadingButton>
         </Stack>
+      </FormProvider> */}
     </Card>
   );
 }

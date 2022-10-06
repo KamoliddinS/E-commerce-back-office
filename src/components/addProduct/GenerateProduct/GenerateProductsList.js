@@ -36,31 +36,29 @@ export default function GenerateProductsList() {
   //   return products;
   // };
 
-  const allDimensions = useSelector((state)=>state.product)
+  const allDimensions = useSelector((state) => state.product);
 
   function generateProducts() {
     let products = [];
 
-    // const allKeys  =Object.keys(allDimensions) 
+    // const allKeys  =Object.keys(allDimensions)
 
     // allKeys.forEach((key)=>{
     //   key.title
 
-
-
     // })
-    colors.map(color => {
+    colors.map((color) => {
       let currentColor = color;
       let techs = [];
       techSpecs.map((tech, i) => {
         techs.push({
           name: tech.name,
-          value: tech.value[i]
-        })
+          value: tech.value[i],
+        });
 
         const product = {
           color: currentColor,
-          techs
+          techs,
         };
         products.push(product);
       });
