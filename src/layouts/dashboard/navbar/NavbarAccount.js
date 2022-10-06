@@ -4,6 +4,8 @@ import {useSelector, useDispatch} from 'react-redux'
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Link, Typography, Avatar } from '@mui/material';
+// i18n
+import { useTranslation } from "react-i18next";
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +28,7 @@ NavbarAccount.propTypes = {
 
 export default function NavbarAccount({ isCollapse }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const userData = useSelector((state) => state.user.data)
 
@@ -57,7 +60,7 @@ export default function NavbarAccount({ isCollapse }) {
             {userData.firstName} {userData.lastName}
           </Typography>
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            seller
+            {t('seller')}
           </Typography>
         </Box>
       </RootStyle>

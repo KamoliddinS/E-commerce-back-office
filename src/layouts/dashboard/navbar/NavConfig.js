@@ -1,5 +1,7 @@
 // components
 import SvgIconStyle from '../../../components/SvgIconStyle';
+// i18n
+import i18next from '../../../i18n';
 
 // ----------------------------------------------------------------------
 
@@ -16,15 +18,15 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'Asosiy',
+    subheader: i18next.t('nav.general'),
     items: [
-      { title: 'Mablag’lar', path: '/money', icon: ICONS.dashboard },
-      { title: 'Shaxsiy Ma’lumot', path: '/profile', icon: ICONS.dashboard },
-      { title: 'Chat', path: '/chat', icon: ICONS.ecommerce },
-      { title: 'Fakturalar', path: '/texture', icon: ICONS.ecommerce },
-      { title: 'Buyurtmalar Tarixi', path: '/order-history', icon: ICONS.ecommerce },
-      { title: 'Add product', path: '/add-product', icon: ICONS.ecommerce },
-      { title: 'Mahsulotlar ro’yxati', path: '/order-list', icon: ICONS.ecommerce },
+      { title: i18next.t('nav.money'), path: '/money', icon: ICONS.dashboard },
+      { title: i18next.t('nav.profile'), path: '/profile', icon: ICONS.dashboard },
+      { title: i18next.t('nav.chat'), path: '/chat', icon: ICONS.ecommerce },
+      { title: i18next.t('nav.invoice'), path: '/invoice', icon: ICONS.ecommerce },
+      { title: i18next.t('nav.orderHistory'), path: '/order-history', icon: ICONS.ecommerce },
+      { title: i18next.t('nav.addProduct'), path: '/add-product', icon: ICONS.ecommerce },
+      { title: i18next.t('nav.orderList'), path: '/order-list', icon: ICONS.ecommerce },
     ],
   },
 

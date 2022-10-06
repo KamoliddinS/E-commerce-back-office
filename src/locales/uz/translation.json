@@ -1,0 +1,18 @@
+{
+  "title": "Welcome to react using react-i18next uz",
+  "nav": {
+    "general": "Asosiy",
+    "money": "Mablaglar",
+    "profile": "Shaxsiy malumot",
+    "chat": "Chat",
+    "invoice": "Fakturalar",
+    "orderHistory": "Buyurtmalar tarixi",
+    "addProduct": "Mahsulot qo'shish",
+    "orderList": "Buyurtmalar ro'yxati"
+  },
+  "seller": "Sotuvchi",
+  "description": {
+    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
+    "part2": "Switch language between english and german using buttons above."
+  }
+}

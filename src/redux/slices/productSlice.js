@@ -29,6 +29,7 @@ const productSlice = createSlice({
       model: "",
       madeIn: "",
       warranty: "",
+      
     },
   },
   reducers: {
