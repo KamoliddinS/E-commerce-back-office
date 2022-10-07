@@ -94,7 +94,6 @@ export default function VariableSelects({ formik, techSpecs }) {
   // old one
   // formik.setFieldValue(`techSpecs[${index}].value`, value);
   // old one
-
   //handle update techSpecs
   function handleUpdateTechSpecs(index, value) {
     const obj = {};
@@ -254,18 +253,20 @@ export default function VariableSelects({ formik, techSpecs }) {
                   onChange={(event, newValue) => {
                     if (typeof newValue === "string") {
                       handleUpdateTechSpecs(index, newValue);
+                  isOptionEqualToValue={(option, value) => option === value}
+                  // onChange={formik.handleChange}
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
                       // formik.setFieldValue("techSpecs", [
                       //   ...formik.values.techSpecs,
                       //   { [newValue]: [{ title: "", value: [""] }] },
                       // ]);
                     } else if (newValue && newValue.inputValue) {
-                      console.log("input", newValue.inputValue);
                       // Create a new value from the user input
                       handleUpdateTechSpecs(index, newValue.inputValue);
                     } else {
                       //update specifc techSpecs
                       handleUpdateTechSpecs(index, newValue);
-                      // handleAddemptyFiled();
                     }
                   }}
                   filterOptions={(options, params) => {
