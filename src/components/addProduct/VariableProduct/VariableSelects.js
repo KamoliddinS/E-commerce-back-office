@@ -91,17 +91,16 @@ export default function VariableSelects({ formik, techSpecs }) {
       value
     );
   }
+  // old one
+  // formik.setFieldValue(`techSpecs[${index}].value`, value);
+  // old one
+
   //handle update techSpecs
-  function handleUpdateTechSpecs(index, obj, value) {
-    console.log(index, obj, value);
-    formik.setFieldValue(`techSpecs[${index}]`, value);
-  }
-  // handleAddemptyFiled
-  function handleAddemptyFiled() {
-    formik.setFieldValue("techSpecs", [
-      ...formik.values.techSpecs,
-      { "": [{ name: "", title: "", value: [""] }] },
-    ]);
+  function handleUpdateTechSpecs(index, value) {
+    const obj = {};
+    obj[value.value] = [{ name: value.title, title: "", value: [""] }];
+    formik.setFieldValue(`techSpecs[${index}]`, obj);
+    console.log(techSpecs);
   }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
@@ -230,11 +229,6 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((item, index) => (
             <>
-              {/* {techSpecsItems.map((techValue, i) => {
-                if (Object.keys(item)[0] === techValue.value) {
-                  console.log(techValue.title);
-                }
-              })} */}
               <Stack
                 key={index}
                 direction="row"
@@ -249,31 +243,29 @@ export default function VariableSelects({ formik, techSpecs }) {
                 >
                   <Iconify icon="ep:delete" />
                 </IconButton>
+                {console.log(techSpecs)}
                 <Autocomplete
-                  value={`${Object.keys(item)[0]}`}
-                  isOptionEqualToValue={(option, value) => option === value}
-                  // onChange={formik.handleChange}
+                  value={`${item[Object.keys(item)[0]][0].name}`}
+                  name="techSpecs"
+                  isOptionEqualToValue={(option, value) =>
+                    option.title === value
+                  }
+                  // onChange={(e, value) => handleUpdateTechSpecs(index, value)}
                   onChange={(event, newValue) => {
                     if (typeof newValue === "string") {
-                      console.log("1", newValue.value);
-                      handleAddemptyFiled();
+                      handleUpdateTechSpecs(index, newValue);
                       // formik.setFieldValue("techSpecs", [
                       //   ...formik.values.techSpecs,
                       //   { [newValue]: [{ title: "", value: [""] }] },
                       // ]);
                     } else if (newValue && newValue.inputValue) {
-                      console.log("2", newValue.inputValue);
+                      console.log("input", newValue.inputValue);
                       // Create a new value from the user input
-                      handleAddemptyFiled();
+                      handleUpdateTechSpecs(index, newValue.inputValue);
                     } else {
                       //update specifc techSpecs
-                      console.log(index);
-                      handleUpdateTechSpecs(
-                        index,
-                        Object.keys(item)[0],
-                        newValue.value
-                      );
-                      handleAddemptyFiled();
+                      handleUpdateTechSpecs(index, newValue);
+                      // handleAddemptyFiled();
                     }
                   }}
                   filterOptions={(options, params) => {
@@ -287,7 +279,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                     if (inputValue !== "" && !isExisting) {
                       filtered.push({
                         inputValue,
-                        title: `Qo'shish "${inputValue}"`,
+                        title: `${inputValue}`,
                       });
                     }
 
@@ -315,9 +307,10 @@ export default function VariableSelects({ formik, techSpecs }) {
                   )}
                   sx={{ width: 300 }}
                   // freeSolo
-                  renderInput={(params) => <TextField {...params} />}
+                  renderInput={(params) => (
+                    <TextField type="text" {...params} />
+                  )}
                 />
-                {console.log(item)}
               </Stack>
             </>
           ))}
