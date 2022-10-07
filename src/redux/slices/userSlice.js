@@ -39,17 +39,9 @@ const userSlice = createSlice({
     isSuccess: false,
     data: {},
     preveliges: [],
-    modal: {
-      open: openLogin,
-    },
+
   },
   reducers: {
-    openModal: (state) => {
-      state.modal.open = true;
-    },
-    closeModal: (state) => {
-      state.modal.open = false;
-    },
     addToken: (state) => {
       localStorage.setItem('token', state.data?.token);
     },
@@ -71,7 +63,6 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.data = action.payload;
-        state.modal.open = false;
         userSlice.caseReducers.addToken(state);
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -87,7 +78,6 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.data = action.payload;
-        state.modal.open = false;
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.isLoading = false;

@@ -91,16 +91,22 @@ export default function VariableSelects({ formik, techSpecs }) {
       value
     );
   }
+  // old one
+  // formik.setFieldValue(`techSpecs[${index}].value`, value);
+  // old one
+  
   //handle update techSpecs
-  function handleUpdateTechSpecs(index, obj, value) {
-    console.log(index, obj, value);
-    formik.setFieldValue(`techSpecs[${index}]`, value);
+  function handleUpdateTechSpecs(index, value) {
+    const obj = {};
+    obj[value.value] = [{ name: value.title, title: "", value: [""] }];
+    formik.setFieldValue(`techSpecs[${index}]`, obj);
+    console.log(techSpecs);
   }
   // handleAddemptyFiled
   function handleAddemptyFiled() {
     formik.setFieldValue("techSpecs", [
       ...formik.values.techSpecs,
-      { "": [{ name: "", title: "", value: [""] }] },
+      { value: [{ name: "", title: "", value: [""] }] },
     ]);
   }
   const breadcrumbs = [
@@ -249,31 +255,29 @@ export default function VariableSelects({ formik, techSpecs }) {
                 >
                   <Iconify icon="ep:delete" />
                 </IconButton>
+                {console.log(techSpecs)}
                 <Autocomplete
-                  value={`${Object.keys(item)[0]}`}
+                  value={`${item[Object.keys(item)[0]][0].name}`}
+                  name="techSpecs"
                   isOptionEqualToValue={(option, value) => option === value}
                   // onChange={formik.handleChange}
                   onChange={(event, newValue) => {
                     if (typeof newValue === "string") {
-                      console.log("1", newValue.value);
                       handleAddemptyFiled();
                       // formik.setFieldValue("techSpecs", [
                       //   ...formik.values.techSpecs,
                       //   { [newValue]: [{ title: "", value: [""] }] },
                       // ]);
                     } else if (newValue && newValue.inputValue) {
-                      console.log("2", newValue.inputValue);
                       // Create a new value from the user input
                       handleAddemptyFiled();
                     } else {
                       //update specifc techSpecs
-                      console.log(index);
                       handleUpdateTechSpecs(
                         index,
-                        Object.keys(item)[0],
-                        newValue.value
+                        newValue
                       );
-                      handleAddemptyFiled();
+                      // handleAddemptyFiled();
                     }
                   }}
                   filterOptions={(options, params) => {
@@ -317,7 +321,6 @@ export default function VariableSelects({ formik, techSpecs }) {
                   // freeSolo
                   renderInput={(params) => <TextField {...params} />}
                 />
-                {console.log(item)}
               </Stack>
             </>
           ))}

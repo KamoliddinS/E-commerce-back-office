@@ -14,13 +14,24 @@ const ICONS = {
   dashboard: getIcon('ic_dashboard'),
 };
 
+
+
+const t = (key) => i18next.t(key);
+i18next.t('namespace: ru')
+let money = t('nav.money');
+
+i18next.on('languageChanged init', function (lng) {
+  money = t('nav.money');
+  console.log(money);
+});
+
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
     subheader: i18next.t('nav.general'),
     items: [
-      { title: i18next.t('nav.money'), path: '/money', icon: ICONS.dashboard },
+      { title: money, path: '/money', icon: ICONS.dashboard },
       { title: i18next.t('nav.profile'), path: '/profile', icon: ICONS.dashboard },
       { title: i18next.t('nav.chat'), path: '/chat', icon: ICONS.ecommerce },
       { title: i18next.t('nav.invoice'), path: '/invoice', icon: ICONS.ecommerce },
