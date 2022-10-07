@@ -94,20 +94,12 @@ export default function VariableSelects({ formik, techSpecs }) {
   // old one
   // formik.setFieldValue(`techSpecs[${index}].value`, value);
   // old one
-  
   //handle update techSpecs
   function handleUpdateTechSpecs(index, value) {
     const obj = {};
     obj[value.value] = [{ name: value.title, title: "", value: [""] }];
     formik.setFieldValue(`techSpecs[${index}]`, obj);
     console.log(techSpecs);
-  }
-  // handleAddemptyFiled
-  function handleAddemptyFiled() {
-    formik.setFieldValue("techSpecs", [
-      ...formik.values.techSpecs,
-      { value: [{ name: "", title: "", value: [""] }] },
-    ]);
   }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
@@ -236,11 +228,6 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((item, index) => (
             <>
-              {/* {techSpecsItems.map((techValue, i) => {
-                if (Object.keys(item)[0] === techValue.value) {
-                  console.log(techValue.title);
-                }
-              })} */}
               <Stack
                 key={index}
                 direction="row"
@@ -259,25 +246,27 @@ export default function VariableSelects({ formik, techSpecs }) {
                 <Autocomplete
                   value={`${item[Object.keys(item)[0]][0].name}`}
                   name="techSpecs"
+                  isOptionEqualToValue={(option, value) =>
+                    option.title === value
+                  }
+                  // onChange={(e, value) => handleUpdateTechSpecs(index, value)}
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      handleUpdateTechSpecs(index, newValue);
                   isOptionEqualToValue={(option, value) => option === value}
                   // onChange={formik.handleChange}
                   onChange={(event, newValue) => {
                     if (typeof newValue === "string") {
-                      handleAddemptyFiled();
                       // formik.setFieldValue("techSpecs", [
                       //   ...formik.values.techSpecs,
                       //   { [newValue]: [{ title: "", value: [""] }] },
                       // ]);
                     } else if (newValue && newValue.inputValue) {
                       // Create a new value from the user input
-                      handleAddemptyFiled();
+                      handleUpdateTechSpecs(index, newValue.inputValue);
                     } else {
                       //update specifc techSpecs
-                      handleUpdateTechSpecs(
-                        index,
-                        newValue
-                      );
-                      // handleAddemptyFiled();
+                      handleUpdateTechSpecs(index, newValue);
                     }
                   }}
                   filterOptions={(options, params) => {
@@ -291,7 +280,7 @@ export default function VariableSelects({ formik, techSpecs }) {
                     if (inputValue !== "" && !isExisting) {
                       filtered.push({
                         inputValue,
-                        title: `Qo'shish "${inputValue}"`,
+                        title: `${inputValue}`,
                       });
                     }
 
@@ -319,7 +308,9 @@ export default function VariableSelects({ formik, techSpecs }) {
                   )}
                   sx={{ width: 300 }}
                   // freeSolo
-                  renderInput={(params) => <TextField {...params} />}
+                  renderInput={(params) => (
+                    <TextField type="text" {...params} />
+                  )}
                 />
               </Stack>
             </>
