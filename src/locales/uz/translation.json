@@ -10,7 +10,11 @@
     "addProduct": "Mahsulot qo'shish",
     "orderList": "Buyurtmalar ro'yxati"
   },
-  "seller": "Sotuvchi",
+  "shop": {
+    "shop": "Do'kon",
+    "name": "Do'kon nomi",
+    "add": "Mahsulot qo'shish"
+  },
   "description": {
     "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
     "part2": "Switch language between english and german using buttons above."

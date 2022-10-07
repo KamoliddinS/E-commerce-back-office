@@ -4,6 +4,7 @@ import { Navigate, useRoutes, useLocation, useNavigate } from "react-router-dom"
 // redux
 import {useSelector, useDispatch} from 'react-redux';
 import {getProfile} from '../redux/slices/userSlice'
+import {getShops} from '../redux/slices/shopSlice'
 // layouts
 import DashboardLayout from "../layouts/dashboard";
 import LogoOnlyLayout from "../layouts/LogoOnlyLayout";
@@ -45,7 +46,8 @@ export default function Router() {
 
   useEffect(() => {
     if (tokenLocalStorage !== '') {
-      dispatch(getProfile(tokenLocalStorage)); 
+      dispatch(getProfile(tokenLocalStorage));
+      dispatch(getShops(tokenLocalStorage));
     }
   }, [])
 

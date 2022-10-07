@@ -3,8 +3,33 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const getShops = createAsyncThunk("api/users", async (user) => {
-  const response = await axios.post(`${BASE_URL}/api/users/login`, user);
+export const getShops = createAsyncThunk("shop/getShops", async (token) => {
+  // const response = await axios.get(`${BASE_URL}/api/client/profile`, token)
+  // return response.data
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(`${BASE_URL}/api/shops/getall`, config);
+
+  return response.data;
+});
+
+export const createShop = createAsyncThunk("shop/createShop", async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  const response = await axios.post(
+    `${BASE_URL}/api/shops/create`,
+    data,
+    config
+  );
+
   return response.data;
 });
 
@@ -18,10 +43,12 @@ const shopSlice = createSlice({
     currentShop: {},
   },
   reducers: {
-
     setCurrentShop: (state, action) => {
-        state.currentShop = action.payload;
-    }
+      state.currentShop = action.payload;
+    },
+    addShop: (state, action) => {
+      state.shops.push = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -32,18 +59,29 @@ const shopSlice = createSlice({
       .addCase(getShops.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.data = action.payload;
-        state.modal.open = false;
+        state.shops = action.payload;
       })
       .addCase(getShops.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.data = {};
+      })
+      .addCase(createShop.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createShop.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.shops = action.payload;
+      })
+      .addCase(createShop.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
 
-export const { openModal, closeModal, logOut } = shopSlice.actions;
+export const { setCurrentShop } = shopSlice.actions;
 
 export default shopSlice.reducer;
