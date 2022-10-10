@@ -9,7 +9,6 @@ import {
   Stack,
 } from "@mui/material";
 import { UzbekIcon, RusIcon } from "../../Icons";
-
 export default function BaseProductMain({ formik, categories }) {
   return (
     <>

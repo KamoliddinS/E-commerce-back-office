@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useDropzone } from "react-dropzone";
 // @mui
 import { styled } from "@mui/material/styles";
@@ -18,10 +19,32 @@ const DropZoneStyle = styled("div")(({ theme }) => ({
   "&:hover": { opacity: 0.5, transition: "0.2s", cursor: "pointer" },
   background: "#F5F6FA",
   borderRadius: "14px",
+=======
+import PropTypes from 'prop-types';
+import { useDropzone } from 'react-dropzone';
+// @mui
+import { styled } from '@mui/material/styles';
+import { Box, Stack, Button } from '@mui/material';
+//
+import BlockContent from './BlockContent';
+import RejectionFiles from './RejectionFiles';
+import MultiFilePreview from './MultiFilePreview';
+
+// ----------------------------------------------------------------------
+
+const DropZoneStyle = styled('div')(({ theme }) => ({
+  outline: 'none',
+  padding: theme.spacing(5, 1),
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.neutral,
+  border: `1px dashed ${theme.palette.grey[500_32]}`,
+  '&:hover': { opacity: 0.72, cursor: 'pointer' },
+>>>>>>> main
 }));
 
 // ----------------------------------------------------------------------
 
+<<<<<<< HEAD
 // UploadMultiFile.propTypes = {
 //   files: PropTypes.array.isRequired,
 //   error: PropTypes.bool,
@@ -32,6 +55,18 @@ const DropZoneStyle = styled("div")(({ theme }) => ({
 //   helperText: PropTypes.node,
 //   sx: PropTypes.object,
 // };
+=======
+UploadMultiFile.propTypes = {
+  files: PropTypes.array.isRequired,
+  error: PropTypes.bool,
+  showPreview: PropTypes.bool,
+  onUpload: PropTypes.func,
+  onRemove: PropTypes.func,
+  onRemoveAll: PropTypes.func,
+  helperText: PropTypes.node,
+  sx: PropTypes.object,
+};
+>>>>>>> main
 
 export default function UploadMultiFile({
   error,
@@ -44,6 +79,7 @@ export default function UploadMultiFile({
   sx,
   ...other
 }) {
+<<<<<<< HEAD
   function maxSize(file) {
     if (file.size > 5242880) {
       return {
@@ -71,14 +107,28 @@ export default function UploadMultiFile({
 
   return (
     <Box sx={{ width: "100%", ...sx }}>
+=======
+  const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
+    ...other,
+  });
+
+  return (
+    <Box sx={{ width: '100%', ...sx }}>
+>>>>>>> main
       <DropZoneStyle
         {...getRootProps()}
         sx={{
           ...(isDragActive && { opacity: 0.72 }),
           ...((isDragReject || error) && {
+<<<<<<< HEAD
             color: "error.main",
             borderColor: "error.light",
             bgcolor: "error.lighter",
+=======
+            color: 'error.main',
+            borderColor: 'error.light',
+            bgcolor: 'error.lighter',
+>>>>>>> main
           }),
         }}
       >
@@ -87,6 +137,7 @@ export default function UploadMultiFile({
         <BlockContent />
       </DropZoneStyle>
 
+<<<<<<< HEAD
       {fileRejections.length > 0 && (
         <RejectionFiles fileRejections={fileRejections} />
       )}
@@ -109,6 +160,13 @@ export default function UploadMultiFile({
       />
 
       {/* {files.length > 0 && (
+=======
+      {fileRejections.length > 0 && <RejectionFiles fileRejections={fileRejections} />}
+
+      <MultiFilePreview files={files} showPreview={showPreview} onRemove={onRemove} />
+
+      {files.length > 0 && (
+>>>>>>> main
         <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
           <Button color="inherit" size="small" onClick={onRemoveAll}>
             Remove all
@@ -117,7 +175,11 @@ export default function UploadMultiFile({
             Upload files
           </Button>
         </Stack>
+<<<<<<< HEAD
       )} */}
+=======
+      )}
+>>>>>>> main
 
       {helperText && helperText}
     </Box>
