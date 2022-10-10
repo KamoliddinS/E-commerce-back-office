@@ -17,20 +17,24 @@ export const getShops = createAsyncThunk("shop/getShops", async (token) => {
   return response.data;
 });
 
-export const createShop = createAsyncThunk("shop/createShop", async (data) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${data.token}`,
+export const createShop = createAsyncThunk("shop/createShop", async (token, data) => {
+  var config = {
+    method: 'post',
+    url: 'https://realsoft-e-commerce.herokuapp.com/api/shops/create',
+    headers: { 
+      'Authorization': `Bearer ${token}`, 
+      ...data.getHeaders()
     },
+    data: data
   };
 
-  const response = await axios.post(
-    `${BASE_URL}/api/shops/create`,
-    data,
-    config
-  );
-
-  return response.data;
+  axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 });
 
 const shopSlice = createSlice({
@@ -72,7 +76,7 @@ const shopSlice = createSlice({
       .addCase(createShop.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.shops = action.payload;
+        // state.shops = action.payload;
       })
       .addCase(createShop.rejected, (state, action) => {
         state.isLoading = false;

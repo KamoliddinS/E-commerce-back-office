@@ -1,5 +1,6 @@
 {
   "title": "Welcome to react using react-i18next ru",
+  "cancel": "Отмена",
   "nav": {
     "general": "Главное",
     "money": "Финансы",
@@ -13,7 +14,13 @@
   "shop": {
     "shop": "Магазин",
     "name": "Название магазина",
-    "add": "Добавить магазин"
+    "add": "Добавить магазин",
+    "zip_code": "Индекс",
+    "region": "Регион",
+    "district": "Район",
+    "street": "Улица",
+    "apartment_number": "Номер квартиры",
+    "house_number": "Номер дома"
   },
   "description": {
     "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
