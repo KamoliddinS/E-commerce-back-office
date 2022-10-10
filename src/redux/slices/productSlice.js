@@ -20,7 +20,17 @@ const productSlice = createSlice({
             {
               name: "",
               title: "",
-              value: "",
+              value: [""],
+            },
+            {
+              name: "",
+              title: "",
+              value: [""],
+            },
+            {
+              name: "",
+              title: "",
+              value: [""],
             },
           ],
         },
@@ -29,7 +39,6 @@ const productSlice = createSlice({
       model: "",
       madeIn: "",
       warranty: "",
-      
     },
   },
   reducers: {
