@@ -1,21 +1,21 @@
-import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const token = localStorage.getItem('token') || '';
+const token = localStorage.getItem("token") || "";
 const openLogin = !token.length > 1;
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const loginUser = createAsyncThunk('api/users', async (user) => {
+export const loginUser = createAsyncThunk("api/users", async (user) => {
   const response = await axios.post(`${BASE_URL}/api/users/login`, user);
   return response.data;
 });
 
-export const registerUser = createAsyncThunk('api/users', async (user) => {
+export const registerUser = createAsyncThunk("api/users", async (user) => {
   const response = await axios.post(`${BASE_URL}/api/users`, user);
   return response.data;
 });
 
-export const getProfile = createAsyncThunk('user/getProfile', async (token) => {
+export const getProfile = createAsyncThunk("user/getProfile", async (token) => {
   // const response = await axios.get(`${BASE_URL}/api/client/profile`, token)
   // return response.data
   const config = {
@@ -29,28 +29,30 @@ export const getProfile = createAsyncThunk('user/getProfile', async (token) => {
   return response.data;
 });
 
-
-
 const userSlice = createSlice({
-  name: 'userSlice',
+  name: "userSlice",
   initialState: {
     isLoading: false,
     isError: false,
     isSuccess: false,
+    photoUrl: "",
     data: {},
     preveliges: [],
 
   },
   reducers: {
     addToken: (state) => {
-      localStorage.setItem('token', state.data?.token);
+      localStorage.setItem("token", state.data?.token);
     },
     removeToken: () => {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
     },
     logOut: (state) => {
       userSlice.caseReducers.removeToken(state);
       state.data = {};
+    },
+    addPhotoUrl: (state, action) => {
+      state.photoUrl = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -82,15 +84,14 @@ const userSlice = createSlice({
       .addCase(getProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        if (action.error.message === 'Request failed with status code 401') {
-          localStorage.removeItem('token')
-
+        if (action.error.message === "Request failed with status code 401") {
+          localStorage.removeItem("token");
         }
         state.data = {};
-      })
+      });
   },
 });
 
-export const { openModal, closeModal, logOut } = userSlice.actions;
+export const { openModal, closeModal, logOut, addPhotoUrl } = userSlice.actions;
 
 export default userSlice.reducer;
