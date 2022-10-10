@@ -57,18 +57,17 @@ export default function VariableSelects({ formik, techSpecs }) {
   const filter = createFilterOptions();
   const { category, subcategory } = product;
 
-  // const [value, setValue] = React.useState(null);
-
   function handleAddTechSpecs(techName, techTitle) {
     formik.setFieldValue("techSpecs", [
       ...techSpecs,
-      { [techName]: [{ name: techTitle, title: "", value: [""] }] },
+      { [techName]: [{ name: techTitle, title: "", value: "" }] },
     ]);
   }
-  function handleAddSubValue(index) {
-    formik.setFieldValue(`techSpecs[${index}].value`, [
-      ...techSpecs[index].value,
-      { subvalue: "" },
+  function handleAddSubValue(index, value, name) {
+    value.push({ name: name.name, title: "", value: "" });
+    formik.setFieldValue(`value[${index}]`, [
+      ...value,
+      { name: name.name, title: "", value: "" },
     ]);
   }
   function handleRemoveTechSpecs(index) {
@@ -77,22 +76,20 @@ export default function VariableSelects({ formik, techSpecs }) {
       techSpecs.filter((item, i) => i !== index)
     );
   }
-  function handleRemoveSubValue({ index, subIndex }) {
-    formik.setFieldValue(
-      `techSpecs[${index}].value`,
-      techSpecs[index].value.filter((item, i) => i !== subIndex)
-    );
-  }
-
-  // console.log(techSpecs[0].screenSize[0].value);
-  //handle update techSpecs
   function handleUpdateTechSpecs(index, value) {
     const obj = {};
     if (value.value === undefined) {
       value.value = value.title;
     }
-    obj[value.value] = [{ name: value.title, title: "", value: [""] }];
+    obj[value.value] = [{ name: value.title, title: "", value: "" }];
     formik.setFieldValue(`techSpecs[${index}]`, obj);
+  }
+  function handleRemoveSub(index, array) {
+    formik.setFieldValue("array", array.splice(index, 1));
+  }
+  function handleUpdateSubvalue(array, index, value) {
+    console.log(array, index, value);
+    formik.setFieldValue(`array[${index}].value`, value);
   }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
@@ -122,7 +119,6 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((item, index) => (
             <>
-              {console.log(item[Object.keys(item)[0]][0])}
               <Stack
                 key={index}
                 direction="row"
@@ -138,8 +134,8 @@ export default function VariableSelects({ formik, techSpecs }) {
                   <Iconify icon="ep:delete" />
                 </IconButton>
                 <Autocomplete
-                  value={`${item[Object.keys(item)[0]][0].name}`}
-                  name="techSpecs"
+                  value={item[Object.keys(item)[0]][0].name}
+                  // name="techSpecs"
                   isOptionEqualToValue={(option, value) =>
                     option.title === value
                   }
@@ -196,40 +192,56 @@ export default function VariableSelects({ formik, techSpecs }) {
                   alignItems="center"
                   spacing={1}
                 >
-                  {item[Object.keys(item)[0]][0].value.map((item, i) => (
-                    <Typography key={i}>asd</Typography>
-                    // <TextField
-                    //   key={i}
-                    //   fullWidth
-                    //   sx={{ width: 200 }}
-                    //   name={`techSpecs.${index}.value.${i}.subvalue`}
-                    //   id={`techSpecs.${index}.value.${i}.subvalue`}
-                    //   placeholder="1GB, 15.6 inch, 1.6GHz, 16GB, 1TB"
-                    //   value={techSpecs[index].value[i].subvalue}
-                    //   onChange={formik.handleChange}
-                    //   InputProps={{
-                    //     endAdornment: (
-                    //       <InputAdornment position="end">
-                    //         <IconButton
-                    //           aria-label="delete"
-                    //           size="small"
-                    //           color="primary"
-                    //           onClick={() => handleRemoveSubValue(index, i)}
-                    //         >
-                    //           <TrashIcon width="16" height="16" />
-                    //         </IconButton>
-                    //       </InputAdornment>
-                    //     ),
-                    //   }}
-                    //   // error={formik.touched.nameuz && Boolean(formik.errors.nameuz)}
-                    //   // helperText={formik.touched.nameuz && formik.errors.nameuz}
-                    // />
+                  {item[Object.keys(item)[0]].map((subItem, i) => (
+                    <>
+                      <TextField
+                        // key={i}
+                        fullWidth
+                        sx={{ width: 200 }}
+                        name="subItem.title"
+                        placeholder="1GB, 15.6 inch, 1.6GHz, 16GB, 1TB"
+                        value={subItem.value}
+                        onChange={(event, newValue) =>
+                          handleUpdateSubvalue(
+                            item[Object.keys(item)[0]],
+                            i,
+                            newValue
+                          )
+                        }
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="delete"
+                                disabled={
+                                  item[Object.keys(item)[0]].length === 1
+                                }
+                                size="small"
+                                color="primary"
+                                onClick={() =>
+                                  handleRemoveSub(i, item[Object.keys(item)[0]])
+                                }
+                              >
+                                <TrashIcon width="16" height="16" />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      {/* {console.log(subItem)} */}
+                    </>
                   ))}
                   <IconButton
                     aria-label="delete"
                     size="medium"
                     color="primary"
-                    onClick={() => handleAddSubValue(index)}
+                    onClick={() =>
+                      handleAddSubValue(
+                        index,
+                        item[Object.keys(item)[0]],
+                        item[Object.keys(item)[0]][0]
+                      )
+                    }
                   >
                     <Iconify icon="akar-icons:circle-plus-fill" />
                   </IconButton>

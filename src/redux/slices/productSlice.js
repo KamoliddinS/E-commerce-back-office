@@ -20,17 +20,7 @@ const productSlice = createSlice({
             {
               name: "",
               title: "",
-              value: [""],
-            },
-            {
-              name: "",
-              title: "",
-              value: [""],
-            },
-            {
-              name: "",
-              title: "",
-              value: [""],
+              value: "",
             },
           ],
         },
