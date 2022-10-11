@@ -54,25 +54,18 @@ export default function AddShopModal({ open, handleClose }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-        // create form data with values data
-        const formData = new FormData();
+        let data = new FormData();
     
-        formData.append("name", values.name);
-        formData.append("zip", values.zip);
-        formData.append("region", values.region);
-        formData.append("district", values.district);
-        formData.append("street", values.street);
-        formData.append("room", values.room);
-        formData.append("home", values.home);
-        formData.append("image", avatar);
+        data.append("name", values.name);
+        data.append("zip", values.zip);
+        data.append("region", values.region);
+        data.append("district", values.district);
+        data.append("street", values.street);
+        data.append("room", values.room);
+        data.append("home", values.home);
+        data.append("image", avatar);
         
-        // log data from formData
-        
-        // for (var pair of formData.entries()) {
-        //     console.log(pair[0]+ ', ' + JSON.stringify(pair[1])); 
-        // }
-        dispatch(createShop(token, formData));
-        
+        dispatch(createShop({token, data}));
     },
   });
 
@@ -88,7 +81,7 @@ export default function AddShopModal({ open, handleClose }) {
           })
         );
       }
-      console.log(avatar);
+
     },
     [avatar]
   );
@@ -198,11 +191,11 @@ export default function AddShopModal({ open, handleClose }) {
               label={t("shop.house_number")}
               type="text"
               fullWidth
-              value={formik.values.home}
-              name="home"
+              value={formik.values.home}name="home"
               error={formik.touched.home && Boolean(formik.errors.home)}
               helperText={formik.errors.home}
               onChange={formik.handleChange}
+              
             />
           </Stack>
         </DialogContent>
