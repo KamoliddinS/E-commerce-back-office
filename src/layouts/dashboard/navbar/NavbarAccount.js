@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import {setCurrentShop} from '../../../redux/slices/shopSlice'
+import { setCurrentShop } from "../../../redux/slices/shopSlice";
 // @mui
 import { styled } from "@mui/material/styles";
 import {
@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 // components
 import AddShopModal from "../../../components/shop/AddShopModal";
 // icons
-import {AddIcon} from '../../../components/Icons'
+import { AddIcon } from "../../../components/Icons";
 
 // ----------------------------------------------------------------------
 
@@ -47,20 +47,22 @@ export default function NavbarAccount({ isCollapse }) {
   const [open, setOpen] = useState(false);
 
   const handleChange = (event) => {
-    dispatch(setCurrentShop(event.target.value))
+    dispatch(setCurrentShop(event.target.value));
   };
 
   const { t } = useTranslation();
 
   const userData = useSelector((state) => state.user.data);
   const shops = useSelector((state) => state.shop.shops);
+  const currentShop = useSelector((state) => state.shop.currentShop);
+  console.log(currentShop);
 
   useEffect(() => {
     if (shops.length > 0) {
-      dispatch(setCurrentShop(shops[0]))
+      dispatch(setCurrentShop(shops[0]));
     }
-  }, [shops])
-  
+  }, [shops]);
+
   function handleClose() {
     setOpen(false);
   }
@@ -74,53 +76,46 @@ export default function NavbarAccount({ isCollapse }) {
           }),
         }}
       >
-        <AddShopModal open={open}  handleClose={handleClose}/>
+        <AddShopModal open={open} handleClose={handleClose} />
         <FormControl fullWidth>
-          {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            defaultValue={shops.length !== 0 ? shops[0].name : "No Shop"}
+            defaultValue={currentShop}
+            value={currentShop}
             onChange={handleChange}
           >
-            {shops.map((shop) => (
-              <MenuItem value={shop} key={shop._id} sx={{display: 'flex'}}>
-                <Box sx={{display: 'flex'}}>
-                <Avatar
-                  src="https://minimal-assets-api-dev.vercel.app/assets/images/avatars/avatar_5.jpg"
-                  alt={userData.name}
-                />
+            {shops.map((shop, i) => (
+              <MenuItem value={shop} key={shop._id} sx={{ display: "flex" }}>
+                <Box sx={{ display: "flex" }}>
+                  <Avatar src={shop.image} alt={userData.name} />
 
-                <Box
-                  sx={{
-                    ml: 2,
-                    transition: (theme) =>
-                      theme.transitions.create("width", {
-                        duration: theme.transitions.duration.shorter,
+                  <Box
+                    sx={{
+                      ml: 2,
+                      transition: (theme) =>
+                        theme.transitions.create("width", {
+                          duration: theme.transitions.duration.shorter,
+                        }),
+                      ...(isCollapse && {
+                        ml: 0,
+                        width: 0,
                       }),
-                    ...(isCollapse && {
-                      ml: 0,
-                      width: 0,
-                    }),
-                  }}
-                >
-                  <Typography variant="subtitle2" noWrap>
-                    {shop.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    noWrap
-                    sx={{ color: "text.secondary" }}
+                    }}
                   >
-                    {t("shop.shop")}
-                  </Typography>
+                    <Typography variant="subtitle2" noWrap>
+                      {shop.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      noWrap
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {t("shop.shop")}
+                    </Typography>
+                  </Box>
                 </Box>
-                </Box>
-              
               </MenuItem>
             ))}
             <MenuItem onClick={() => setOpen(true)}>
-              
               <Box
                 sx={{
                   ml: 2,
@@ -132,16 +127,15 @@ export default function NavbarAccount({ isCollapse }) {
                     ml: 0,
                     width: 0,
                   }),
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '6px 0px'
+                  display: "flex",
+                  alignItems: "center",
+                  // padding: "6px 0px",
                 }}
               >
-                <Typography variant="subtitle2" sx={{mr: '5px'}} noWrap>
-                  {t("shop.add")} 
+                <Typography variant="subtitle2" sx={{ mr: "5px" }} noWrap>
+                  {t("shop.add")}
                 </Typography>
                 <AddIcon />
-
               </Box>
             </MenuItem>
           </Select>

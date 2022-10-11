@@ -19,22 +19,21 @@ export const getShops = createAsyncThunk("shop/getShops", async (token) => {
 
 export const createShop = createAsyncThunk("shop/createShop", async (data) => {
   var config = {
-    method: 'post',
-    url: 'https://realsoft-e-commerce.herokuapp.com/api/shops/create',
-    headers: { 
-      'Authorization': `Bearer ${data.token}`, 
+    method: "post",
+    url: "https://realsoft-e-commerce.herokuapp.com/api/shops/create",
+    headers: {
+      Authorization: `Bearer ${data.token}`,
     },
-    data : data.data
+    data: data.data,
   };
-  
-  axios(config)
-  .then(function (response) {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
 
+  axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
 const shopSlice = createSlice({
