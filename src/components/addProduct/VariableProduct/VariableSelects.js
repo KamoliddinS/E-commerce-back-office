@@ -1,19 +1,9 @@
 import React from "react";
 import {
   Typography,
-  Breadcrumbs,
   Divider,
-  Box,
   Stack,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  OutlinedInput,
-  InputAdornment,
   TextField,
   IconButton,
 } from "@mui/material";
@@ -21,15 +11,6 @@ import Iconify from "../../Iconify";
 import { useSelector } from "react-redux";
 import { TrashIcon } from "../../Icons";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-
-const colors = [
-  { name: "Black", hex: "#000000" },
-  { name: "White", hex: "#ffffff" },
-  { name: "Red", hex: "#d51919" },
-  { name: "Green", hex: "#00AB55" },
-  { name: "Blue", hex: "#076be7" },
-  { name: "Yellow", hex: "#ffc800e3" },
-];
 
 const techSpecsItems = [
   { title: "Screen Size", value: "screenSize" },
@@ -41,34 +22,21 @@ const techSpecsItems = [
   { title: "Camera", value: "camera" },
   { title: "OS", value: "os" },
 ];
-
-// const techSpecsItems = [
-//   "Screen Size",
-//   "Screen Resolution",
-//   "Processor",
-//   "RAM",
-//   "Storage",
-//   "Battery",
-//   "Camera",
-//   "OS",
-// ];
 export default function VariableSelects({ formik, techSpecs }) {
   const product = useSelector((state) => state.product.product);
   const filter = createFilterOptions();
   const { category, subcategory } = product;
 
-  // const [value, setValue] = React.useState(null);
-
   function handleAddTechSpecs(techName, techTitle) {
     formik.setFieldValue("techSpecs", [
       ...techSpecs,
-      { [techName]: [{ name: techTitle, title: "", value: [""] }] },
+      { [techName]: [{ name: techTitle, title: "", value: "" }] },
     ]);
   }
-  function handleAddSubValue(index) {
-    formik.setFieldValue(`techSpecs[${index}].value`, [
-      ...techSpecs[index].value,
-      { subvalue: "" },
+  function handleAddSubValue(index, value, name) {
+    formik.setFieldValue(`techSpecs[${index}].${name}`, [
+      ...value,
+      { name: name.name, title: "", value: "" },
     ]);
   }
   function handleRemoveTechSpecs(index) {
@@ -77,22 +45,19 @@ export default function VariableSelects({ formik, techSpecs }) {
       techSpecs.filter((item, i) => i !== index)
     );
   }
-  function handleRemoveSubValue({ index, subIndex }) {
-    formik.setFieldValue(
-      `techSpecs[${index}].value`,
-      techSpecs[index].value.filter((item, i) => i !== subIndex)
-    );
-  }
-
-  // console.log(techSpecs[0].screenSize[0].value);
-  //handle update techSpecs
   function handleUpdateTechSpecs(index, value) {
     const obj = {};
     if (value.value === undefined) {
       value.value = value.title;
     }
-    obj[value.value] = [{ name: value.title, title: "", value: [""] }];
+    obj[value.value] = [{ name: value.title, title: "", value: "" }];
     formik.setFieldValue(`techSpecs[${index}]`, obj);
+  }
+  function handleRemoveSubValue(index, subIndex, item) {
+    formik.setFieldValue(
+      `techSpecs[${index}].${item}`,
+      techSpecs[index][item].filter((item, i) => i !== subIndex)
+    );
   }
   const breadcrumbs = [
     <Typography key="3" color="text.primary">
@@ -111,7 +76,7 @@ export default function VariableSelects({ formik, techSpecs }) {
       <Divider />
       <Stack
         sx={{ mt: 6, mb: 6 }}
-        direction="row"
+        direction="column"
         alignItems="flex-start"
         spacing={2}
       >
@@ -122,11 +87,10 @@ export default function VariableSelects({ formik, techSpecs }) {
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((item, index) => (
             <>
-              {console.log(item[Object.keys(item)[0]][0])}
               <Stack
                 key={index}
                 direction="row"
-                alignItems="center"
+                alignItems="flex-start"
                 spacing={1}
               >
                 <IconButton
@@ -138,12 +102,10 @@ export default function VariableSelects({ formik, techSpecs }) {
                   <Iconify icon="ep:delete" />
                 </IconButton>
                 <Autocomplete
-                  value={`${item[Object.keys(item)[0]][0].name}`}
-                  name="techSpecs"
+                  value={item[Object.keys(item)[0]][0].name}
                   isOptionEqualToValue={(option, value) =>
                     option.title === value
                   }
-                  // onChange={formik.handleChange}
                   onChange={(event, newValue) => {
                     handleUpdateTechSpecs(index, newValue);
                   }}
@@ -151,7 +113,6 @@ export default function VariableSelects({ formik, techSpecs }) {
                     const filtered = filter(options, params);
 
                     const { inputValue } = params;
-                    // Suggest the creation of a new value
                     const isExisting = options.some(
                       (option) => inputValue === option.title
                     );
@@ -164,8 +125,6 @@ export default function VariableSelects({ formik, techSpecs }) {
 
                     return filtered;
                   }}
-                  // selectOnFocus
-                  // clearOnBlur
                   handleHomeEndKeys
                   id="free-solo-with-text-demo"
                   options={techSpecsItems}
@@ -194,42 +153,72 @@ export default function VariableSelects({ formik, techSpecs }) {
                   flexWrap="wrap"
                   direction="row"
                   alignItems="center"
-                  spacing={1}
+                  // spacing={1}
                 >
-                  {item[Object.keys(item)[0]][0].value.map((item, i) => (
-                    <Typography key={i}>asd</Typography>
-                    // <TextField
-                    //   key={i}
-                    //   fullWidth
-                    //   sx={{ width: 200 }}
-                    //   name={`techSpecs.${index}.value.${i}.subvalue`}
-                    //   id={`techSpecs.${index}.value.${i}.subvalue`}
-                    //   placeholder="1GB, 15.6 inch, 1.6GHz, 16GB, 1TB"
-                    //   value={techSpecs[index].value[i].subvalue}
-                    //   onChange={formik.handleChange}
-                    //   InputProps={{
-                    //     endAdornment: (
-                    //       <InputAdornment position="end">
-                    //         <IconButton
-                    //           aria-label="delete"
-                    //           size="small"
-                    //           color="primary"
-                    //           onClick={() => handleRemoveSubValue(index, i)}
-                    //         >
-                    //           <TrashIcon width="16" height="16" />
-                    //         </IconButton>
-                    //       </InputAdornment>
-                    //     ),
-                    //   }}
-                    //   // error={formik.touched.nameuz && Boolean(formik.errors.nameuz)}
-                    //   // helperText={formik.touched.nameuz && formik.errors.nameuz}
-                    // />
+                  {item[Object.keys(item)[0]].map((subItem, i) => (
+                    <>
+                      <Stack
+                        direction="row"
+                        sx={{
+                          p: 1,
+                          border: "1px #80808040 solid",
+                          borderRadius: 1,
+                          mr: 1,
+                          mb: 1,
+                        }}
+                        spacing={1}
+                      >
+                        <TextField
+                          key={i}
+                          size="small"
+                          placeholder="Title"
+                          name={`techSpecs[${index}].${
+                            Object.keys(item)[0]
+                          }[${i}].title`}
+                          sx={{ width: 100 }}
+                          value={subItem.title}
+                          onChange={formik.handleChange}
+                        />
+                        <TextField
+                          placeholder="Value"
+                          size="small"
+                          name={`techSpecs[${index}].${
+                            Object.keys(item)[0]
+                          }[${i}].value`}
+                          sx={{ width: 100 }}
+                          value={subItem.value}
+                          onChange={formik.handleChange}
+                        />
+                        <IconButton
+                          aria-label="delete"
+                          disabled={item[Object.keys(item)[0]].length === 1}
+                          size="small"
+                          color="primary"
+                          onClick={() => {
+                            handleRemoveSubValue(
+                              index,
+                              i,
+                              Object.keys(item)[0]
+                            );
+                          }}
+                        >
+                          <TrashIcon width="16" height="16" />
+                        </IconButton>
+                      </Stack>
+                    </>
                   ))}
                   <IconButton
                     aria-label="delete"
                     size="medium"
                     color="primary"
-                    onClick={() => handleAddSubValue(index)}
+                    disabled={item[Object.keys(item)[0]].length === 5}
+                    onClick={() =>
+                      handleAddSubValue(
+                        index,
+                        item[Object.keys(item)[0]],
+                        Object.keys(item)[0]
+                      )
+                    }
                   >
                     <Iconify icon="akar-icons:circle-plus-fill" />
                   </IconButton>
@@ -237,8 +226,6 @@ export default function VariableSelects({ formik, techSpecs }) {
               </Stack>
             </>
           ))}
-
-          {/* </Stack> */}
           <Button
             variant="outlined"
             startIcon={<Iconify icon="akar-icons:circle-plus-fill" />}
