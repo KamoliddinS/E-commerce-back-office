@@ -1,5 +1,6 @@
 {
   "title": "Welcome to react using react-i18next uz",
+  "cancel": "To‘uxlatish",
   "nav": {
     "general": "Asosiy",
     "money": "Mablaglar",
@@ -10,7 +11,17 @@
     "addProduct": "Mahsulot qo'shish",
     "orderList": "Buyurtmalar ro'yxati"
   },
-  "seller": "Sotuvchi",
+  "shop": {
+    "shop": "Do'kon",
+    "name": "Do'kon nomi",
+    "add": "Mahsulot qo'shish",
+    "zip_code": "Pochta kodi",
+    "region": "Viloyot",
+    "district": "Tuman",
+    "street": "Kocha",
+    "apartment_number": "Xona raqami",
+    "house_number": "Uy raqami"
+  },
   "description": {
     "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
     "part2": "Switch language between english and german using buttons above."
