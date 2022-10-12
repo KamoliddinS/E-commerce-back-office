@@ -228,8 +228,8 @@ export default function AddProduct() {
           )}
           {activeStep === 2 && (
             <>
-              <GenerateProduct />
-              {/* <GenerateProductsList /> */}
+              {/* <GenerateProduct /> */}
+              <GenerateProductsList />
               <Stack direction="row" justifyContent="space-between" mt={5}>
                 <Button
                   variant="outlined"

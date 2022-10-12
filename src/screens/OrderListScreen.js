@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Typography, Skeleton, Stack } from "@mui/material";
 import ProductList from "../components/productList/ProductList";
 import axios from "axios";
 
@@ -14,7 +14,7 @@ export default function BaseProductLayout() {
   }, []);
   const products = [];
   if (post) {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 24; i++) {
       products.push(post[i]);
     }
   }
@@ -24,6 +24,9 @@ export default function BaseProductLayout() {
       <Typography variant="h4" gutterBottom>
         Order List
       </Typography>
+      {/* <Stack direction="row"> */}
+      {/* </Stack> */}
+
       <ProductList data={products} />
     </>
   );
