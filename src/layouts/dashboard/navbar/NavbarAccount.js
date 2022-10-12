@@ -13,6 +13,7 @@ import {
   FormControl,
   InputLabel,
   Select,
+  Skeleton,
   MenuItem,
 } from "@mui/material";
 // i18n
@@ -53,9 +54,10 @@ export default function NavbarAccount({ isCollapse }) {
   const { t } = useTranslation();
 
   const userData = useSelector((state) => state.user.data);
+  const shop = useSelector((state) => state.shop);
   const shops = useSelector((state) => state.shop.shops);
   const currentShop = useSelector((state) => state.shop.currentShop);
-  console.log(currentShop);
+  const { isLoading, isSuccess, isError } = shop;
 
   useEffect(() => {
     if (shops.length > 0) {
@@ -77,69 +79,72 @@ export default function NavbarAccount({ isCollapse }) {
         }}
       >
         <AddShopModal open={open} handleClose={handleClose} />
-        <FormControl fullWidth>
-          <Select
-            defaultValue={currentShop}
-            value={currentShop}
-            onChange={handleChange}
-          >
-            {shops.map((shop, i) => (
-              <MenuItem value={shop} key={shop._id} sx={{ display: "flex" }}>
-                <Box sx={{ display: "flex" }}>
-                  <Avatar src={shop.image} alt={userData.name} />
+        {isLoading && <Skeleton variant="rounded" height={60} />}
+        {isSuccess && (
+          <FormControl fullWidth>
+            <Select
+              // defaultValue={currentShop}
+              value={currentShop}
+              onChange={handleChange}
+            >
+              {shops.map((shop, i) => (
+                <MenuItem value={shop} key={shop._id} sx={{ display: "flex" }}>
+                  <Box sx={{ display: "flex" }}>
+                    <Avatar src={shop.image} alt={userData.name} />
 
-                  <Box
-                    sx={{
-                      ml: 2,
-                      transition: (theme) =>
-                        theme.transitions.create("width", {
-                          duration: theme.transitions.duration.shorter,
+                    <Box
+                      sx={{
+                        ml: 2,
+                        transition: (theme) =>
+                          theme.transitions.create("width", {
+                            duration: theme.transitions.duration.shorter,
+                          }),
+                        ...(isCollapse && {
+                          ml: 0,
+                          width: 0,
                         }),
-                      ...(isCollapse && {
-                        ml: 0,
-                        width: 0,
-                      }),
-                    }}
-                  >
-                    <Typography variant="subtitle2" noWrap>
-                      {shop.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      noWrap
-                      sx={{ color: "text.secondary" }}
+                      }}
                     >
-                      {t("shop.shop")}
-                    </Typography>
+                      <Typography variant="subtitle2" noWrap>
+                        {shop.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {t("shop.shop")}
+                      </Typography>
+                    </Box>
                   </Box>
+                </MenuItem>
+              ))}
+              <MenuItem onClick={() => setOpen(true)}>
+                <Box
+                  sx={{
+                    ml: 2,
+                    transition: (theme) =>
+                      theme.transitions.create("width", {
+                        duration: theme.transitions.duration.shorter,
+                      }),
+                    ...(isCollapse && {
+                      ml: 0,
+                      width: 0,
+                    }),
+                    display: "flex",
+                    alignItems: "center",
+                    // padding: "6px 0px",
+                  }}
+                >
+                  <Typography variant="subtitle2" sx={{ mr: "5px" }} noWrap>
+                    {t("shop.add")}
+                  </Typography>
+                  <AddIcon />
                 </Box>
               </MenuItem>
-            ))}
-            <MenuItem onClick={() => setOpen(true)}>
-              <Box
-                sx={{
-                  ml: 2,
-                  transition: (theme) =>
-                    theme.transitions.create("width", {
-                      duration: theme.transitions.duration.shorter,
-                    }),
-                  ...(isCollapse && {
-                    ml: 0,
-                    width: 0,
-                  }),
-                  display: "flex",
-                  alignItems: "center",
-                  // padding: "6px 0px",
-                }}
-              >
-                <Typography variant="subtitle2" sx={{ mr: "5px" }} noWrap>
-                  {t("shop.add")}
-                </Typography>
-                <AddIcon />
-              </Box>
-            </MenuItem>
-          </Select>
-        </FormControl>
+            </Select>
+          </FormControl>
+        )}
       </RootStyle>
     </Link>
   );

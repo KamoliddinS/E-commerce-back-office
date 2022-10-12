@@ -53,6 +53,24 @@ export function TrashIcon({ width, height, color }) {
     </svg>
   );
 }
+export function MarkIcon({ width, height, color }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.5 5.88235L4.40306 7.02977C4.79634 7.52947 5.55 7.54 5.95709 7.05149L8.5 4"
+        stroke="#00AB55"
+        stroke-linecap="round"
+      />
+      <circle cx="6" cy="6" r="5.5" stroke="#00AB55" />
+    </svg>
+  );
+}
 export function RusIcon({ width, height, color }) {
   return (
     <svg

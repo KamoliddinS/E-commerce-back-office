@@ -1,172 +1,172 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  Box,
-  Typography,
-  Stack,
-  Divider,
-  Select,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+// import React from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import {
+//   Box,
+//   Typography,
+//   Stack,
+//   Divider,
+//   Select,
+//   MenuItem,
+//   TextField,
+// } from "@mui/material";
 
-export default function GenerateProductsList() {
-  const product = useSelector((state) => state.product.product);
-  const { techSpecs, colors } = product;
+// export default function GenerateProductsList() {
+//   const product = useSelector((state) => state.product.product);
+//   const { techSpecs, colors } = product;
 
-  const techSpecsKeys = Object.keys(techSpecs);
-  console.log("techSpecsKeys", techSpecsKeys);
-  const techSpecsValues = Object.values(techSpecs);
-  console.log("techSpecsValues", techSpecsValues);
-  const techSpecsSubValues = techSpecsValues.map((item) => item.value);
+//   const techSpecsKeys = Object.keys(techSpecs);
+//   console.log("techSpecsKeys", techSpecsKeys);
+//   const techSpecsValues = Object.values(techSpecs);
+//   console.log("techSpecsValues", techSpecsValues);
+//   const techSpecsSubValues = techSpecsValues.map((item) => item.value);
 
-  // generate n amount of products based on colors and techSpecsValues and techSpecsSubValues
+//   // generate n amount of products based on colors and techSpecsValues and techSpecsSubValues
 
-  // const generateProducts = () => {
-  //   const products = [];
-  //   for (let i = 0; i < colors.length; i++) {
-  //     for (let j = 0; j < techSpecsKeys.length; j++) {
-  //       const product = {
-  //         color: colors[i],
-  //         [techSpecsKeys[j]]: techSpecsValues[j],
-  //       };
-  //       products.push(product);
-  //     }
-  //   }
-  //   return products;
-  // };
+//   // const generateProducts = () => {
+//   //   const products = [];
+//   //   for (let i = 0; i < colors.length; i++) {
+//   //     for (let j = 0; j < techSpecsKeys.length; j++) {
+//   //       const product = {
+//   //         color: colors[i],
+//   //         [techSpecsKeys[j]]: techSpecsValues[j],
+//   //       };
+//   //       products.push(product);
+//   //     }
+//   //   }
+//   //   return products;
+//   // };
 
-  const allDimensions = useSelector((state) => state.product);
+//   const allDimensions = useSelector((state) => state.product);
 
-  function generateProducts() {
-    let products = [];
+//   function generateProducts() {
+//     let products = [];
 
-    // const allKeys  =Object.keys(allDimensions)
+//     // const allKeys  =Object.keys(allDimensions)
 
-    // allKeys.forEach((key)=>{
-    //   key.title
+//     // allKeys.forEach((key)=>{
+//     //   key.title
 
-    // })
-    colors.map((color) => {
-      let currentColor = color;
-      let techs = [];
-      techSpecs.map((tech, i) => {
-        techs.push({
-          name: tech.name,
-          value: tech.value[i],
-        });
+//     // })
+//     colors.map((color) => {
+//       let currentColor = color;
+//       let techs = [];
+//       techSpecs.map((tech, i) => {
+//         techs.push({
+//           name: tech.name,
+//           value: tech.value[i],
+//         });
 
-        const product = {
-          color: currentColor,
-          techs,
-        };
-        products.push(product);
-      });
-    });
+//         const product = {
+//           color: currentColor,
+//           techs,
+//         };
+//         products.push(product);
+//       });
+//     });
 
-    return products;
-  }
+//     return products;
+//   }
 
-  console.log("generateProducts", generateProducts());
+//   console.log("generateProducts", generateProducts());
 
-  return (
-    <>
-      <Box>
-        {/* {colors.map((color, i) => (
-          <Box key={i}>
-            <GeneratedProductItem color={color} techSpecs={techSpecs} />
-          </Box>
-        ))} */}
-      </Box>
-    </>
-  );
-}
+//   return (
+//     <>
+//       <Box>
+//         {/* {colors.map((color, i) => (
+//           <Box key={i}>
+//             <GeneratedProductItem color={color} techSpecs={techSpecs} />
+//           </Box>
+//         ))} */}
+//       </Box>
+//     </>
+//   );
+// }
 
-function GeneratedProductItem({ color, techSpecs }) {
-  const [value, setValue] = React.useState([]);
-  console.log(value);
-  const handleChange = (event) => {
-    setValue((value) => [...value, event.target.value]);
-  };
-  return (
-    <Box>
-      <Stack direction="row" mt={2} mb={2} spacing={5}>
-        <Stack direction="column" alignItems="center">
-          <Typography variant="body1">Rang</Typography>
-          <Box
-            sx={{
-              mt: 1,
-              width: 20,
-              height: 20,
-              display: "flex",
-              borderRadius: "50%",
-              position: "relative",
-              // marginRight: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              bgcolor: color,
-              border: "1px solid #e0e0e0",
-              boxShadow: "0 8px 16px 0 rgb(0 0 0 / 15%)",
-              transition: (theme) =>
-                theme.transitions.create("all", {
-                  duration: theme.transitions.duration.shortest,
-                }),
-            }}
-          ></Box>
-        </Stack>
-        {techSpecs.map((item, i) => (
-          <Stack
-            direction="column"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="body1">{item.name}</Typography>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              size="small"
-              width="100%"
-              value={value}
-              label="Age"
-              onChange={handleChange}
-            >
-              {item.value.map((item) => (
-                <MenuItem value={item.subvalue}>{item.subvalue}</MenuItem>
-              ))}
-            </Select>
+// function GeneratedProductItem({ color, techSpecs }) {
+//   const [value, setValue] = React.useState([]);
+//   console.log(value);
+//   const handleChange = (event) => {
+//     setValue((value) => [...value, event.target.value]);
+//   };
+//   return (
+//     <Box>
+//       <Stack direction="row" mt={2} mb={2} spacing={5}>
+//         <Stack direction="column" alignItems="center">
+//           <Typography variant="body1">Rang</Typography>
+//           <Box
+//             sx={{
+//               mt: 1,
+//               width: 20,
+//               height: 20,
+//               display: "flex",
+//               borderRadius: "50%",
+//               position: "relative",
+//               // marginRight: 1,
+//               alignItems: "center",
+//               justifyContent: "center",
+//               bgcolor: color,
+//               border: "1px solid #e0e0e0",
+//               boxShadow: "0 8px 16px 0 rgb(0 0 0 / 15%)",
+//               transition: (theme) =>
+//                 theme.transitions.create("all", {
+//                   duration: theme.transitions.duration.shortest,
+//                 }),
+//             }}
+//           ></Box>
+//         </Stack>
+//         {techSpecs.map((item, i) => (
+//           <Stack
+//             direction="column"
+//             alignItems="center"
+//             justifyContent="space-between"
+//           >
+//             <Typography variant="body1">{item.name}</Typography>
+//             <Select
+//               labelId="demo-simple-select-label"
+//               id="demo-simple-select"
+//               size="small"
+//               width="100%"
+//               value={value}
+//               label="Age"
+//               onChange={handleChange}
+//             >
+//               {item.value.map((item) => (
+//                 <MenuItem value={item.subvalue}>{item.subvalue}</MenuItem>
+//               ))}
+//             </Select>
 
-            {/* <Typography variant="body2">{item.subvalue}</Typography> */}
-          </Stack>
-        ))}
+//             {/* <Typography variant="body2">{item.subvalue}</Typography> */}
+//           </Stack>
+//         ))}
 
-        <Stack
-          direction="column"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="body1">Mavjud tovarlar soni</Typography>
-          <TextField
-            placeholder="0"
-            id="outlined-size-small"
-            type="number"
-            size="small"
-          />
-        </Stack>
-        <Stack
-          direction="column"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="body1">Narx</Typography>
-          <TextField
-            type="number"
-            placeholder="0"
-            id="outlined-size-small"
-            size="small"
-          />
-        </Stack>
-      </Stack>
-      <Divider />
-    </Box>
-  );
-}
+//         <Stack
+//           direction="column"
+//           alignItems="center"
+//           justifyContent="space-between"
+//         >
+//           <Typography variant="body1">Mavjud tovarlar soni</Typography>
+//           <TextField
+//             placeholder="0"
+//             id="outlined-size-small"
+//             type="number"
+//             size="small"
+//           />
+//         </Stack>
+//         <Stack
+//           direction="column"
+//           alignItems="center"
+//           justifyContent="space-between"
+//         >
+//           <Typography variant="body1">Narx</Typography>
+//           <TextField
+//             type="number"
+//             placeholder="0"
+//             id="outlined-size-small"
+//             size="small"
+//           />
+//         </Stack>
+//       </Stack>
+//       <Divider />
+//     </Box>
+//   );
+// }

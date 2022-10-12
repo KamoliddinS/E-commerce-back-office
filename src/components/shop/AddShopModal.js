@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from "react";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import {createShop} from '../../redux/slices/shopSlice';
+import { createShop } from "../../redux/slices/shopSlice";
 // import { addShop } from "../../redux/slices/shopSlice";
 import { useTranslation } from "react-i18next";
 // formik
@@ -53,22 +53,22 @@ export default function AddShopModal({ open, handleClose }) {
       home: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-        let data = new FormData();
-    
-        data.append("name", values.name);
-        data.append("zip", values.zip);
-        data.append("region", values.region);
-        data.append("district", values.district);
-        data.append("street", values.street);
-        data.append("room", values.room);
-        data.append("home", values.home);
-        data.append("image", avatar);
-        
-        dispatch(createShop({token, data}));
+    onSubmit: (values, location) => {
+      let data = new FormData();
+
+      data.append("name", values.name);
+      data.append("zip", values.zip);
+      data.append("region", values.region);
+      data.append("district", values.district);
+      data.append("street", values.street);
+      data.append("room", values.room);
+      data.append("home", values.home);
+      data.append("image", avatar);
+
+      dispatch(createShop({ token, data }));
+      handleClose();
     },
   });
-
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
@@ -81,7 +81,6 @@ export default function AddShopModal({ open, handleClose }) {
           })
         );
       }
-
     },
     [avatar]
   );
@@ -191,11 +190,11 @@ export default function AddShopModal({ open, handleClose }) {
               label={t("shop.house_number")}
               type="text"
               fullWidth
-              value={formik.values.home}name="home"
+              value={formik.values.home}
+              name="home"
               error={formik.touched.home && Boolean(formik.errors.home)}
               helperText={formik.errors.home}
               onChange={formik.handleChange}
-              
             />
           </Stack>
         </DialogContent>
