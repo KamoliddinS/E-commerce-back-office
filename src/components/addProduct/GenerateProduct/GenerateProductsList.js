@@ -33,6 +33,7 @@ export default function GenerateProductsList({formik}) {
         value.map((value, valueIndex) => {
           let obj = {};
           obj[Object.keys(techSpecs[specIndex])[0]] = value;
+          console.log(obj);
           variation.push(obj);
         });
       });
@@ -58,6 +59,16 @@ function GeneratedProductItem() {
   const product = useSelector((state) => state.product.product);
   const variations = useSelector((state) => state.variation.all);
   const { techSpecs } = product;
+
+  function handleChange (index, event) {
+    // dispatch(
+    //   updateVariation({
+    //     index: index,
+    //     name: event.target.name,
+    //     value: event.target.value,
+    //   })
+    // );
+  };
 
   function createData(
     name,
@@ -107,6 +118,8 @@ function GeneratedProductItem() {
         "90 000"
       )
     );
+
+    console.log(rows);
   });
 
   return (
@@ -144,6 +157,8 @@ function GeneratedProductItem() {
                     size="small"
                     variant="outlined"
                     placeholder="Штрихкод"
+                    onChange={(e) => handleChange(e.target.value, "barcode", index)}
+                    
                   />
                 </TableCell>
                 <TableCell align="center">

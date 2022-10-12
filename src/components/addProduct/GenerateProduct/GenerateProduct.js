@@ -24,7 +24,6 @@ export default function GenerateProduct({ files }) {
 
   const products = generateProducts();
 
-  console.log("products", products);
 
   // const mainImage = files[0].preview;
 

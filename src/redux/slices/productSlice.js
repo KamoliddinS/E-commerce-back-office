@@ -21,6 +21,8 @@ const productSlice = createSlice({
               name: "",
               title: "",
               value: "",
+              price: "",
+              
             },
           ],
         },
