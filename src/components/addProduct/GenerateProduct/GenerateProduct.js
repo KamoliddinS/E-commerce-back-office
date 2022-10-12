@@ -25,14 +25,7 @@ export default function GenerateProduct({ files }) {
       <Typography variant="body2" color="text.secondary" gutterBottom>
         Mahsulot toifasi
       </Typography>
-      <Typography variant="body1" gutterBottom>
-        <Breadcrumbs
-          separator={<Iconify icon="mdi:chevron-right" />}
-          aria-label="breadcrumb"
-        >
-          {breadcrumbs}
-        </Breadcrumbs>
-      </Typography>
+      
       <Divider />
       {/* <Stack direction="row" alignItems="center" mt={2} mb={2} spacing={5}>
         <Image

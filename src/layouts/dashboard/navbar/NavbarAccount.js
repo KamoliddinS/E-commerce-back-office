@@ -54,6 +54,7 @@ export default function NavbarAccount({ isCollapse }) {
 
   const userData = useSelector((state) => state.user.data);
   const shops = useSelector((state) => state.shop.shops);
+  const currentShop = useSelector((state) => state.shop.currentShop);
 
   useEffect(() => {
     if (shops.length > 0) {
@@ -80,7 +81,7 @@ export default function NavbarAccount({ isCollapse }) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            defaultValue={shops.length !== 0 ? shops[0].name : "No Shop"}
+            defaultValue={Object.keys(currentShop).length > 0 ? currentShop._id : ''}
             onChange={handleChange}
           >
             {shops.map((shop) => (

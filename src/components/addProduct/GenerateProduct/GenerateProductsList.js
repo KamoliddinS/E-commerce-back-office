@@ -1,5 +1,8 @@
 import React from "react";
+// redux
 import { useSelector, useDispatch } from "react-redux";
+import { addVariations } from "../../../redux/slices/variationSlice";
+// @mui
 import {
   Box,
   Typography,
@@ -8,164 +11,129 @@ import {
   Select,
   MenuItem,
   TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
 
 export default function GenerateProductsList() {
   const product = useSelector((state) => state.product.product);
-  const { techSpecs, colors } = product;
+  const { techSpecs } = product;
+  const dispatch = useDispatch();
 
-  const techSpecsKeys = Object.keys(techSpecs);
-  console.log("techSpecsKeys", techSpecsKeys);
-  const techSpecsValues = Object.values(techSpecs);
-  console.log("techSpecsValues", techSpecsValues);
-  const techSpecsSubValues = techSpecsValues.map((item) => item.value);
-
-  // generate n amount of products based on colors and techSpecsValues and techSpecsSubValues
-
-  // const generateProducts = () => {
-  //   const products = [];
-  //   for (let i = 0; i < colors.length; i++) {
-  //     for (let j = 0; j < techSpecsKeys.length; j++) {
-  //       const product = {
-  //         color: colors[i],
-  //         [techSpecsKeys[j]]: techSpecsValues[j],
-  //       };
-  //       products.push(product);
-  //     }
-  //   }
-  //   return products;
-  // };
-
-  const allDimensions = useSelector((state) => state.product);
-
-  function generateProducts() {
-    let products = [];
-
-    // const allKeys  =Object.keys(allDimensions)
-
-    // allKeys.forEach((key)=>{
-    //   key.title
-
-    // })
-    colors.map((color) => {
-      let currentColor = color;
-      let techs = [];
-      techSpecs.map((tech, i) => {
-        techs.push({
-          name: tech.name,
-          value: tech.value[i],
-        });
-
-        const product = {
-          color: currentColor,
-          techs,
-        };
-        products.push(product);
-      });
-    });
-
-    return products;
+  function generateVariations(techSpecs) {
+    let variations = [];
+      techSpecs.map((spec, specIndex) => {
+        let variation = [];
+        Object.values(spec).map((value) => {
+          value.map((value, valueIndex) => {
+            let obj = {};
+            obj[Object.keys(techSpecs[specIndex])[0]] = value;
+            variation.push(obj);
+          })
+        })
+        variations.push(variation);
+      })
+      variations = variations.reduce((a, b) => a.flatMap(d => b.map(e => ({...d, ...e}))));
+      dispatch(addVariations(variations));
   }
 
-  console.log("generateProducts", generateProducts());
-
+  generateVariations(techSpecs)
   return (
     <>
       <Box>
-        {/* {colors.map((color, i) => (
-          <Box key={i}>
-            <GeneratedProductItem color={color} techSpecs={techSpecs} />
-          </Box>
-        ))} */}
+        <GeneratedProductItem techSpecs={techSpecs} />
       </Box>
     </>
   );
 }
 
-function GeneratedProductItem({ color, techSpecs }) {
-  const [value, setValue] = React.useState([]);
-  console.log(value);
-  const handleChange = (event) => {
-    setValue((value) => [...value, event.target.value]);
-  };
+function GeneratedProductItem() {
+
+  const product = useSelector((state) => state.product.product);
+  const variations = useSelector((state) => state.variation.all);
+  const { techSpecs } = product;
+
+  function createData( name, barcode, code, price, discount, priceSale, commission, commissionPercentage, revenue ) {
+    return { name, barcode, code, price, discount, priceSale, commission, commissionPercentage, revenue };
+  }
+
+  const rows = [];
+
+  variations.map((variation, index) => {
+    let arr = []
+    Object.entries(variation).map((v) => {
+      arr.push(v[1])
+    })
+    rows.push(createData(
+      arr.map((item, i) => <Typography key={i} component="span" style={{flex: "1 1 100%"}}>{item.title}</Typography>),
+      '',
+      '',
+      '',
+      '',
+      '100 000',
+      '10 000',
+      '10%',
+      '90 000',
+
+      ))
+  })
+
+
+
   return (
     <Box>
-      <Stack direction="row" mt={2} mb={2} spacing={5}>
-        <Stack direction="column" alignItems="center">
-          <Typography variant="body1">Rang</Typography>
-          <Box
-            sx={{
-              mt: 1,
-              width: 20,
-              height: 20,
-              display: "flex",
-              borderRadius: "50%",
-              position: "relative",
-              // marginRight: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              bgcolor: color,
-              border: "1px solid #e0e0e0",
-              boxShadow: "0 8px 16px 0 rgb(0 0 0 / 15%)",
-              transition: (theme) =>
-                theme.transitions.create("all", {
-                  duration: theme.transitions.duration.shortest,
-                }),
-            }}
-          ></Box>
-        </Stack>
-        {techSpecs.map((item, i) => (
-          <Stack
-            direction="column"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="body1">{item.name}</Typography>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              size="small"
-              width="100%"
-              value={value}
-              label="Age"
-              onChange={handleChange}
-            >
-              {item.value.map((item) => (
-                <MenuItem value={item.subvalue}>{item.subvalue}</MenuItem>
-              ))}
-            </Select>
-
-            {/* <Typography variant="body2">{item.subvalue}</Typography> */}
-          </Stack>
-        ))}
-
-        <Stack
-          direction="column"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="body1">Mavjud tovarlar soni</Typography>
-          <TextField
-            placeholder="0"
-            id="outlined-size-small"
-            type="number"
-            size="small"
-          />
-        </Stack>
-        <Stack
-          direction="column"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography variant="body1">Narx</Typography>
-          <TextField
-            type="number"
-            placeholder="0"
-            id="outlined-size-small"
-            size="small"
-          />
-        </Stack>
-      </Stack>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Артикул</TableCell>
+              <TableCell align="center">Штрихкод</TableCell>
+              <TableCell align="center">ИПКУ</TableCell>
+              <TableCell align="center">Цена</TableCell>
+              <TableCell align="center">Скидка</TableCell>
+              <TableCell align="center">Цена продажи</TableCell>
+              <TableCell align="center">Комиссия за шт</TableCell>
+              <TableCell align="center">Комиссия</TableCell>
+              <TableCell align="center">К выводу</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, index) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  {row.name}
+                </TableCell>
+                <TableCell align="center">
+                  <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </TableCell>
+                <TableCell align="center">
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </TableCell>
+                <TableCell align="center">
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </TableCell>
+                <TableCell align="center">
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </TableCell>
+                <TableCell align="center">
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </TableCell>
+                <TableCell align="center">{row.commission}</TableCell>
+                <TableCell align="center">{row.commissionPercentage}</TableCell>
+                <TableCell align="center">{row.revenue}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Divider />
     </Box>
   );

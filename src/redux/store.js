@@ -3,6 +3,7 @@ import userSliceReducer from "./slices/userSlice";
 import eimzoSliceReducer from "./slices/eimzoSlice"
 import productSliceReducer from "./slices/productSlice";
 import shopSliceReducer from "./slices/shopSlice";
+import variationSliceReducer from "./slices/variationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     user: userSliceReducer,
     eimzo: eimzoSliceReducer,
     shop: shopSliceReducer,
+    variation: variationSliceReducer,
   },
 });

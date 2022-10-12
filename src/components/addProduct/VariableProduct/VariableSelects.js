@@ -36,7 +36,7 @@ export default function VariableSelects({ formik, techSpecs }) {
   function handleAddSubValue(index, value, name) {
     formik.setFieldValue(`techSpecs[${index}].${name}`, [
       ...value,
-      { name: name.name, title: "", value: "" },
+      { name: value[0].name, title: "", value: "" },
     ]);
   }
   function handleRemoveTechSpecs(index) {
