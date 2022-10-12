@@ -21,6 +21,7 @@ const techSpecsItems = [
   { title: "Battery", value: "battery" },
   { title: "Camera", value: "camera" },
   { title: "OS", value: "os" },
+  { title: "Color", value: "color" },
 ];
 export default function VariableSelects({ formik, techSpecs }) {
   const product = useSelector((state) => state.product.product);
@@ -181,6 +182,9 @@ export default function VariableSelects({ formik, techSpecs }) {
                         />
                         <TextField
                           placeholder="Value"
+                          type={
+                            Object.keys(item)[0] === "color" ? "color" : "text"
+                          }
                           size="small"
                           name={`techSpecs[${index}].${
                             Object.keys(item)[0]

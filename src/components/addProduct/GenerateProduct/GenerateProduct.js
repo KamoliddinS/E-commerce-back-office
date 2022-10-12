@@ -7,25 +7,49 @@ import GenerateProductsList from "./GenerateProductsList";
 export default function GenerateProduct({ files }) {
   const product = useSelector((state) => state.product.product);
 
-  const { category, subcategory } = product;
+  const { techSpecs } = product;
+
+  // generate n amount of products based on techSpecs
+
+  const generateProducts = () => {
+    const products = [];
+    for (let i = 0; i < techSpecs.length; i++) {
+      const product = {
+        value: techSpecs[i],
+      };
+      products.push(product);
+    }
+    return products;
+  };
+
+  const products = generateProducts();
+
+  console.log("products", products);
 
   // const mainImage = files[0].preview;
 
-  const breadcrumbs = [
-    <Typography key="3" color="text.primary">
-      {category}
-    </Typography>,
-    <Typography key="3" color="text.primary">
-      {subcategory}
-    </Typography>,
-  ];
+  // const breadcrumbs = [
+  //   <Typography key="3" color="text.primary">
+  //     {category}
+  //   </Typography>,
+  //   <Typography key="3" color="text.primary">
+  //     {subcategory}
+  //   </Typography>,
+  // ];
 
   return (
     <>
       <Typography variant="body2" color="text.secondary" gutterBottom>
         Mahsulot toifasi
       </Typography>
-      
+      {/* <Typography variant="body1" gutterBottom>
+        <Breadcrumbs
+          separator={<Iconify icon="mdi:chevron-right" />}
+          aria-label="breadcrumb"
+        >
+          {breadcrumbs}
+        </Breadcrumbs>
+      </Typography> */}
       <Divider />
       {/* <Stack direction="row" alignItems="center" mt={2} mb={2} spacing={5}>
         <Image
