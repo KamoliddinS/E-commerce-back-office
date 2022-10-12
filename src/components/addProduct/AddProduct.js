@@ -229,7 +229,7 @@ export default function AddProduct() {
           {activeStep === 2 && (
             <>
               <GenerateProduct />
-              {/* <GenerateProductsList /> */}
+              <GenerateProductsList formik={formik} />
               <Stack direction="row" justifyContent="space-between" mt={5}>
                 <Button
                   variant="outlined"

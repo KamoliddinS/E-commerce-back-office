@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const variationSlice = createSlice({
   name: "product",
   initialState: {
-    all: []
+    all: [],
+    completed: [],
   },
   reducers: {
     addVariations(state, action){
