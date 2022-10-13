@@ -135,12 +135,19 @@ function GeneratedProductItem() {
                 <TableCell
                   component="th"
                   scope="row"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
                   {row.name}
                 </TableCell>
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Штрихкод"
@@ -149,6 +156,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="ИПКУ"
@@ -157,6 +166,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Цена"
@@ -165,6 +176,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Скидка"
@@ -173,6 +186,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Цена продажи"

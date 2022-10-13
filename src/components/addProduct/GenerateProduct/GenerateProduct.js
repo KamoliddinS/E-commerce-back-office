@@ -9,22 +9,7 @@ export default function GenerateProduct({ files }) {
 
   const { techSpecs } = product;
 
-  // generate n amount of products based on techSpecs
-
-  const generateProducts = () => {
-    const products = [];
-    for (let i = 0; i < techSpecs.length; i++) {
-      const product = {
-        value: techSpecs[i],
-      };
-      products.push(product);
-    }
-    return products;
-  };
-
-  const products = generateProducts();
-
-  console.log("products", products);
+  // generate n amount of products based on techSpecs lenght
 
   // const mainImage = files[0].preview;
 
