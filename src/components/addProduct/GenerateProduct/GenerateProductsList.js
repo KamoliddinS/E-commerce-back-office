@@ -20,7 +20,7 @@ import {
   Paper,
 } from "@mui/material";
 
-export default function GenerateProductsList() {
+export default function GenerateProductsList({formik}) {
   const product = useSelector((state) => state.product.product);
   const { techSpecs } = product;
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ export default function GenerateProductsList() {
   return (
     <>
       <Box>
-        <GeneratedProductItem techSpecs={techSpecs} />
+        <GeneratedProductItem techSpecs={techSpecs} formik={formik}/>
       </Box>
     </>
   );
@@ -148,6 +148,9 @@ function GeneratedProductItem() {
                     id="outlined-basic"
                     label="Outlined"
                     variant="outlined"
+                    size="small"
+                    variant="outlined"
+                    placeholder="Штрихкод"
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -155,6 +158,9 @@ function GeneratedProductItem() {
                     id="outlined-basic"
                     label="Outlined"
                     variant="outlined"
+                    size="small"
+                    variant="outlined"
+                    placeholder="ИПКУ"
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -162,6 +168,9 @@ function GeneratedProductItem() {
                     id="outlined-basic"
                     label="Outlined"
                     variant="outlined"
+                    size="small"
+                    variant="outlined"
+                    placeholder="Цена"
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -169,6 +178,9 @@ function GeneratedProductItem() {
                     id="outlined-basic"
                     label="Outlined"
                     variant="outlined"
+                    size="small"
+                    variant="outlined"
+                    placeholder="Скидка"
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -176,6 +188,9 @@ function GeneratedProductItem() {
                     id="outlined-basic"
                     label="Outlined"
                     variant="outlined"
+                    size="small"
+                    variant="outlined"
+                    placeholder="Цена продажи"
                   />
                 </TableCell>
                 <TableCell align="center">{row.commission}</TableCell>
