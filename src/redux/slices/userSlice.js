@@ -29,6 +29,18 @@ export const getProfile = createAsyncThunk("user/getProfile", async (token) => {
   return response.data;
 });
 
+export const updateProfile = createAsyncThunk("api/users", (user, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = axios.put(`${BASE_URL}/api/store/profile`, user, config);
+  console.log(response);
+  return response;
+});
+
 const userSlice = createSlice({
   name: "userSlice",
   initialState: {
@@ -38,7 +50,6 @@ const userSlice = createSlice({
     photoUrl: "",
     data: {},
     preveliges: [],
-
   },
   reducers: {
     addToken: (state) => {

@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   Typography,
   Box,
@@ -13,9 +14,7 @@ export default function BaseProductMain({ formik, categories }) {
   return (
     <>
       <Box sx={{ width: "50%", marginRight: 5 }}>
-        <Typography variant="h5" gutterBottom>
-          Ma'lumot Qo'shish
-        </Typography>
+        <Typography variant="h5" gutterBottom></Typography>
         <Box
           sx={{
             "& .MuiTextField-root": { width: "100%" },
