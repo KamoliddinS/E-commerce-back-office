@@ -30,7 +30,6 @@ export default function LanguagePopover() {
   };
 
   const handleClose = (option) => {
-    console.log('clicked', option);
     if (option) {
       changeLanguage(option.value);
       localStorage.setItem('lang', option.value);

@@ -20,7 +20,7 @@ export const getShops = createAsyncThunk("shop/getShops", async (token) => {
 export const createShop = createAsyncThunk("shop/createShop", async (data) => {
   var config = {
     method: "post",
-    url: "https://realsoft-e-commerce.herokuapp.com/api/shops/create",
+    url: `${BASE_URL}/api/shops/create`,
     headers: {
       Authorization: `Bearer ${data.token}`,
     },
@@ -29,10 +29,10 @@ export const createShop = createAsyncThunk("shop/createShop", async (data) => {
 
   axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data));
+     return;
     })
     .catch(function (error) {
-      console.log(error);
+      return;
     });
 });
 

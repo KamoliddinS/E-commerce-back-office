@@ -100,7 +100,6 @@ export default function AccountGeneral() {
     dispatch(addPhotoUrl(data[0].path));
   }
 
-  console.log(avatar);
   const formik = useFormik({
     initialValues: {
       email: email,

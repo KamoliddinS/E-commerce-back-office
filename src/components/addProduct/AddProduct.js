@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BaseProductMain from "./BaseProduct/BaseProductMain";
 import BaseProductUpload from "./BaseProduct/BaseProductUpload";
@@ -20,6 +20,7 @@ import {
   onNextStep,
   onBackStep,
   addImages,
+  postBaseProduct,
 } from "../../redux/slices/productSlice";
 import Iconify from "../Iconify";
 import GenerateProduct from "./GenerateProduct/GenerateProduct";
@@ -117,11 +118,30 @@ const companies = [
 export default function AddProduct() {
   const activeStep = useSelector((state) => state.product.activeStep);
   const product = useSelector((state) => state.product.product);
+  const shop = useSelector((state) => state.shop);
+  const token = useSelector((state) => state.user.data.token);
   const dispatch = useDispatch();
 
   const [files, setFiles] = useState([]);
 
   // const { images } = product;
+
+  useEffect(() => {
+    if (product.images.lenght !== 0) {
+      const baseProduct = {
+        name: product.nameuz,
+        shopId: shop.currentShop._id,
+        brand: product.brand.label,
+        mainImage: product.images[0],
+        images: product.images,
+        category: product.category,
+        subcategory: product.subcategory,
+        description: product.descriptionuz,
+      };
+      dispatch(postBaseProduct({token, data: baseProduct}));
+    }
+
+  }, [product.images, shop]);
 
   const handleDropMultiFile = useCallback(
     (acceptedFiles) => {
@@ -141,18 +161,23 @@ export default function AddProduct() {
     setFiles(filteredItems);
   };
 
-  async function handleUpload() {
-    const uploadedImages = await uploadPhoto(files);
-    dispatch(addImages(uploadedImages));
+  function handleUpload() {
+    uploadPhoto(files).then((uploaded) => {
+      dispatch(addImages(uploaded));
+    });
   }
 
   const formik = useFormik({
     initialValues: product,
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      dispatch(addBaseProduct(values));
-      // handleUpload();
       dispatch(onNextStep());
+      if (activeStep === 2) {
+        handleUpload();
+        // dispatch(postBaseProduct());
+      } else {
+        dispatch(addBaseProduct(values));
+      }
     },
   });
 
@@ -241,7 +266,6 @@ export default function AddProduct() {
                 </Button>
                 <Button
                   variant="outlined"
-                  disabled
                   size="large"
                   type="submit"
                   endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
