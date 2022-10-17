@@ -24,6 +24,7 @@ import { fData } from "../../utils/formatNumber";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UploadAvatar } from "../upload";
+import { updateProfile } from "../../redux/slices/userSlice";
 // components
 // import {
 //   FormProvider,
@@ -66,24 +67,12 @@ const districts = [
 
 // ----------------------------------------------------------------------
 // phone number formatter for uzbek phone number
-const phoneNumberFormatter = (value) => {
-  const phoneNumber = value.replace(/[^\d]/g, "");
-  const phoneNumberLength = phoneNumber.length;
-  if (!value) return value;
-  if (phoneNumberLength < 4) return phoneNumber;
-  if (phoneNumberLength < 7)
-    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-  return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-    3,
-    6
-  )}-${phoneNumber.slice(6, 8)}-${phoneNumber.slice(8, 10)}`;
-};
 
 export default function AccountGeneral() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
   const [avatar, setAvatar] = useState();
-  const { firstName, lastName, email, phoneNumber } = user;
+  const { firstName, lastName, email, phoneNumber, token } = user;
   const validationSchema = yup.object({
     email: yup
       .string("Enter your email")
@@ -99,22 +88,24 @@ export default function AccountGeneral() {
     const data = await UploadUserAvatar(file);
     dispatch(addPhotoUrl(data[0].path));
   }
-
   const formik = useFormik({
     initialValues: {
       email: email,
       name: firstName,
       fullname: lastName,
       telephone: phoneNumber,
-      city: "",
-      district: "",
-      address: "",
-      index: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-      handleUploadAvatar(avatar);
+      let user = new FormData();
+      user.append("firstName", values.name);
+      user.append("lastName", values.fullname);
+      user.append("email", values.email);
+      user.append("phoneNumber", values.telephone);
+
+      dispatch(updateProfile(user, token));
+      // alert(JSON.stringify(values, null, 2));
+      // handleUploadAvatar(avatar);
     },
   });
 
@@ -213,68 +204,6 @@ export default function AccountGeneral() {
                   helperText={
                     formik.touched.telephone && formik.errors.telephone
                   }
-                />
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Shahar / Viloyat
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={formik.values.city}
-                    name="city"
-                    label="Shahar / Viloyat"
-                    onChange={formik.handleChange}
-                  >
-                    {cities.map((city, i) => (
-                      <MenuItem key={i} value={city.label}>
-                        {city.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Tuman</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={formik.values.district}
-                    name="district"
-                    label="Tuman"
-                    onChange={formik.handleChange}
-                  >
-                    {districts.map((district, i) => (
-                      <MenuItem key={i} value={district.label}>
-                        {district.value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <TextField
-                  fullWidth
-                  id="address"
-                  type="text"
-                  placeholder="220000"
-                  label="Manzil"
-                  name="address"
-                  value={formik.values.address}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.address && Boolean(formik.errors.address)
-                  }
-                  helperText={formik.touched.address && formik.errors.address}
-                />
-                <TextField
-                  fullWidth
-                  id="index"
-                  type="number"
-                  placeholder="220000"
-                  label="Indeks"
-                  name="index"
-                  value={formik.values.index}
-                  onChange={formik.handleChange}
-                  error={formik.touched.index && Boolean(formik.errors.index)}
-                  helperText={formik.touched.index && formik.errors.index}
                 />
               </Box>
 

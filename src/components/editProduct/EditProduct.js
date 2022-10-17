@@ -1,7 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import BaseProductMain from "./BaseProduct/BaseProductMain";
-import BaseProductUpload from "./BaseProduct/BaseProductUpload";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
+import {
+  addBaseProduct,
+  onNextStep,
+  onBackStep,
+  addImages,
+} from "../../redux/slices/productEditSlice";
 import {
   Card,
   Box,
@@ -12,20 +17,10 @@ import {
   Stack,
   Button,
 } from "@mui/material";
-import VariableSelects from "./VariableProduct/VariableSelects";
-import VariableInputs from "./VariableProduct/VariableInputs";
-import { useFormik } from "formik";
-import {
-  addBaseProduct,
-  onNextStep,
-  onBackStep,
-  addImages,
-  postBaseProduct,
-} from "../../redux/slices/productSlice";
 import Iconify from "../Iconify";
-import GenerateProduct from "./GenerateProduct/GenerateProduct";
-import { uploadPhoto } from "../../helpers/uploadPhoto";
-import GenerateProductsList from "./GenerateProduct/GenerateProductsList";
+import BaseProductMain from "../addProduct/BaseProduct/BaseProductMain";
+import VariableSelects from "../addProduct/VariableProduct/VariableSelects";
+import VariableInputs from "../addProduct/VariableProduct/VariableInputs";
 
 const steps = [
   "Mahsulot m’alumoti",
@@ -115,69 +110,20 @@ const companies = [
     label: "HP",
   },
 ];
-export default function AddProduct() {
-  const activeStep = useSelector((state) => state.product.activeStep);
-  const product = useSelector((state) => state.product.product);
-  const shop = useSelector((state) => state.shop);
-  const token = useSelector((state) => state.user.data.token);
+
+export default function EditProduct() {
+  const activeStep = useSelector((state) => state.productEdit.activeStep);
+  const state = useSelector((state) => state.productEdit);
   const dispatch = useDispatch();
 
-  const [files, setFiles] = useState([]);
-
-  // const { images } = product;
-
-  useEffect(() => {
-    if (product.images.lenght !== 0) {
-      const baseProduct = {
-        name: product.nameuz,
-        shopId: shop.currentShop._id,
-        brand: product.brand.label,
-        mainImage: product.images[0],
-        images: product.images,
-        category: product.category,
-        subcategory: product.subcategory,
-        description: product.descriptionuz,
-      };
-      dispatch(postBaseProduct({token, data: baseProduct}));
-    }
-
-  }, [product.images, shop]);
-
-  const handleDropMultiFile = useCallback(
-    (acceptedFiles) => {
-      setFiles([
-        ...files,
-        ...acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        ),
-      ]);
-    },
-    [files]
-  );
-  const handleRemove = (file) => {
-    const filteredItems = files.filter((_file) => _file !== file);
-    setFiles(filteredItems);
-  };
-
-  function handleUpload() {
-    uploadPhoto(files).then((uploaded) => {
-      dispatch(addImages(uploaded));
-    });
-  }
-
+  const { editMode, product } = state;
   const formik = useFormik({
     initialValues: product,
     // validationSchema: validationSchema,
     onSubmit: (values) => {
+      dispatch(addBaseProduct(values));
+      // handleUpload();
       dispatch(onNextStep());
-      if (activeStep === 2) {
-        handleUpload();
-        // dispatch(postBaseProduct());
-      } else {
-        dispatch(addBaseProduct(values));
-      }
     },
   });
 
@@ -189,7 +135,7 @@ export default function AddProduct() {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Mahsulot Qo'shish
+        Mahsulotni tahrirlash
       </Typography>
 
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -205,11 +151,11 @@ export default function AddProduct() {
             <>
               <Box sx={{ display: "flex" }}>
                 <BaseProductMain formik={formik} categories={categories} />
-                <BaseProductUpload
+                {/* <BaseProductUpload
                   handleDropMultiFile={handleDropMultiFile}
                   files={files}
                   handleRemove={handleRemove}
-                />
+                /> */}
               </Box>
 
               <Stack direction="row" justifyContent="flex-end" mt={5}>
@@ -253,9 +199,7 @@ export default function AddProduct() {
           )}
           {activeStep === 2 && (
             <>
-              {/* <GenerateProduct /> */}
-              <GenerateProductsList formik={formik} />
-
+              {/* <GenerateProductsList />
               <Stack direction="row" justifyContent="space-between" mt={5}>
                 <Button
                   variant="outlined"
@@ -267,13 +211,14 @@ export default function AddProduct() {
                 </Button>
                 <Button
                   variant="outlined"
+                  disabled
                   size="large"
                   type="submit"
                   endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
                 >
                   Yuklash
                 </Button>
-              </Stack>
+              </Stack> */}
             </>
           )}
         </form>

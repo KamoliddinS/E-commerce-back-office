@@ -1,4 +1,3 @@
-
 // LAYOUT
 // ----------------------------------------------------------------------
 
@@ -29,11 +28,11 @@ export const ICON = {
 // ----------------------------------------------------------------------
 
 export const defaultSettings = {
-  themeMode: 'light',
-  themeDirection: 'ltr',
-  themeContrast: 'default',
-  themeLayout: 'horizontal',
-  themeColorPresets: 'blue',
+  themeMode: "light",
+  themeDirection: "ltr",
+  themeContrast: "default",
+  themeLayout: "horizontal",
+  themeColorPresets: "blue",
   themeStretch: false,
 };
 
@@ -43,14 +42,14 @@ export const defaultSettings = {
 
 export const allLangs = [
   {
-    label: 'Uzbek',
-    value: 'uz',
-    icon: '/assets/icons/flags/ic_flag_en.svg',
+    label: "Uzbek",
+    value: "uz",
+    icon: "/assets/icons/flags/ic_flag_uz.svg",
   },
   {
-    label: 'Русский',
-    value: 'ru',
-    icon: '/assets/icons/flags/ic_flag_fr.svg',
+    label: "Русский",
+    value: "ru",
+    icon: "/assets/icons/flags/ic_flag_ru.svg",
   },
 ];
 

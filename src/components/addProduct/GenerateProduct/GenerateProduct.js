@@ -8,7 +8,6 @@ export default function GenerateProduct({ files }) {
   const product = useSelector((state) => state.product.product);
 
   const { techSpecs } = product;
-
   // generate n amount of products based on techSpecs
 
   const generateProducts = () => {

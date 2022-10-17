@@ -154,12 +154,15 @@ function GeneratedProductItem() {
                   component="th"
                   scope="row"
                   sx={{display: "flex", flexDirection: "column", justifyContent: 'center'}}
+
                 >
                   {row.name}
                 </TableCell>
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Штрихкод"
@@ -170,6 +173,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="ИПКУ"
@@ -180,6 +185,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Цена"
@@ -190,6 +197,8 @@ function GeneratedProductItem() {
                 <TableCell align="center">
                   <TextField
                     id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
                     size="small"
                     variant="outlined"
                     placeholder="Скидка"
