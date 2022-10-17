@@ -8,8 +8,21 @@ export default function GenerateProduct({ files }) {
   const product = useSelector((state) => state.product.product);
 
   const { techSpecs } = product;
+  // generate n amount of products based on techSpecs
 
-  // generate n amount of products based on techSpecs lenght
+  const generateProducts = () => {
+    const products = [];
+    for (let i = 0; i < techSpecs.length; i++) {
+      const product = {
+        value: techSpecs[i],
+      };
+      products.push(product);
+    }
+    return products;
+  };
+
+  const products = generateProducts();
+
 
   // const mainImage = files[0].preview;
 

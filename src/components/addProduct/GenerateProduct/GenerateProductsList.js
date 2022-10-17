@@ -1,7 +1,7 @@
 import React from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { addVariations } from "../../../redux/slices/variationSlice";
+import { addVariations, changeVariation } from "../../../redux/slices/variationSlice";
 // @mui
 import {
   Box,
@@ -19,6 +19,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+// utils
+import { numberWithSpaces } from "../../../utils/numberWithSpaces";
 
 export default function GenerateProductsList({formik}) {
   const product = useSelector((state) => state.product.product);
@@ -31,7 +33,17 @@ export default function GenerateProductsList({formik}) {
       let variation = [];
       Object.values(spec).map((value) => {
         value.map((value, valueIndex) => {
-          let obj = {};
+          let obj = {
+            barcode: "",
+            identityCode: "",
+            price: "",
+            discount: "",
+            priceSale: "",
+            commission: "",
+            commissionPercentage: "",
+            revenue: "",
+            
+          };
           obj[Object.keys(techSpecs[specIndex])[0]] = value;
           variation.push(obj);
         });
@@ -58,6 +70,11 @@ function GeneratedProductItem() {
   const product = useSelector((state) => state.product.product);
   const variations = useSelector((state) => state.variation.all);
   const { techSpecs } = product;
+  const dispatch = useDispatch();
+
+  function handleChange (index, prop, value) {
+    dispatch(changeVariation({index, prop, value}));
+  };
 
   function createData(
     name,
@@ -88,7 +105,8 @@ function GeneratedProductItem() {
   variations.map((variation, index) => {
     let arr = [];
     Object.entries(variation).map((v) => {
-      arr.push(v[1]);
+      const obj = { key: v[0], ...v[1] };
+      arr.push(obj);
     });
     rows.push(
       createData(
@@ -117,7 +135,7 @@ function GeneratedProductItem() {
             <TableRow>
               <TableCell>Артикул</TableCell>
               <TableCell align="center">Штрихкод</TableCell>
-              <TableCell align="center">ИПКУ</TableCell>
+              <TableCell align="center">ИКПУ</TableCell>
               <TableCell align="center">Цена</TableCell>
               <TableCell align="center">Скидка</TableCell>
               <TableCell align="center">Цена продажи</TableCell>
@@ -129,17 +147,14 @@ function GeneratedProductItem() {
           <TableBody>
             {rows.map((row, index) => (
               <TableRow
-                key={row.name}
+                key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
                   component="th"
                   scope="row"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  sx={{display: "flex", flexDirection: "column", justifyContent: 'center'}}
+
                 >
                   {row.name}
                 </TableCell>
@@ -151,6 +166,8 @@ function GeneratedProductItem() {
                     size="small"
                     variant="outlined"
                     placeholder="Штрихкод"
+                    onChange={(e) => handleChange(index, 'barcode', e.target.value)}
+                    value={variations[index].barcode}
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -161,6 +178,8 @@ function GeneratedProductItem() {
                     size="small"
                     variant="outlined"
                     placeholder="ИПКУ"
+                    onChange={(e) => handleChange(index, 'identityCode', e.target.value)}
+                    value={variations[index].identityCode}
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -171,6 +190,8 @@ function GeneratedProductItem() {
                     size="small"
                     variant="outlined"
                     placeholder="Цена"
+                    onChange={(e) => handleChange(index, 'price', e.target.value)}
+                    value={variations[index].price}
                   />
                 </TableCell>
                 <TableCell align="center">
@@ -181,21 +202,14 @@ function GeneratedProductItem() {
                     size="small"
                     variant="outlined"
                     placeholder="Скидка"
+                    onChange={(e) => handleChange(index, 'discount', e.target.value)}
+                    value={variations[index].discount}
                   />
                 </TableCell>
-                <TableCell align="center">
-                  <TextField
-                    id="outlined-basic"
-                    label="Outlined"
-                    variant="outlined"
-                    size="small"
-                    variant="outlined"
-                    placeholder="Цена продажи"
-                  />
-                </TableCell>
-                <TableCell align="center">{row.commission}</TableCell>
+                <TableCell align="center">{numberWithSpaces(variations[index].priceSale)}</TableCell>
+                <TableCell align="center">{numberWithSpaces(variations[index].commission)}</TableCell>
                 <TableCell align="center">{row.commissionPercentage}</TableCell>
-                <TableCell align="center">{row.revenue}</TableCell>
+                <TableCell align="center">{numberWithSpaces(variations[index].revenue)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

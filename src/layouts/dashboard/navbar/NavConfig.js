@@ -22,7 +22,6 @@ let money = t('nav.money');
 
 i18next.on('languageChanged init', function (lng) {
   money = t('nav.money');
-  console.log(money);
 });
 
 const navConfig = [

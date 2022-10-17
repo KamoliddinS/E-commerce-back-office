@@ -1,10 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+export const postBaseProduct = createAsyncThunk(
+  "product/baseProduct",
+  async (data) => {
+    var config = {
+      method: "post",
+      url: `${BASE_URL}/api/products/user`,
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      data: data.data,
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
 
 const productSlice = createSlice({
   name: "product",
   initialState: {
     activeStep: 0,
     product: {
+      _id: "",
       nameuz: "",
       nameru: "",
       infouz: "",
@@ -67,9 +86,34 @@ const productSlice = createSlice({
     },
     // add images
     addImages(state, action) {
-      state.product.images = action.payload;
+      const images = [];
+      action.payload.forEach((item, index) => {
+        images.push(item.path);
+      });
+      state.product.images = images;
     },
     //remove image
+  },
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder
+      .addCase(postBaseProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(postBaseProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.product = {
+          ...state.product,
+          ...action.payload
+        };
+        console.log(action.payload);
+      })
+      .addCase(postBaseProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
 });
 

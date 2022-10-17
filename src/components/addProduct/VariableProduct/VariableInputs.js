@@ -14,6 +14,7 @@ export default function VariableSelects({ formik, companies }) {
   const handleChange = (event) => {
     setbrand(event.target.checked);
   };
+
   return (
     <>
       <Stack
@@ -32,8 +33,7 @@ export default function VariableSelects({ formik, companies }) {
         <Autocomplete
           id="brand"
           name="brand"
-          disabled={brand ? true : false}
-          defaultValue="No Brand"
+          disabled={brand}
           options={companies}
           getOptionDisabled={(option) => option.name === "Brend tanlanmagan"}
           autoHighlight={true}
@@ -41,7 +41,8 @@ export default function VariableSelects({ formik, companies }) {
           isOptionEqualToValue={(option, value) => option.value === value.value}
           style={{ width: 300 }}
           onChange={(e, value) => {
-            formik.setFieldValue("brand", value !== null ? value : "No Brand");
+            console.log(value);
+            formik.setFieldValue("brand", (value !== null ? value : "No Brand") || (brand !== true ? value = "No Brand" : '')); 
           }}
           renderInput={(params) => (
             <TextField

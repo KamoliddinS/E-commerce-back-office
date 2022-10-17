@@ -31,13 +31,13 @@ export default function VariableSelects({ formik, techSpecs }) {
   function handleAddTechSpecs(techName, techTitle) {
     formik.setFieldValue("techSpecs", [
       ...techSpecs,
-      { [techName]: [{ name: techTitle, title: "", value: "" }] },
+      { [techName]: [{ name: techTitle, title: "", value: ""}] },
     ]);
   }
   function handleAddSubValue(index, value, name) {
     formik.setFieldValue(`techSpecs[${index}].${name}`, [
       ...value,
-      { name: value[0].name, title: "", value: "" },
+      { name: value[0].name, title: "", value: ""},
     ]);
   }
   function handleRemoveTechSpecs(index) {
@@ -51,7 +51,7 @@ export default function VariableSelects({ formik, techSpecs }) {
     if (value.value === undefined) {
       value.value = value.title;
     }
-    obj[value.value] = [{ name: value.title, title: "", value: "" }];
+    obj[value.value] = [{ name: value.title, title: "", value: ""}];
     formik.setFieldValue(`techSpecs[${index}]`, obj);
   }
   function handleRemoveSubValue(index, subIndex, item) {
