@@ -7,6 +7,7 @@ export default function BaseProduct({
   handleRemove,
   handleUpload,
   files,
+  onUpload,
 }) {
   const [preview, setPreview] = useState(true);
 
@@ -21,7 +22,7 @@ export default function BaseProduct({
         <UploadMultiFile
           showPreview={preview}
           files={files}
-          onUpload={handleUpload}
+          onUpload={onUpload}
           onDrop={handleDropMultiFile}
           onRemove={handleRemove}
         />

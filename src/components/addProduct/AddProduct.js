@@ -121,6 +121,7 @@ export default function AddProduct() {
   const shop = useSelector((state) => state.shop);
   const token = useSelector((state) => state.user.data.token);
   const dispatch = useDispatch();
+  // const variations = useSelector((state) => state.variation.all);
 
   const [files, setFiles] = useState([]);
 
@@ -138,10 +139,25 @@ export default function AddProduct() {
         subcategory: product.subcategory,
         description: product.descriptionuz,
       };
-      dispatch(postBaseProduct({token, data: baseProduct}));
+      dispatch(postBaseProduct({ token, data: baseProduct }));
     }
-
   }, [product.images, shop]);
+
+  // function addVariations () {
+  //   variations.forEach((item) => {
+  //     const vatiation = {
+  //       product: product._id,
+  //       SKU: item.identityCode,
+  //       price: item.price,
+  //       quantity: item.inStock,
+  //       mainImage: product.mainImage,
+  //       images: product.images
+  //       size: variation.size,
+  //       baseProductId: product._id,
+  //     };
+  //     dispatch(postVariation({ token, data: vatiation, id: product._id }));
+  //   }
+  // }
 
   const handleDropMultiFile = useCallback(
     (acceptedFiles) => {
@@ -253,7 +269,7 @@ export default function AddProduct() {
           )}
           {activeStep === 2 && (
             <>
-              {/* <GenerateProduct /> */}
+              {/* <GenerateProduct photo={files[0].preview} /> */}
               <GenerateProductsList formik={formik} />
 
               <Stack direction="row" justifyContent="space-between" mt={5}>
@@ -269,6 +285,27 @@ export default function AddProduct() {
                   variant="outlined"
                   size="large"
                   type="submit"
+                  endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
+                >
+                  Yuklash
+                </Button>
+              </Stack>
+            </>
+          )}
+          {activeStep === 3 && (
+            <>
+              <Stack direction="row" justifyContent="space-between" mt={5}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleBack}
+                  startIcon={<Iconify icon="bi:arrow-left-circle-fill" />}
+                >
+                  Ortga qaytish
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
                   endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
                 >
                   Yuklash

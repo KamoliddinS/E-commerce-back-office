@@ -17,6 +17,21 @@ export const postBaseProduct = createAsyncThunk(
     return response.data;
   }
 );
+// export const postVariations = createAsyncThunk(
+//   "product/variations",
+//   async (data, pId) => {
+//     var config = {
+//       method: "post",
+//       url: `${BASE_URL}/api/products/:${pId}/user/variation`,
+//       headers: {
+//         Authorization: `Bearer ${data.token}`,
+//       },
+//       data: data.data,
+//     };
+//     const response = await axios(config);
+//     return response.data;
+//   }
+// );
 
 const productSlice = createSlice({
   name: "product",
@@ -35,11 +50,30 @@ const productSlice = createSlice({
       images: [],
       techSpecs: [
         {
-          "": [
+          ram: [
             {
-              name: "",
-              title: "",
-              value: "",
+              name: "RAM",
+              title: "8GB",
+              value: "8",
+            },
+            {
+              name: "RAM",
+              title: "16GB",
+              value: "16",
+            },
+          ],
+        },
+        {
+          storage: [
+            {
+              name: "Storage",
+              title: "128GB",
+              value: "128",
+            },
+            {
+              name: "Storage",
+              title: "256GB",
+              value: "256",
             },
           ],
         },
@@ -105,9 +139,8 @@ const productSlice = createSlice({
         state.isSuccess = true;
         state.product = {
           ...state.product,
-          ...action.payload
+          ...action.payload,
         };
-        console.log(action.payload);
       })
       .addCase(postBaseProduct.rejected, (state, action) => {
         state.isLoading = false;
