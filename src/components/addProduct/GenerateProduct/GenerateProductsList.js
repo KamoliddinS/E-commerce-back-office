@@ -37,12 +37,11 @@ export default function GenerateProductsList({ formik }) {
     techSpecs.map((spec, specIndex) => {
       let variation = [];
       Object.values(spec).map((value) => {
-        value.map((subvalue, valueIndex) => {
+        value.map((value, valueIndex) => {
           let obj = {
             barcode: "",
             identityCode: "",
             price: "",
-            inStock: "",
             discount: "",
             priceSale: "",
             commission: "",
@@ -50,23 +49,39 @@ export default function GenerateProductsList({ formik }) {
             revenue: "",
             dimensions: [],
           };
-          // push to dimensions new object
+          // obj[Object.keys(techSpecs[specIndex])[0]] = value;
           obj.dimensions.push({
-            name: value[0].name,
-            title: subvalue.title,
-            value: subvalue.value,
+            [Object.keys(techSpecs[specIndex])[0]]: value,
           });
 
-          // obj[Object.keys(techSpecs[specIndex])[0]] = subvalue;
-          // obj = value;
           variation.push(obj);
         });
       });
       variations.push(variation);
     });
+    // Creatin dimensions from obj
+    let dimensions = [];
+    dimensions = variations.map((variation, index) =>
+      variation.map((v, i) => v.dimensions[0])
+    );
+    // Creating product variations from tech specs
     variations = variations.reduce((a, b) =>
       a.flatMap((d) => b.map((e) => ({ ...d, ...e })))
     );
+    // merging different variations
+    let dimension = dimensions.reduce((a, b) =>
+      a.flatMap((d) => b.map((e) => ({ ...d, ...e })))
+    );
+    // adding dimensions to variations
+    variations.map((variation, index) => {
+      variation.dimensions = [dimension[index]];
+      variation.dimensions = variation.dimensions.map((dim) => {
+        return Object.keys(dim).map((key) => {
+          return { [key]: dim[key] };
+        });
+      });
+      variation.dimensions = variation.dimensions[0];
+    });
     dispatch(addVariations(variations));
   }
 
@@ -123,21 +138,17 @@ function GeneratedProductItem() {
     Object.entries(variation).map((v) => {
       const obj = { key: v[0], ...v[1] };
       arr.push(obj);
+      // console.log(arr);
     });
     rows.push(
       createData(
-        arr.map((item, i) =>
-          item.title === undefined ? (
-            ""
-          ) : (
-            <Chip
-              size="small"
-              key={i}
-              sx={{ mr: 1, mb: 1 }}
-              label={item.title}
-            />
-          )
-        ),
+        variation.dimensions.map((dim) => (
+          <Chip
+            label={Object.values(dim)[0].title}
+            size="small"
+            sx={{ mr: 1, mb: 1 }}
+          />
+        )),
         "",
         "",
         "",

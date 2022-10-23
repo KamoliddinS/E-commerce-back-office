@@ -77,6 +77,20 @@ const productSlice = createSlice({
             },
           ],
         },
+        {
+          color: [
+            {
+              name: "Color",
+              title: "Soft Red",
+              value: "#9f7a7a",
+            },
+            {
+              name: "Color",
+              title: "Red",
+              value: "#770d0d",
+            },
+          ],
+        },
       ],
       brand: "",
       model: "",
