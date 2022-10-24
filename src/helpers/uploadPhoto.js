@@ -33,3 +33,14 @@ export async function UploadUserAvatar(file) {
   );
   return response.data.result;
 }
+
+export async function deleteProduct(id, token) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.delete(`${BASE_URL}/api/products/${id}`, config);
+  console.log(response);
+  return response.data;
+}

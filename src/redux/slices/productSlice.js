@@ -17,21 +17,36 @@ export const postBaseProduct = createAsyncThunk(
     return response.data;
   }
 );
-// export const postVariations = createAsyncThunk(
-//   "product/variations",
-//   async (data, pId) => {
-//     var config = {
-//       method: "post",
-//       url: `${BASE_URL}/api/products/:${pId}/user/variation`,
-//       headers: {
-//         Authorization: `Bearer ${data.token}`,
-//       },
-//       data: data.data,
-//     };
-//     const response = await axios(config);
-//     return response.data;
-//   }
-// );
+export const getProductByShopId = createAsyncThunk(
+  "product/shop",
+  async (data) => {
+    var config = {
+      method: "get",
+      url: `${BASE_URL}/api/products/shop/${data.shopId}`,
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    };
+    const response = await axios(config);
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const deleteProductById = createAsyncThunk(
+  "product/shop",
+  async (data) => {
+    var config = {
+      method: "delete",
+      url: `${BASE_URL}/api/products/${data.pId}`,
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    };
+    const response = await axios(config);
+    console.log(response);
+    return response.data;
+  }
+);
 
 const productSlice = createSlice({
   name: "product",
@@ -48,55 +63,13 @@ const productSlice = createSlice({
       category: "",
       subcategory: "",
       images: [],
-      techSpecs: [
-        {
-          ram: [
-            {
-              name: "RAM",
-              title: "8GB",
-              value: "8",
-            },
-            {
-              name: "RAM",
-              title: "16GB",
-              value: "16",
-            },
-          ],
-        },
-        {
-          storage: [
-            {
-              name: "Storage",
-              title: "128GB",
-              value: "128",
-            },
-            {
-              name: "Storage",
-              title: "256GB",
-              value: "256",
-            },
-          ],
-        },
-        {
-          color: [
-            {
-              name: "Color",
-              title: "Soft Red",
-              value: "#9f7a7a",
-            },
-            {
-              name: "Color",
-              title: "Red",
-              value: "#770d0d",
-            },
-          ],
-        },
-      ],
+      techSpecs: [],
       brand: "",
       model: "",
       madeIn: "",
       warranty: "",
     },
+    productsByShopId: [],
   },
   reducers: {
     onBackStep(state) {
@@ -157,6 +130,19 @@ const productSlice = createSlice({
         };
       })
       .addCase(postBaseProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getProductByShopId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductByShopId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.productsByShopId = action.payload;
+      })
+      .addCase(getProductByShopId.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

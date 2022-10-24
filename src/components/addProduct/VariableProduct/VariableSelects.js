@@ -31,13 +31,13 @@ export default function VariableSelects({ formik, techSpecs }) {
   function handleAddTechSpecs(techName, techTitle) {
     formik.setFieldValue("techSpecs", [
       ...techSpecs,
-      { [techName]: [{ name: techTitle, title: "", value: ""}] },
+      { [techName]: [{ name: techTitle, title: "", value: "" }] },
     ]);
   }
   function handleAddSubValue(index, value, name) {
     formik.setFieldValue(`techSpecs[${index}].${name}`, [
       ...value,
-      { name: value[0].name, title: "", value: ""},
+      { name: value[0].name, title: "", value: "" },
     ]);
   }
   function handleRemoveTechSpecs(index) {
@@ -51,7 +51,7 @@ export default function VariableSelects({ formik, techSpecs }) {
     if (value.value === undefined) {
       value.value = value.title;
     }
-    obj[value.value] = [{ name: value.title, title: "", value: ""}];
+    obj[value.value] = [{ name: value.title, title: "", value: "" }];
     formik.setFieldValue(`techSpecs[${index}]`, obj);
   }
   function handleRemoveSubValue(index, subIndex, item) {
@@ -87,148 +87,135 @@ export default function VariableSelects({ formik, techSpecs }) {
 
         <Stack direction="column" alignItems="flex-start" spacing={2}>
           {techSpecs.map((item, index) => (
-            <>
-              <Stack
-                key={index}
-                direction="row"
-                alignItems="flex-start"
-                spacing={1}
+            <Stack
+              key={index}
+              direction="row"
+              alignItems="flex-start"
+              spacing={1}
+            >
+              <IconButton
+                aria-label="delete"
+                size="large"
+                color="error"
+                onClick={() => handleRemoveTechSpecs(index)}
               >
+                <Iconify icon="ep:delete" />
+              </IconButton>
+              <Autocomplete
+                value={item[Object.keys(item)[0]][0].name}
+                isOptionEqualToValue={(option, value) => option.title === value}
+                onChange={(event, newValue) => {
+                  handleUpdateTechSpecs(index, newValue);
+                }}
+                filterOptions={(options, params) => {
+                  const filtered = filter(options, params);
+
+                  const { inputValue } = params;
+                  const isExisting = options.some(
+                    (option) => inputValue === option.title
+                  );
+                  if (inputValue !== "" && !isExisting) {
+                    filtered.push({
+                      inputValue,
+                      title: `${inputValue}`,
+                    });
+                  }
+
+                  return filtered;
+                }}
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
+                options={techSpecsItems}
+                getOptionLabel={(option) => {
+                  // Value selected with enter, right from the input
+                  if (typeof option === "string") {
+                    return option;
+                  }
+                  // Add "xxx" option created dynamically
+                  if (option.inputValue) {
+                    return option.inputValue;
+                  }
+                  // Regular option
+                  return option.title;
+                }}
+                renderOption={(props, option) => (
+                  <li {...props}>{option.title}</li>
+                )}
+                sx={{ width: 300 }}
+                // freeSolo
+                renderInput={(params) => <TextField type="text" {...params} />}
+              />
+              <Stack
+                flexWrap="wrap"
+                direction="row"
+                alignItems="center"
+                // spacing={1}
+              >
+                {item[Object.keys(item)[0]].map((subItem, i) => (
+                  <Stack
+                    key={i}
+                    direction="row"
+                    sx={{
+                      p: 1,
+                      border: "1px #80808040 solid",
+                      borderRadius: 1,
+                      mr: 1,
+                      mb: 1,
+                    }}
+                    spacing={1}
+                  >
+                    <TextField
+                      key={i}
+                      size="small"
+                      placeholder="Title"
+                      name={`techSpecs[${index}].${
+                        Object.keys(item)[0]
+                      }[${i}].title`}
+                      sx={{ width: 100 }}
+                      value={subItem.title}
+                      onChange={formik.handleChange}
+                    />
+                    <TextField
+                      placeholder="Value"
+                      type={Object.keys(item)[0] === "color" ? "color" : "text"}
+                      size="small"
+                      name={`techSpecs[${index}].${
+                        Object.keys(item)[0]
+                      }[${i}].value`}
+                      sx={{ width: 100 }}
+                      value={subItem.value}
+                      onChange={formik.handleChange}
+                    />
+                    <IconButton
+                      aria-label="delete"
+                      disabled={item[Object.keys(item)[0]].length === 1}
+                      size="small"
+                      color="primary"
+                      onClick={() => {
+                        handleRemoveSubValue(index, i, Object.keys(item)[0]);
+                      }}
+                    >
+                      <TrashIcon width="16" height="16" />
+                    </IconButton>
+                  </Stack>
+                ))}
                 <IconButton
                   aria-label="delete"
-                  size="large"
-                  color="error"
-                  onClick={() => handleRemoveTechSpecs(index)}
-                >
-                  <Iconify icon="ep:delete" />
-                </IconButton>
-                <Autocomplete
-                  value={item[Object.keys(item)[0]][0].name}
-                  isOptionEqualToValue={(option, value) =>
-                    option.title === value
+                  size="medium"
+                  color="primary"
+                  disabled={item[Object.keys(item)[0]].length === 5}
+                  onClick={() =>
+                    handleAddSubValue(
+                      index,
+                      item[Object.keys(item)[0]],
+                      Object.keys(item)[0]
+                    )
                   }
-                  onChange={(event, newValue) => {
-                    handleUpdateTechSpecs(index, newValue);
-                  }}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-
-                    const { inputValue } = params;
-                    const isExisting = options.some(
-                      (option) => inputValue === option.title
-                    );
-                    if (inputValue !== "" && !isExisting) {
-                      filtered.push({
-                        inputValue,
-                        title: `${inputValue}`,
-                      });
-                    }
-
-                    return filtered;
-                  }}
-                  handleHomeEndKeys
-                  id="free-solo-with-text-demo"
-                  options={techSpecsItems}
-                  getOptionLabel={(option) => {
-                    // Value selected with enter, right from the input
-                    if (typeof option === "string") {
-                      return option;
-                    }
-                    // Add "xxx" option created dynamically
-                    if (option.inputValue) {
-                      return option.inputValue;
-                    }
-                    // Regular option
-                    return option.title;
-                  }}
-                  renderOption={(props, option) => (
-                    <li {...props}>{option.title}</li>
-                  )}
-                  sx={{ width: 300 }}
-                  // freeSolo
-                  renderInput={(params) => (
-                    <TextField type="text" {...params} />
-                  )}
-                />
-                <Stack
-                  flexWrap="wrap"
-                  direction="row"
-                  alignItems="center"
-                  // spacing={1}
                 >
-                  {item[Object.keys(item)[0]].map((subItem, i) => (
-                    <>
-                      <Stack
-                        direction="row"
-                        sx={{
-                          p: 1,
-                          border: "1px #80808040 solid",
-                          borderRadius: 1,
-                          mr: 1,
-                          mb: 1,
-                        }}
-                        spacing={1}
-                      >
-                        <TextField
-                          key={i}
-                          size="small"
-                          placeholder="Title"
-                          name={`techSpecs[${index}].${
-                            Object.keys(item)[0]
-                          }[${i}].title`}
-                          sx={{ width: 100 }}
-                          value={subItem.title}
-                          onChange={formik.handleChange}
-                        />
-                        <TextField
-                          placeholder="Value"
-                          type={
-                            Object.keys(item)[0] === "color" ? "color" : "text"
-                          }
-                          size="small"
-                          name={`techSpecs[${index}].${
-                            Object.keys(item)[0]
-                          }[${i}].value`}
-                          sx={{ width: 100 }}
-                          value={subItem.value}
-                          onChange={formik.handleChange}
-                        />
-                        <IconButton
-                          aria-label="delete"
-                          disabled={item[Object.keys(item)[0]].length === 1}
-                          size="small"
-                          color="primary"
-                          onClick={() => {
-                            handleRemoveSubValue(
-                              index,
-                              i,
-                              Object.keys(item)[0]
-                            );
-                          }}
-                        >
-                          <TrashIcon width="16" height="16" />
-                        </IconButton>
-                      </Stack>
-                    </>
-                  ))}
-                  <IconButton
-                    aria-label="delete"
-                    size="medium"
-                    color="primary"
-                    disabled={item[Object.keys(item)[0]].length === 5}
-                    onClick={() =>
-                      handleAddSubValue(
-                        index,
-                        item[Object.keys(item)[0]],
-                        Object.keys(item)[0]
-                      )
-                    }
-                  >
-                    <Iconify icon="akar-icons:circle-plus-fill" />
-                  </IconButton>
-                </Stack>
+                  <Iconify icon="akar-icons:circle-plus-fill" />
+                </IconButton>
               </Stack>
-            </>
+            </Stack>
           ))}
           <Button
             variant="outlined"

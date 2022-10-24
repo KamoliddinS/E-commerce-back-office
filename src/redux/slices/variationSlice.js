@@ -1,10 +1,32 @@
-import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+export const postVariations = createAsyncThunk(
+  "product/variations",
+  async (data) => {
+    var config = {
+      method: "post",
+      url: `${BASE_URL}/api/products/${data.id}/user/variation`,
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      data: data.data,
+    };
+    const response = await axios(config);
+    console.log(response);
+    return response.data;
+  }
+);
 const variationSlice = createSlice({
-  name: "product",
+  name: "variation",
   initialState: {
     all: [],
     completed: [],
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
   },
   reducers: {
     addVariations(state, action) {
@@ -19,7 +41,9 @@ const variationSlice = createSlice({
           state.all[index].price = isNaN(parseInt(value)) ? 0 : parseInt(value);
           break;
         case "discount":
-          state.all[index].discount = isNaN(parseInt(value)) ? 0 : parseInt(value);
+          state.all[index].discount = isNaN(parseInt(value))
+            ? 0
+            : parseInt(value);
 
           break;
         default:
@@ -33,11 +57,31 @@ const variationSlice = createSlice({
         }
         state.all[index].priceSale =
           state.all[index].price - state.all[index].discount;
-        
-        state.all[index].commission = Math.round(state.all[index].priceSale * 0.1);
-        state.all[index].revenue = state.all[index].priceSale - state.all[index].commission;
+
+        state.all[index].commission = Math.round(
+          state.all[index].priceSale * 0.1
+        );
+        state.all[index].revenue =
+          state.all[index].priceSale - state.all[index].commission;
       }
     },
+  },
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder
+      .addCase(postVariations.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(postVariations.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.completed.push(action.payload);
+      })
+      .addCase(postVariations.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
 });
 

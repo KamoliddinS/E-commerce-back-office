@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -47,6 +47,7 @@ export default function GenerateProductsList({ formik }) {
             commission: "",
             commissionPercentage: "",
             revenue: "",
+            inStock: "",
             dimensions: [],
           };
           // obj[Object.keys(techSpecs[specIndex])[0]] = value;
@@ -85,7 +86,10 @@ export default function GenerateProductsList({ formik }) {
     dispatch(addVariations(variations));
   }
 
-  generateVariations(techSpecs);
+  useEffect(() => {
+    generateVariations(techSpecs);
+  }, [techSpecs]);
+
   return (
     <>
       <Box>
@@ -142,8 +146,9 @@ function GeneratedProductItem() {
     });
     rows.push(
       createData(
-        variation.dimensions.map((dim) => (
+        variation.dimensions.map((dim, i) => (
           <Chip
+            key={i}
             label={Object.values(dim)[0].title}
             size="small"
             sx={{ mr: 1, mb: 1 }}

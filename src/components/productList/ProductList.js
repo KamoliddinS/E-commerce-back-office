@@ -6,21 +6,40 @@ import {
   Divider,
   Grid,
   MenuItem,
+  Button,
 } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import Image from "../Image";
 import Iconify from "../Iconify";
+import { getProductByShopId } from "../../redux/slices/productSlice";
+import { deleteProduct } from "../../helpers/uploadPhoto";
 import { borderRadius } from "@mui/system";
 import MenuPopover from "../MenuPopover";
 
 export default function ProductList({ data }) {
+  const dispatch = useDispatch();
+
+  const currentShop = useSelector((state) => state.shop.currentShop);
+
+  const products = useSelector((state) => state.product.productsByShopId);
+
+  console.log("products", products);
+
+  const { _id } = currentShop;
+
+  useEffect(() => {
+    dispatch(getProductByShopId({ shopId: _id }));
+  }, [_id]);
+
   return (
     <>
       {/* <Stack direction="row" flexWrap="wrap"> */}
       <Grid container spacing={1} sx={{ margin: "0 auto" }}>
-        {data.map((product) => (
+        {products.map((product) => (
           <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
-            <ProductListItem {...product} />
+            <ProductListItem {...product} deleteProduct={deleteProduct} />
           </Grid>
         ))}
       </Grid>
@@ -30,16 +49,19 @@ export default function ProductList({ data }) {
   );
 }
 
-function ProductListItem(products) {
+function ProductListItem(products, deleteProduct) {
+  const token = useSelector((state) => state.user.data.token);
   const {
     name,
     price,
-    totalRating,
-    cover,
+    rating,
+    _id,
+    brand,
+    variations,
     available,
     totalReview,
     category,
-    gender,
+    mainImage,
   } = products;
 
   const [open, setOpen] = React.useState(null);
@@ -118,12 +140,12 @@ function ProductListItem(products) {
             <Typography variant="body1">{name}</Typography>
           </Stack>
           <Typography variant="caption">
-            {category} / {gender}
+            {category} / {brand}
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="flex-start" spacing={2}>
           <Image
-            src={cover}
+            src={mainImage}
             sx={{ width: 250, height: 250, borderRadius: 1 }}
           />
           <Stack direction="column" spacing={1} width="50%">
@@ -157,7 +179,7 @@ function ProductListItem(products) {
                   Reyting
                 </Typography>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  {totalRating}
+                  {rating}
                 </Typography>
               </Box>
               <Divider />
@@ -170,7 +192,7 @@ function ProductListItem(products) {
                   Ko'rishlar
                 </Typography>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  {totalReview}
+                  0
                 </Typography>
               </Box>
               <Divider />
@@ -276,7 +298,7 @@ function ProductListItem(products) {
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
-              Mavjud tovar soni: {available}
+              Mavjud variatsiyalar soni: {variations.length}
             </Typography>
           </Box>
           <Box
