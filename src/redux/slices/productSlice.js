@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const postBaseProduct = createAsyncThunk(
   "product/baseProduct",
   async (data) => {
@@ -105,6 +105,12 @@ const productSlice = createSlice({
           (item, index) => index !== action.payload.subIndex
         );
     },
+    // remove product from productsByShopId array
+    removeProduct(state, action) {
+      state.productsByShopId = state.productsByShopId.filter(
+        (item) => item._id !== action.payload
+      );
+    },
     // add images
     addImages(state, action) {
       const images = [];
@@ -163,4 +169,5 @@ export const {
   addTechSpecs,
   addImages,
   removeImage,
+  removeProduct,
 } = productSlice.actions;

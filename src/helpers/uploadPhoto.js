@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://realsoft-e-commerce.herokuapp.com";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export async function uploadPhoto(files) {
   const formData = new FormData();
@@ -32,15 +32,4 @@ export async function UploadUserAvatar(file) {
     config
   );
   return response.data.result;
-}
-
-export async function deleteProduct(id, token) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.delete(`${BASE_URL}/api/products/${id}`, config);
-  console.log(response);
-  return response.data;
 }

@@ -7,14 +7,24 @@ import {
   Grid,
   MenuItem,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  CircularProgress,
+  Backdrop,
 } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "../Image";
 import Iconify from "../Iconify";
-import { getProductByShopId } from "../../redux/slices/productSlice";
-import { deleteProduct } from "../../helpers/uploadPhoto";
+import {
+  getProductByShopId,
+  removeProduct,
+} from "../../redux/slices/productSlice";
+import { deleteProduct } from "../../helpers";
 import { borderRadius } from "@mui/system";
 import MenuPopover from "../MenuPopover";
 
@@ -23,9 +33,9 @@ export default function ProductList({ data }) {
 
   const currentShop = useSelector((state) => state.shop.currentShop);
 
-  const products = useSelector((state) => state.product.productsByShopId);
+  const products = useSelector((state) => state.product);
 
-  console.log("products", products);
+  const { productsByShopId, isLoading } = products;
 
   const { _id } = currentShop;
 
@@ -37,11 +47,26 @@ export default function ProductList({ data }) {
     <>
       {/* <Stack direction="row" flexWrap="wrap"> */}
       <Grid container spacing={1} sx={{ margin: "0 auto" }}>
-        {products.map((product) => (
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
-            <ProductListItem {...product} deleteProduct={deleteProduct} />
-          </Grid>
-        ))}
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        {productsByShopId.length === 0 && (
+          <Typography variant="h6" sx={{ margin: "0 auto" }}>
+            No products
+          </Typography>
+        )}
+        {productsByShopId.length > 0 &&
+          productsByShopId.map((product) => (
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+              <ProductListItem
+                product={product}
+                deleteProduct={deleteProduct}
+              />
+            </Grid>
+          ))}
       </Grid>
 
       {/* </Stack> */}
@@ -49,7 +74,17 @@ export default function ProductList({ data }) {
   );
 }
 
-function ProductListItem(products, deleteProduct) {
+function ProductListItem({ product, deleteProduct }) {
+  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClickClose = () => {
+    setIsOpen(false);
+  };
   const token = useSelector((state) => state.user.data.token);
   const {
     name,
@@ -62,9 +97,9 @@ function ProductListItem(products, deleteProduct) {
     totalReview,
     category,
     mainImage,
-  } = products;
+  } = product;
 
-  const [open, setOpen] = React.useState(null);
+  const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -75,6 +110,51 @@ function ProductListItem(products, deleteProduct) {
   };
   return (
     <>
+      <Dialog
+        open={isOpen}
+        onClose={handleClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this product?"}
+        </DialogTitle>
+        <DialogContent sx={{ padding: "0 25px", mt: 1 }}>
+          <DialogContentText id="alert-dialog-description">
+            <Stack direction="row" spacing={2}>
+              <Box component="img" width={100} src={mainImage} />
+              <Stack direction="column">
+                <Typography>
+                  {name} / {brand} / {category}
+                </Typography>
+              </Stack>
+            </Stack>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            endIcon={<Iconify icon="line-md:cancel" />}
+            onClick={handleClickClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<Iconify icon="fluent:delete-24-regular" />}
+            onClick={() => {
+              deleteProduct(_id, token);
+              handleClickClose();
+              dispatch(removeProduct(_id));
+              handleClose();
+            }}
+            autoFocus
+          >
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Stack
         direction="column"
         sx={{
@@ -126,7 +206,7 @@ function ProductListItem(products, deleteProduct) {
                 <Iconify icon="fluent:archive-20-regular" />
                 <Typography sx={{ ml: 1 }}>Arxivlash</Typography>
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleClickOpen}>
                 <Iconify icon="ant-design:delete-outlined" color="error" />
                 <Typography sx={{ ml: 1 }} color="error">
                   O'chirib tashlash
@@ -284,6 +364,25 @@ function ProductListItem(products, deleteProduct) {
                   0
                 </Typography>
               </Box>
+              <Divider />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  m: 0,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 600 }}
+                  color="text.secondary"
+                >
+                  Variatsiya
+                </Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  {variations.length}
+                </Typography>
+              </Box>
             </Stack>
           </Stack>
         </Stack>
@@ -298,7 +397,7 @@ function ProductListItem(products, deleteProduct) {
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
-              Mavjud variatsiyalar soni: {variations.length}
+              Mavjud tovarlar soni: {variations[0].stock}
             </Typography>
           </Box>
           <Box
@@ -317,7 +416,7 @@ function ProductListItem(products, deleteProduct) {
         </Stack>
         <Stack sx={{ mt: 1 }}>
           <Typography variant="body1" sx={{ fontWeight: 600 }}>
-            Narx: {price} sum
+            Narx: {variations[0].price} sum
           </Typography>
         </Stack>
       </Stack>
