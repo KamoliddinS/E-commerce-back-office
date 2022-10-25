@@ -29,7 +29,7 @@ export const createShop = createAsyncThunk("shop/createShop", async (data) => {
 
   axios(config)
     .then(function (response) {
-     return;
+      return;
     })
     .catch(function (error) {
       return;
@@ -37,7 +37,7 @@ export const createShop = createAsyncThunk("shop/createShop", async (data) => {
 });
 
 const shopSlice = createSlice({
-  name: "userSlice",
+  name: "shopSlice",
   initialState: {
     isLoading: false,
     isError: false,

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import BaseProductMain from "./BaseProduct/BaseProductMain";
 import BaseProductUpload from "./BaseProduct/BaseProductUpload";
 import {
@@ -12,6 +13,7 @@ import {
   Stack,
   Button,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import VariableSelects from "./VariableProduct/VariableSelects";
 import VariableInputs from "./VariableProduct/VariableInputs";
 import { useFormik } from "formik";
@@ -22,6 +24,7 @@ import {
   addImages,
   postBaseProduct,
 } from "../../redux/slices/productSlice";
+import { postVariations } from "../../redux/slices/variationSlice";
 import Iconify from "../Iconify";
 import GenerateProduct from "./GenerateProduct/GenerateProduct";
 import { uploadPhoto } from "../../helpers/uploadPhoto";
@@ -121,8 +124,13 @@ export default function AddProduct() {
   const shop = useSelector((state) => state.shop);
   const token = useSelector((state) => state.user.data.token);
   const dispatch = useDispatch();
-
+  const variations = useSelector((state) => state.variation);
+  const navigate = useNavigate();
+  const { all, isLoading, completed, isSuccess } = variations;
   const [files, setFiles] = useState([]);
+
+  const navigateCheck = all === completed;
+  console.log(navigateCheck);
 
   // const { images } = product;
 
@@ -138,10 +146,49 @@ export default function AddProduct() {
         subcategory: product.subcategory,
         description: product.descriptionuz,
       };
-      dispatch(postBaseProduct({token, data: baseProduct}));
+      dispatch(postBaseProduct({ token, data: baseProduct }));
     }
-
   }, [product.images, shop]);
+
+  useEffect(() => {
+    if (product._id !== "") {
+      all.forEach((variation) => {
+        const data = {
+          product: product._id,
+          SKU: variation.identityCode,
+          price: variation.price,
+          stock: variation.inStock,
+          mainImage: product.mainImage,
+          images: [product.mainImage],
+          dimensions: variation.dimensions,
+        };
+        console.log(data);
+        dispatch(postVariations({ token, data, id: product._id }));
+      });
+    }
+  }, [product._id]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/order-list");
+    }
+  }, [isSuccess]);
+
+  // function addVariations () {
+  //   variations.forEach((item) => {
+  //     const vatiation = {
+  //       product: product._id,
+  //       SKU: item.identityCode,
+  //       price: item.price,
+  //       quantity: item.inStock,
+  //       mainImage: product.mainImage,
+  //       images: product.images
+  //       size: variation.size,
+  //       baseProductId: product._id,
+  //     };
+  //     dispatch(postVariation({ token, data: vatiation, id: product._id }));
+  //   }
+  // }
 
   const handleDropMultiFile = useCallback(
     (acceptedFiles) => {
@@ -172,12 +219,8 @@ export default function AddProduct() {
     // validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(onNextStep());
-      if (activeStep === 2) {
-        handleUpload();
-        // dispatch(postBaseProduct());
-      } else {
-        dispatch(addBaseProduct(values));
-      }
+
+      dispatch(addBaseProduct(values));
     },
   });
 
@@ -253,7 +296,7 @@ export default function AddProduct() {
           )}
           {activeStep === 2 && (
             <>
-              {/* <GenerateProduct /> */}
+              {/* <GenerateProduct photo={files[0].preview} /> */}
               <GenerateProductsList formik={formik} />
 
               <Stack direction="row" justifyContent="space-between" mt={5}>
@@ -265,17 +308,33 @@ export default function AddProduct() {
                 >
                   Ortga qaytish
                 </Button>
-                <Button
+                <LoadingButton
                   variant="outlined"
                   size="large"
-                  type="submit"
+                  onClick={handleUpload}
+                  loading={isLoading}
+                  loadingPosition="end"
                   endIcon={<Iconify icon="bi:arrow-right-circle-fill" />}
                 >
                   Yuklash
-                </Button>
+                </LoadingButton>
               </Stack>
             </>
           )}
+          {/* {activeStep === 3 && (
+            <>
+              <Stack direction="row" justifyContent="space-between" mt={5}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleBack}
+                  startIcon={<Iconify icon="bi:arrow-left-circle-fill" />}
+                >
+                  Ortga qaytish
+                </Button>
+              </Stack>
+            </>
+          )} */}
         </form>
       </Card>
     </>

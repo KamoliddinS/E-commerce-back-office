@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://realsoft-e-commerce.herokuapp.com";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export async function uploadPhoto(files) {
   const formData = new FormData();

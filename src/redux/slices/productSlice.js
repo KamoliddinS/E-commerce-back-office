@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const postBaseProduct = createAsyncThunk(
   "product/baseProduct",
   async (data) => {
@@ -14,6 +14,36 @@ export const postBaseProduct = createAsyncThunk(
       data: data.data,
     };
     const response = await axios(config);
+    return response.data;
+  }
+);
+export const getProductByShopId = createAsyncThunk(
+  "product/shop",
+  async (data) => {
+    var config = {
+      method: "get",
+      url: `${BASE_URL}/api/products/shop/${data.shopId}`,
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    };
+    const response = await axios(config);
+    console.log(response.data);
+    return response.data;
+  }
+);
+export const deleteProductById = createAsyncThunk(
+  "product/shop",
+  async (data) => {
+    var config = {
+      method: "delete",
+      url: `${BASE_URL}/api/products/${data.pId}`,
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    };
+    const response = await axios(config);
+    console.log(response);
     return response.data;
   }
 );
@@ -33,22 +63,13 @@ const productSlice = createSlice({
       category: "",
       subcategory: "",
       images: [],
-      techSpecs: [
-        {
-          "": [
-            {
-              name: "",
-              title: "",
-              value: "",
-            },
-          ],
-        },
-      ],
+      techSpecs: [],
       brand: "",
       model: "",
       madeIn: "",
       warranty: "",
     },
+    productsByShopId: [],
   },
   reducers: {
     onBackStep(state) {
@@ -84,6 +105,12 @@ const productSlice = createSlice({
           (item, index) => index !== action.payload.subIndex
         );
     },
+    // remove product from productsByShopId array
+    removeProduct(state, action) {
+      state.productsByShopId = state.productsByShopId.filter(
+        (item) => item._id !== action.payload
+      );
+    },
     // add images
     addImages(state, action) {
       const images = [];
@@ -105,11 +132,23 @@ const productSlice = createSlice({
         state.isSuccess = true;
         state.product = {
           ...state.product,
-          ...action.payload
+          ...action.payload,
         };
-        console.log(action.payload);
       })
       .addCase(postBaseProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getProductByShopId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductByShopId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.productsByShopId = action.payload;
+      })
+      .addCase(getProductByShopId.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -130,4 +169,5 @@ export const {
   addTechSpecs,
   addImages,
   removeImage,
+  removeProduct,
 } = productSlice.actions;
