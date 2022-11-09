@@ -1,15 +1,23 @@
-import PropTypes from 'prop-types';
-import { m, AnimatePresence } from 'framer-motion';
+import PropTypes from "prop-types";
+import { m, AnimatePresence } from "framer-motion";
 // @mui
-import { alpha } from '@mui/material/styles';
-import { List, IconButton, ListItemText, ListItem } from '@mui/material';
+import { alpha } from "@mui/material/styles";
+import {
+  List,
+  IconButton,
+  ListItemText,
+  ListItem,
+  Divider,
+} from "@mui/material";
 // utils
-import { fData } from '../../utils/formatNumber';
-import getFileData from '../../utils/getFileData';
+import { fData } from "../../utils/formatNumber";
+import getFileData from "../../utils/getFileData";
 //
-import Image from '../Image';
-import Iconify from '../Iconify';
-import { varFade } from '../animate';
+import Image from "../Image";
+import Iconify from "../Iconify";
+import { varFade } from "../animate";
+import { useSelector, useDispatch } from "react-redux";
+import { removeImage } from "../../redux/slices/productEditSlice";
 
 // ----------------------------------------------------------------------
 
@@ -19,12 +27,84 @@ MultiFilePreview.propTypes = {
   showPreview: PropTypes.bool,
 };
 
-export default function MultiFilePreview({ showPreview = false, files, onRemove }) {
-  const hasFile = files.length > 0;
+export default function MultiFilePreview({
+  showPreview = true,
+  files,
+  onRemove,
+  imagesApi,
+  varIndex,
+}) {
+  const isSuccess = useSelector((state) => state.productEdit.isSuccess);
+  const dispatch = useDispatch();
 
   return (
-    <List disablePadding sx={{ ...(hasFile && { my: 3 }) }}>
+    <List disablePadding sx={{}}>
       <AnimatePresence>
+        {isSuccess
+          ? imagesApi.map((file, index) => {
+              if (showPreview) {
+                return (
+                  <ListItem
+                    key={index}
+                    component={m.div}
+                    {...varFade().inRight}
+                    sx={{
+                      p: 0,
+                      m: 0.5,
+                      width: 80,
+                      height: 80,
+                      borderRadius: 1.25,
+                      overflow: "hidden",
+                      position: "relative",
+                      display: "inline-flex",
+                      border: (theme) => `solid 1px ${theme.palette.divider}`,
+                    }}
+                  >
+                    <Image alt="preview" src={file} ratio="1/1" />
+                    <IconButton
+                      size="small"
+                      sx={{
+                        top: 6,
+                        p: "2px",
+                        left: 6,
+                        cursor: "context-menu",
+                        position: "absolute",
+                        color: "common.white",
+                        backgroundColor: "#00800099",
+                      }}
+                    >
+                      <Iconify icon="ci:cloud-check" />
+                    </IconButton>
+
+                    {onRemove && (
+                      <IconButton
+                        size="small"
+                        onClick={() =>
+                          dispatch(removeImage({ file: file, id: varIndex }))
+                        }
+                        sx={{
+                          top: 6,
+                          p: "2px",
+                          right: 6,
+                          position: "absolute",
+                          color: "common.white",
+                          bgcolor: (theme) =>
+                            alpha(theme.palette.grey[900], 0.72),
+                          "&:hover": {
+                            bgcolor: (theme) =>
+                              alpha(theme.palette.grey[900], 0.48),
+                          },
+                        }}
+                      >
+                        <Iconify icon={"eva:close-fill"} />
+                      </IconButton>
+                    )}
+                  </ListItem>
+                );
+              }
+            })
+          : ""}
+
         {files.map((file, index) => {
           const { key, name, size, preview } = getFileData(file, index);
 
@@ -33,20 +113,34 @@ export default function MultiFilePreview({ showPreview = false, files, onRemove 
               <ListItem
                 key={key}
                 component={m.div}
-                {...varFade().inRight}
+                {...varFade().inLeft}
                 sx={{
                   p: 0,
                   m: 0.5,
                   width: 80,
                   height: 80,
                   borderRadius: 1.25,
-                  overflow: 'hidden',
-                  position: 'relative',
-                  display: 'inline-flex',
+                  overflow: "hidden",
+                  position: "relative",
+                  display: "inline-flex",
                   border: (theme) => `solid 1px ${theme.palette.divider}`,
                 }}
               >
                 <Image alt="preview" src={preview} ratio="1/1" />
+                <IconButton
+                  size="small"
+                  sx={{
+                    top: 6,
+                    p: "2px",
+                    left: 6,
+                    cursor: "context-menu",
+                    position: "absolute",
+                    color: "common.white",
+                    backgroundColor: "#80000099",
+                  }}
+                >
+                  <Iconify icon="ci:cloud-close" />
+                </IconButton>
 
                 {onRemove && (
                   <IconButton
@@ -54,52 +148,23 @@ export default function MultiFilePreview({ showPreview = false, files, onRemove 
                     onClick={() => onRemove(file)}
                     sx={{
                       top: 6,
-                      p: '2px',
+                      p: "2px",
                       right: 6,
-                      position: 'absolute',
-                      color: 'common.white',
+                      position: "absolute",
+                      color: "common.white",
                       bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-                      '&:hover': {
-                        bgcolor: (theme) => alpha(theme.palette.grey[900], 0.48),
+                      "&:hover": {
+                        bgcolor: (theme) =>
+                          alpha(theme.palette.grey[900], 0.48),
                       },
                     }}
                   >
-                    <Iconify icon={'eva:close-fill'} />
+                    <Iconify icon={"eva:close-fill"} />
                   </IconButton>
                 )}
               </ListItem>
             );
           }
-
-          return (
-            <ListItem
-              key={key}
-              component={m.div}
-              {...varFade().inRight}
-              sx={{
-                my: 1,
-                px: 2,
-                py: 0.75,
-                borderRadius: 0.75,
-                border: (theme) => `solid 1px ${theme.palette.divider}`,
-              }}
-            >
-              <Iconify icon={'eva:file-fill'} sx={{ width: 28, height: 28, color: 'text.secondary', mr: 2 }} />
-
-              <ListItemText
-                primary={typeof file === 'string' ? file : name}
-                secondary={typeof file === 'string' ? '' : fData(size || 0)}
-                primaryTypographyProps={{ variant: 'subtitle2' }}
-                secondaryTypographyProps={{ variant: 'caption' }}
-              />
-
-              {onRemove && (
-                <IconButton edge="end" size="small" onClick={() => onRemove(file)}>
-                  <Iconify icon={'eva:close-fill'} />
-                </IconButton>
-              )}
-            </ListItem>
-          );
         })}
       </AnimatePresence>
     </List>

@@ -8,6 +8,7 @@ import { Grid } from "@mui/material";
 import WidgetChart from "../charts/WidgetChart";
 import RadialChart from "../charts/RadialChart";
 import TwoLinedChart from "../charts/TwoLinedChart";
+import Spline from "@splinetool/react-spline";
 
 export default function Money() {
   const theme = useTheme();

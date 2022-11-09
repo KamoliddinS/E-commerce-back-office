@@ -1,74 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { redirect } from "react-router-dom";
+import axios from "axios";
+
+// /api/products/
+
+const token = localStorage.getItem("token") || "";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+export const getProductById = createAsyncThunk("api/products", async (data) => {
+  var config = {
+    method: "get",
+    url: `${BASE_URL}/api/products/${data.id}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  // console.log(response);
+  return response.data;
+});
+
+export const updateBaseProduct = createAsyncThunk(
+  "api/updateBaseProduct",
+  async (data) => {
+    var config = {
+      method: "put",
+      url: `${BASE_URL}/api/products/${data.id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: data.data,
+    };
+    const response = await axios(config);
+    // console.log(response);
+    return response.data;
+  }
+);
+export const updateVariation = createAsyncThunk(
+  "api/updateVariation",
+  async (data) => {
+    var config = {
+      method: "put",
+      url: `${BASE_URL}/api/products/${data.id}/variations/${data.varId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: data.data,
+    };
+    const response = await axios(config);
+    console.log(response);
+    return response.data;
+  }
+);
 
 const productEditSlice = createSlice({
   name: "productEdit",
   initialState: {
-    editMode: true,
+    editMode: false,
     activeStep: 0,
-    product: {
-      nameuz: "Samsung S21",
-      nameru: "Samsung S21",
-      infouz: "8/256",
-      inforu: "8/256",
-      descriptionuz:
-        "64 megapikselli aniqlikda ajoyib ravshanlik bilan suratga oling. Suratlaringiz san'at asarlariga o'xshaydi. 10MP old kamera juda ko'p tafsilotlarni aks ettiradi va tezkor avtofokus sizga ajoyib suratlarni tezda olishingizni ta'minlaydi. Bir marta suratga oling va AI sizni eng yaxshisini tanlash uchun uni fotosurat va videoga aylantiradi.",
-      descriptionru:
-        "64 megapikselli aniqlikda ajoyib ravshanlik bilan suratga oling. Suratlaringiz san'at asarlariga o'xshaydi. 10MP old kamera juda ko'p tafsilotlarni aks ettiradi va tezkor avtofokus sizga ajoyib suratlarni tezda olishingizni ta'minlaydi. Bir marta suratga oling va AI sizni eng yaxshisini tanlash uchun uni fotosurat va videoga aylantiradi.",
-      category: "Electronics",
-      subcategory: "Shoes",
-      images: [],
-      techSpecs: [
-        {
-          screenSize: [
-            {
-              name: "Screen Size",
-              title: "asd",
-              value: "wqe",
-            },
-          ],
-        },
-        {
-          processor: [
-            {
-              name: "Processor",
-              title: "czxc",
-              value: "fdg",
-            },
-            {
-              name: "Processor",
-              title: "qwe",
-              value: "dsf",
-            },
-          ],
-        },
-        {
-          color: [
-            {
-              name: "Color",
-              title: "Black",
-              value: "#0d0d0d",
-            },
-            {
-              name: "Color",
-              title: "Red",
-              value: "#b40404",
-            },
-            {
-              name: "Color",
-              title: "Yellow",
-              value: "#efaf01",
-            },
-          ],
-        },
-      ],
-      brand: {
-        id: 1,
-        label: "Samsung",
-      },
-      model: "Galaxy S21",
-      madeIn: "2021",
-      warranty: "1 Yil",
-    },
+    product: {},
+    imagesSuccess: false,
   },
   reducers: {
     onBackStep(state) {
@@ -81,12 +72,161 @@ const productEditSlice = createSlice({
     addBaseProduct(state, action) {
       state.product = action.payload;
     },
+    //delete variation
+    deleteVariation(state, action) {
+      state.product.variations = state.product.variations.filter(
+        (item) => item._id !== action.payload
+      );
+    },
+    addImage(state, action) {
+      action.payload.forEach((item, index) => {
+        state.product.images.push(item.path);
+      });
+      state.imagesSuccess = true;
+    },
+    addVariationmages(state, action) {
+      action.payload.data.forEach((item, index) => {
+        state.product.variations[action.payload.index].images.push(item.path);
+      });
+    },
+    removeImage(state, action) {
+      if (action.payload.id) {
+        state.product.variations[action.payload.id].images =
+          state.product.variations[action.payload.id].images.filter(
+            (item) => item !== action.payload.file
+          );
+      } else {
+        state.product.images = state.product.images.filter(
+          (item) => item !== action.payload.file
+        );
+      }
+    },
+
+    changeSuccess(state, action) {
+      state.imagesSuccess = true;
+    },
+
+    deleteVariationImage(state, action) {
+      state.product.variations.forEach((item) => {
+        if (item._id === action.payload.varId) {
+          item.images = item.images.filter(
+            (item) => item !== action.payload.image
+          );
+        }
+      });
+    },
+    changeVariation(state, action) {
+      const { index, prop, value } = action.payload;
+
+      // state.product.variations[index][prop] = value;
+      switch (prop) {
+        case "price":
+          state.product.variations[index].price = isNaN(parseInt(value))
+            ? 0
+            : parseInt(value);
+          break;
+        case "discount":
+          state.product.variations[index].discount = isNaN(parseInt(value))
+            ? 0
+            : parseInt(value);
+
+          break;
+        default:
+          state.product.variations[index][prop] = value;
+          return;
+      }
+
+      if (
+        state.product.variations[index].price !== "" &&
+        state.product.variations[index].discount !== ""
+      ) {
+        if (
+          state.product.variations[index].discount >
+          state.product.variations[index].price
+        ) {
+          state.product.variations[index].discount =
+            state.product.variations[index].price;
+        }
+        state.product.variations[index].priceSale =
+          state.product.variations[index].price -
+          state.product.variations[index].discount;
+
+        state.product.variations[index].commission = Math.round(
+          state.product.variations[index].priceSale * 0.1
+        );
+        state.product.variations[index].revenue =
+          state.product.variations[index].priceSale -
+          state.product.variations[index].commission;
+      }
+    },
+
     //remove image
+  },
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder
+      .addCase(getProductById.pending, (state) => {
+        state.isLoading = true;
+        state.editMode = true;
+        state.isVariationSuccess = false;
+        state.isBaseSuccess = false;
+        state.activeStep = 0;
+      })
+      .addCase(getProductById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.product = {
+          ...state.product,
+          ...action.payload,
+        };
+        state.activeStep = 0;
+        state.imagesSuccess = false;
+      })
+      .addCase(getProductById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updateBaseProduct.pending, (state) => {
+        state.isBaseLoading = true;
+      })
+      .addCase(updateBaseProduct.fulfilled, (state, action) => {
+        state.isBaseLoading = false;
+        state.isBaseSuccess = true;
+      })
+      .addCase(updateBaseProduct.rejected, (state, action) => {
+        state.isBaseLoading = false;
+        state.isBaseError = true;
+        state.updateMessage = action.payload;
+      })
+      .addCase(updateVariation.pending, (state) => {
+        state.isVariationLoading = true;
+      })
+      .addCase(updateVariation.fulfilled, (state, action) => {
+        state.isVariationLoading = false;
+        state.isVariationSuccess = true;
+        state.editMode = false;
+      })
+      .addCase(updateVariation.rejected, (state, action) => {
+        state.isVariationLoading = false;
+        state.isVariationError = true;
+        state.updateMessage = action.payload;
+      });
   },
 });
 
 export default productEditSlice.reducer;
 
 // Actions
-export const { onBackStep, onNextStep, addBaseProduct } =
-  productEditSlice.actions;
+export const {
+  onBackStep,
+  onNextStep,
+  addBaseProduct,
+  deleteVariation,
+  changeVariation,
+  addImage,
+  removeImage,
+  deleteVariationImage,
+  changeSuccess,
+  addVariationmages,
+} = productEditSlice.actions;

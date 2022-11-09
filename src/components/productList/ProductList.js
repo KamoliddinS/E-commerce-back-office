@@ -20,11 +20,13 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import Image from "../Image";
 import Iconify from "../Iconify";
+import { useNavigate } from "react-router-dom";
 import {
   getProductByShopId,
   removeProduct,
 } from "../../redux/slices/productSlice";
 import { deleteProduct } from "../../helpers";
+import { getProductById } from "../../redux/slices/productEditSlice";
 import { borderRadius } from "@mui/system";
 import MenuPopover from "../MenuPopover";
 
@@ -37,11 +39,21 @@ export default function ProductList({ data }) {
 
   const { productsByShopId, isLoading } = products;
 
+  const editMode = useSelector((state) => state.productEdit.editMode);
+
+  const navigate = useNavigate();
+
   const { _id } = currentShop;
 
   useEffect(() => {
     dispatch(getProductByShopId({ shopId: _id }));
-  }, [_id]);
+  }, [_id, dispatch]);
+
+  useEffect(() => {
+    if (editMode) {
+      navigate("/order-history");
+    }
+  }, [editMode]);
 
   return (
     <>
@@ -64,6 +76,7 @@ export default function ProductList({ data }) {
               <ProductListItem
                 product={product}
                 deleteProduct={deleteProduct}
+                getProductById={getProductById}
               />
             </Grid>
           ))}
@@ -198,7 +211,12 @@ function ProductListItem({ product, deleteProduct }) {
             }}
           >
             <Stack sx={{ p: 1 }}>
-              <MenuItem onClick={handleClose}>
+              <MenuItem
+                onClick={() => {
+                  dispatch(getProductById({ id: _id }));
+                  handleClose();
+                }}
+              >
                 <Iconify icon="ant-design:edit-filled" />
                 <Typography sx={{ ml: 1 }}>Tahrirlash</Typography>
               </MenuItem>

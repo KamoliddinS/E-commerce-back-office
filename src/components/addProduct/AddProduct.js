@@ -129,22 +129,21 @@ export default function AddProduct() {
   const { all, isLoading, completed, isSuccess } = variations;
   const [files, setFiles] = useState([]);
 
-  const navigateCheck = all === completed;
-  console.log(navigateCheck);
-
   // const { images } = product;
+
+  console.log("product", product.images);
 
   useEffect(() => {
     if (product.images.lenght !== 0) {
       const baseProduct = {
-        name: product.nameuz,
+        name: product.name,
         shopId: shop.currentShop._id,
         brand: product.brand.label,
         mainImage: product.images[0],
         images: product.images,
         category: product.category,
-        subcategory: product.subcategory,
-        description: product.descriptionuz,
+        subCategory: product.subcategory,
+        description: product.description,
       };
       dispatch(postBaseProduct({ token, data: baseProduct }));
     }

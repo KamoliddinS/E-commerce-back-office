@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { UploadMultiFile } from "../../upload";
+import { useSelector } from "react-redux";
 
 export default function BaseProduct({
   handleDropMultiFile,
   handleRemove,
-  handleUpload,
   files,
   onUpload,
 }) {
   const [preview, setPreview] = useState(true);
+  const imagesApi = useSelector((state) => state.productEdit.product.images);
 
   //upload multiple images with axios
 
@@ -22,6 +23,7 @@ export default function BaseProduct({
         <UploadMultiFile
           showPreview={preview}
           files={files}
+          imagesApi={imagesApi}
           onUpload={onUpload}
           onDrop={handleDropMultiFile}
           onRemove={handleRemove}

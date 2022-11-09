@@ -11,6 +11,9 @@ import {
 } from "@mui/material";
 import { UzbekIcon, RusIcon } from "../../Icons";
 export default function BaseProductMain({ formik, categories }) {
+  // function customHandleChange(e, field, other) {
+  //   formik.setFieldValue(field, e.target.value);
+  // }
   return (
     <>
       <Box sx={{ width: "50%", marginRight: 5 }}>
@@ -31,13 +34,18 @@ export default function BaseProductMain({ formik, categories }) {
             </Stack>
             <TextField
               fullWidth
-              id="nameuz"
-              name="nameuz"
+              name={`name`}
               placeholder="Changyutgich"
-              value={formik.values.nameuz}
+              value={formik.values.name}
               onChange={formik.handleChange}
-              error={formik.touched.nameuz && Boolean(formik.errors.nameuz)}
-              helperText={formik.touched.nameuz && formik.errors.nameuz}
+              // error={
+              //   formik.touched.Object.keys(formik.values.name)[0] &&
+              //   Boolean(formik.errors.Object.keys(formik.values.name)[0])
+              // }
+              // helperText={
+              //   formik.touched.Object.keys(formik.values.name)[0] &&
+              //   formik.errors.Object.keys(formik.values.name)[0]
+              // }
             />
             {/* <TextField
               required
@@ -45,7 +53,7 @@ export default function BaseProductMain({ formik, categories }) {
               placeholder="Changyutgich"
             /> */}
           </div>
-          <div>
+          {/* <div>
             <Stack direction="row" alignItems="center" spacing={1}>
               <Typography variant="body2" gutterBottom>
                 Mahsulot nomi (Rus Tilida)
@@ -54,51 +62,20 @@ export default function BaseProductMain({ formik, categories }) {
             </Stack>
             <TextField
               fullWidth
-              id="nameru"
-              name="nameru"
-              placeholder="Пылесос"
-              value={formik.values.nameru}
+              name={`name.ru`}
+              placeholder="Changyutgich"
+              value={formik.values.name.ru}
               onChange={formik.handleChange}
-              error={formik.touched.nameru && Boolean(formik.errors.nameru)}
-              helperText={formik.touched.nameru && formik.errors.nameru}
+              // error={
+              //   formik.touched.Object.keys(formik.values.name)[0] &&
+              //   Boolean(formik.errors.Object.keys(formik.values.name)[0])
+              // }
+              // helperText={
+              //   formik.touched.Object.keys(formik.values.name)[0] &&
+              //   formik.errors.Object.keys(formik.values.name)[0]
+              // }
             />
-          </div>
-          <div>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" gutterBottom>
-                Malumot
-              </Typography>
-              <UzbekIcon width={14} height={14} />
-            </Stack>
-            <TextField
-              fullWidth
-              id="infouz"
-              name="infouz"
-              placeholder="O'lchov birligi. Eng kam miqdori. Amal qilish muddati"
-              value={formik.values.infouz}
-              onChange={formik.handleChange}
-              error={formik.touched.infouz && Boolean(formik.errors.infouz)}
-              helperText={formik.touched.infouz && formik.errors.infouz}
-            />
-          </div>
-          <div>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="body2" gutterBottom>
-                Malumot (Rus Tilida)
-              </Typography>
-              <RusIcon width={14} height={14} />
-            </Stack>
-            <TextField
-              fullWidth
-              id="inforu"
-              name="inforu"
-              placeholder="Единица измерения. Минимальная сумма. Срок годности"
-              value={formik.values.inforu}
-              onChange={formik.handleChange}
-              error={formik.touched.inforu && Boolean(formik.errors.inforu)}
-              helperText={formik.touched.infouz && formik.errors.inforu}
-            />
-          </div>
+          </div> */}
           <div>
             <Stack direction="row" alignItems="center" spacing={1}>
               <Typography variant="body2" gutterBottom>
@@ -108,21 +85,20 @@ export default function BaseProductMain({ formik, categories }) {
             </Stack>
             <TextField
               fullWidth
-              id="descriptionuz"
-              name="descriptionuz"
+              name="description"
               placeholder="Par dazmol ishlatish uchun qulay va sifatli. Par dazmol sifatli va kafolatlangan bepul xizmatlarimiz bir oygacha yetkazib beramiz  va ishlatib ko`rsatamiz"
-              value={formik.values.descriptionuz}
+              value={formik.values.description}
               onChange={formik.handleChange}
-              error={
-                formik.touched.descriptionuz &&
-                Boolean(formik.errors.descriptionuz)
-              }
-              helperText={
-                formik.touched.descriptionuz && formik.errors.descriptionuz
-              }
+              // error={
+              //   formik.touched.descriptionuz &&
+              //   Boolean(formik.errors.descriptionuz)
+              // }
+              // helperText={
+              //   formik.touched.descriptionuz && formik.errors.descriptionuz
+              // }
             />
           </div>
-          <div>
+          {/* <div>
             <Stack direction="row" alignItems="center" spacing={1}>
               <Typography variant="body2" gutterBottom>
                 Tavsif (Rus Tilida)
@@ -131,20 +107,20 @@ export default function BaseProductMain({ formik, categories }) {
             </Stack>
             <TextField
               fullWidth
-              id="descriptionru"
-              name="descriptionru"
+              id="description.ru"
+              name="description.ru"
               placeholder="Утюг прост в использовании и хорошего качества. Предоставляем качественное и гарантированно бесплатное обслуживание парового утюга на срок до одного месяца"
-              value={formik.values.descriptionru}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.descriptionru &&
-                Boolean(formik.errors.descriptionru)
-              }
-              helperText={
-                formik.touched.descriptionru && formik.errors.descriptionru
-              }
+              value={formik.values.description.ru}
+              onChange={(e) => customHandleChange(e, "description.ru")}
+              // error={
+              //   formik.touched.descriptionru &&
+              //   Boolean(formik.errors.descriptionru)
+              // }
+              // helperText={
+              //   formik.touched.descriptionru && formik.errors.descriptionru
+              // }
             />
-          </div>
+          </div> */}
           <div>
             <Typography variant="body2" gutterBottom>
               Toifa
@@ -154,8 +130,6 @@ export default function BaseProductMain({ formik, categories }) {
                 name="category"
                 value={formik.values.category}
                 onChange={formik.handleChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
               >
                 {categories.map((item, i) => (
                   <MenuItem key={i} value={item.category}>
@@ -171,11 +145,9 @@ export default function BaseProductMain({ formik, categories }) {
             </Typography>
             <FormControl sx={{}}>
               <Select
-                name="subcategory"
-                value={formik.values.subcategory}
+                name="subCategory"
+                value={formik.values.subСategory}
                 onChange={formik.handleChange}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
               >
                 {categories.map((item, i) => (
                   <MenuItem key={i} value={item.category}>
