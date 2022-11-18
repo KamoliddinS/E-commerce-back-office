@@ -7,7 +7,6 @@ export default function BaseProductLayout() {
       <Typography variant="h4" gutterBottom>
         Chat
       </Typography>
-  
     </>
   );
 }

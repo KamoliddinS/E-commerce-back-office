@@ -1,9 +1,5 @@
 import React from "react";
-import { Typography, Skeleton, Stack } from "@mui/material";
-import ProductList from "../components/productList/ProductList";
-import axios from "axios";
-
-const baseURL = "https://minimal-assets-api-dev.vercel.app/api/products";
+import { Typography } from "@mui/material";
 
 export default function BaseProductLayout() {
   // const [post, setPost] = React.useState(null);
@@ -26,8 +22,6 @@ export default function BaseProductLayout() {
       </Typography>
       {/* <Stack direction="row"> */}
       {/* </Stack> */}
-
-      <ProductList />
     </>
   );
 }

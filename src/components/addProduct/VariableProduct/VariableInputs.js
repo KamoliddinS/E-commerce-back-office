@@ -42,13 +42,18 @@ export default function VariableSelects({ formik, companies }) {
           style={{ width: 300 }}
           onChange={(e, value) => {
             console.log(value);
-            formik.setFieldValue("brand", (value !== null ? value : "No Brand") || (brand !== true ? value = "No Brand" : '')); 
+            formik.setFieldValue(
+              "brand",
+              (value !== null ? value : "No Brand") ||
+                (brand !== true ? (value = "No Brand") : "")
+            );
           }}
           renderInput={(params) => (
             <TextField
               margin="normal"
               label="Brand"
               fullWidth
+              value={formik.values.brand}
               name="brand"
               {...params}
             />

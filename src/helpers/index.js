@@ -12,3 +12,16 @@ export async function deleteProduct(id, token) {
   console.log(response);
   return response.data;
 }
+export async function deleteProductVariation(data) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+  const response = await axios.delete(
+    `${BASE_URL}/api/products/${data.pId}/variations/${data.vId}`,
+    config
+  );
+  console.log(response);
+  return response.data;
+}

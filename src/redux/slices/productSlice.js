@@ -14,6 +14,7 @@ export const postBaseProduct = createAsyncThunk(
       data: data.data,
     };
     const response = await axios(config);
+    console.log(response);
     return response.data;
   }
 );
@@ -28,7 +29,6 @@ export const getProductByShopId = createAsyncThunk(
       },
     };
     const response = await axios(config);
-    console.log(response.data);
     return response.data;
   }
 );
@@ -54,12 +54,8 @@ const productSlice = createSlice({
     activeStep: 0,
     product: {
       _id: "",
-      nameuz: "",
-      nameru: "",
-      infouz: "",
-      inforu: "",
-      descriptionuz: "",
-      descriptionru: "",
+      name: "",
+      description: "",
       category: "",
       subcategory: "",
       images: [],
