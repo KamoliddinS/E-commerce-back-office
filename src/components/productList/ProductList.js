@@ -27,7 +27,6 @@ import {
 } from "../../redux/slices/productSlice";
 import { deleteProduct } from "../../helpers";
 import { getProductById } from "../../redux/slices/productEditSlice";
-import { borderRadius } from "@mui/system";
 import MenuPopover from "../MenuPopover";
 
 export default function ProductList({ data }) {
@@ -51,7 +50,7 @@ export default function ProductList({ data }) {
 
   useEffect(() => {
     if (editMode) {
-      navigate("/order-history");
+      navigate("/product-edit");
     }
   }, [editMode]);
 
@@ -71,8 +70,8 @@ export default function ProductList({ data }) {
           </Typography>
         )}
         {productsByShopId.length > 0 &&
-          productsByShopId.map((product) => (
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+          productsByShopId.map((product, i) => (
+            <Grid key={i} item xs={12} sm={12} md={6} lg={6} xl={4}>
               <ProductListItem
                 product={product}
                 deleteProduct={deleteProduct}

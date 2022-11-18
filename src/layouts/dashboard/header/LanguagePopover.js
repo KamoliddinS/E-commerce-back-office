@@ -49,12 +49,9 @@ export default function LanguagePopover() {
       >
         <Image
           disabledEffect
-          src={allLangs.find((element) => element.value === selectedLang).icon}
+          // src={allLangs.find((element) => element.value === selectedLang).icon}
           alt={allLangs[0].label}
         />
-        {console.log(
-          allLangs.find((element) => element.value === selectedLang).icon
-        )}
       </IconButtonAnimate>
 
       <MenuPopover

@@ -159,6 +159,11 @@ const productEditSlice = createSlice({
           state.product.variations[index].commission;
       }
     },
+    resetSlice(state) {
+      state.activeStep = 0;
+      state.imagesSuccess = false;
+      state.editMode = false;
+    },
 
     //remove image
   },
@@ -229,4 +234,5 @@ export const {
   deleteVariationImage,
   changeSuccess,
   addVariationmages,
+  resetSlice,
 } = productEditSlice.actions;

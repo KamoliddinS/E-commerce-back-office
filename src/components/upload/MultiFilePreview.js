@@ -34,13 +34,14 @@ export default function MultiFilePreview({
   imagesApi,
   varIndex,
 }) {
-  const isSuccess = useSelector((state) => state.productEdit.isSuccess);
+  const state = useSelector((state) => state.productEdit);
+  const { isSuccess, editMode } = state;
   const dispatch = useDispatch();
 
   return (
     <List disablePadding sx={{}}>
       <AnimatePresence>
-        {isSuccess
+        {editMode && isSuccess
           ? imagesApi.map((file, index) => {
               if (showPreview) {
                 return (
@@ -104,7 +105,6 @@ export default function MultiFilePreview({
               }
             })
           : ""}
-
         {files.map((file, index) => {
           const { key, name, size, preview } = getFileData(file, index);
 

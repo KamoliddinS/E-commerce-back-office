@@ -32,6 +32,7 @@ import {
   addImage,
   updateVariation,
   changeSuccess,
+  resetSlice,
 } from "../../redux/slices/productEditSlice";
 import { uploadPhoto } from "../../helpers/uploadPhoto";
 
@@ -144,42 +145,6 @@ export default function EditProduct() {
     imagesSuccess,
   } = state;
 
-  // function reSobrat() {
-  //   let res = [];
-  //   for (let d = 0; d < product.variations[0].dimensions.length; d++) {
-  //     let arr = [];
-  //     let key = "";
-  //     for (let i = 0; i < product.variations.length; i++) {
-  //       arr.push(Object.values(product.variations[i].dimensions[d]));
-  //       if (i === 0) {
-  //         key = Object.keys(product.variations[i].dimensions[d])[0];
-  //       }
-  //     }
-  //     arr = arr.flat();
-  //     const filteredArr = arr.reduce((acc, current) => {
-  //       const x = acc.find((item) => item.value === current.value);
-  //       if (!x) {
-  //         return acc.concat([current]);
-  //       } else {
-  //         return acc;
-  //       }
-  //     }, []);
-  //     arr.length = 0;
-  //     arr[key] = filteredArr;
-  //     res.push(arr);
-  //     //transform to object
-  //   }
-  //   // transform array to object
-
-  //   console.log(res);
-  //   return res;
-  // }
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     reSobrat();
-  //   }
-  // }, [product]);
-
   const formik = useFormik({
     initialValues: [],
     // validationSchema: validationSchema,
@@ -231,6 +196,12 @@ export default function EditProduct() {
       dispatch(changeSuccess());
     }
   }
+
+  function handleCancel() {
+    dispatch(resetSlice());
+    navigate("/product-list");
+  }
+
   useEffect(() => {
     if (imagesSuccess) {
       const data = {
@@ -314,7 +285,21 @@ export default function EditProduct() {
                 />
               </Box>
 
-              <Stack direction="row" justifyContent="flex-end" mt={5}>
+              <Stack
+                direction="row"
+                justifyContent="flex-end"
+                spacing={2}
+                mt={5}
+              >
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleCancel()}
+                  size="large"
+                  endIcon={<Iconify icon="ic:baseline-cancel" />}
+                >
+                  Bekor qilish
+                </Button>
                 <Button
                   variant="outlined"
                   type="submit"
