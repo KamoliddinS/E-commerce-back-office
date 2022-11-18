@@ -151,8 +151,6 @@ export default function EditProduct() {
     onSubmit: (values) => {
       dispatch(addBaseProduct(values));
 
-      console.log(values);
-
       // handleUpload();
       dispatch(onNextStep());
     },

@@ -37,7 +37,6 @@ export const updateProfile = createAsyncThunk("api/users", (user, token) => {
   };
 
   const response = axios.put(`${BASE_URL}/api/store/profile`, user, config);
-  console.log(response);
   return response;
 });
 

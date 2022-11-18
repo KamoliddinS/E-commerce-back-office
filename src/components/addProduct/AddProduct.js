@@ -131,8 +131,6 @@ export default function AddProduct() {
 
   // const { images } = product;
 
-  console.log("product", product.images);
-
   useEffect(() => {
     if (product.images.lenght !== 0) {
       const baseProduct = {
@@ -161,7 +159,6 @@ export default function AddProduct() {
           images: [product.mainImage],
           dimensions: variation.dimensions,
         };
-        console.log(data);
         dispatch(postVariations({ token, data, id: product._id }));
       });
     }

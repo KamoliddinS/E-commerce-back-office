@@ -7,8 +7,6 @@ import GenerateProductsList from "./GenerateProductsList";
 export default function GenerateProduct({ photo }) {
   const product = useSelector((state) => state.product.product);
 
-  console.log(photo);
-
   return (
     <>
       <Stack direction="row">

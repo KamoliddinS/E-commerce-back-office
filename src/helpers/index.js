@@ -9,7 +9,6 @@ export async function deleteProduct(id, token) {
     },
   };
   const response = await axios.delete(`${BASE_URL}/api/products/${id}`, config);
-  console.log(response);
   return response.data;
 }
 export async function deleteProductVariation(data) {
@@ -22,6 +21,5 @@ export async function deleteProductVariation(data) {
     `${BASE_URL}/api/products/${data.pId}/variations/${data.vId}`,
     config
   );
-  console.log(response);
   return response.data;
 }

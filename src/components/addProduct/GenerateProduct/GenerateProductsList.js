@@ -142,7 +142,6 @@ function GeneratedProductItem() {
     Object.entries(variation).map((v) => {
       const obj = { key: v[0], ...v[1] };
       arr.push(obj);
-      // console.log(arr);
     });
     rows.push(
       createData(
@@ -169,7 +168,6 @@ function GeneratedProductItem() {
   // delete item from rows
   // function deleteItem(index) {
   //   rows.filter((item, i) => i !== index);
-  //   console.log(rows);
   // }
 
   return (

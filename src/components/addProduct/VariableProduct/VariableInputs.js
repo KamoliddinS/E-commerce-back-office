@@ -41,7 +41,6 @@ export default function VariableSelects({ formik, companies }) {
           isOptionEqualToValue={(option, value) => option.value === value.value}
           style={{ width: 300 }}
           onChange={(e, value) => {
-            console.log(value);
             formik.setFieldValue(
               "brand",
               (value !== null ? value : "No Brand") ||

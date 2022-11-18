@@ -16,7 +16,6 @@ export async function uploadPhoto(files) {
     formData,
     config
   );
-  console.log(response);
   return response.data.result;
 }
 export async function UploadUserAvatar(file) {

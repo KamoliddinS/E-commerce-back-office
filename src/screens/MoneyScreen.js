@@ -10,7 +10,7 @@ export default function BaseProductLayout() {
       <Typography variant="h4" gutterBottom>
         Mablag’lar
       </Typography>
-      <Money />
+      {/* <Money /> */}
     </>
   );
 }

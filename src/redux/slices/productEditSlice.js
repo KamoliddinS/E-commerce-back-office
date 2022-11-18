@@ -16,7 +16,6 @@ export const getProductById = createAsyncThunk("api/products", async (data) => {
     },
   };
   const response = await axios(config);
-  // console.log(response);
   return response.data;
 });
 
@@ -32,7 +31,6 @@ export const updateBaseProduct = createAsyncThunk(
       data: data.data,
     };
     const response = await axios(config);
-    // console.log(response);
     return response.data;
   }
 );
@@ -48,7 +46,6 @@ export const updateVariation = createAsyncThunk(
       data: data.data,
     };
     const response = await axios(config);
-    console.log(response);
     return response.data;
   }
 );
