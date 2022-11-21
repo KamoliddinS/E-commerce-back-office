@@ -72,8 +72,6 @@
     "react-swipeable-views": "^0.14.0",
     "simplebar": "^5.3.8",
     "simplebar-react": "^2.4.1",
-    "stylis": "^4.1.1",
-    "stylis-plugin-rtl": "^2.1.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
