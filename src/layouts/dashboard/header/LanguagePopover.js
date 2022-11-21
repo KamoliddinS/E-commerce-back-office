@@ -37,9 +37,9 @@ export default function LanguagePopover() {
     setOpen(null);
   };
 
-  const selectedLangIcon = allLangs.find(
-    (_lang) => _lang.value === selectedLang
-  ).icon;
+  // const selectedLangIcon = allLangs.find(
+  //   (_lang) => _lang.value === selectedLang
+  // ).icon;
 
   return (
     <>
@@ -51,7 +51,7 @@ export default function LanguagePopover() {
           ...(open && { bgcolor: "action.selected" }),
         }}
       >
-        <Image disabledEffect src={selectedLangIcon} alt={allLangs[0].label} />
+        {/* <Image disabledEffect src={selectedLangIcon} alt={allLangs[0].label} /> */}
         {/* {console.log(
           "Lang",
           allLangs.find((element) => element.value === selectedLang).icon
